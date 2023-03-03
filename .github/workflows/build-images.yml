@@ -54,7 +54,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: backend
+          context: rapidpro
+          file: ${{ matrix.image }}.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
