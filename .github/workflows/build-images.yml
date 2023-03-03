@@ -23,6 +23,7 @@ jobs:
           - courier
           - indexer
           - mailroom
+          - rapidpro
 
     steps:
       - name: Checkout

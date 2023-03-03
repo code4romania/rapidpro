@@ -1,5 +1,5 @@
 #!/command/with-contenv sh
-cd /var/www/rapidpro
+cd /var/www
 
 # https://docs.gunicorn.org/en/latest/design.html#how-many-workers
 WORKERS=$(((2 * $(nproc)) + 1))

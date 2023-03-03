@@ -1,6 +1,6 @@
 #!/command/with-contenv sh
 
-cd /var/www/rapidpro
+cd /var/www
 
 echo "Checking..."
 python3 manage.py check
@@ -17,7 +17,7 @@ fi
 
 if [ "${RUN_COLLECT_STATIC}" = "yes" ]; then
     echo "Collect static"
-    mkdir -p /var/www/rapidpro/sitestatic
+    mkdir -p /var/www/sitestatic
     python3 manage.py collectstatic --noinput
 fi
 

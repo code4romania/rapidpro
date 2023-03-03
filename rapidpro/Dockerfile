@@ -5,7 +5,8 @@ ARG RAPIDPRO_REPO="rapidpro"
 ARG RAPIDPRO_VERSION="7.4.2"
 
 ENV PYTHONUNBUFFERED=1
-ENV PATH=/build/.venv/bin:/root/.local/bin:$PATH
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
 
 WORKDIR /build
 
@@ -22,10 +23,9 @@ RUN set -ex; \
 
 # Python venv
 RUN set -ex; \
-    python3 -m venv .venv; \
+    python3 -m venv $VIRTUAL_ENV; \
     python3 -m pip install --upgrade pip --no-cache-dir setuptools==58.0; \
     python3 -m pip install poetry gunicorn[gevent] GDAL==$(gdal-config --version); \
-    poetry config virtualenvs.in-project true; \
     poetry install; \
     poetry add git+https://github.com/danniel/django-tembaimporter.git
 
@@ -66,22 +66,20 @@ ENTRYPOINT ["/init"]
 COPY docker/s6-rc.d /etc/s6-overlay/s6-rc.d
 
 # NGINX
-COPY docker/nginx.conf /etc/nginx/sites-available/default
-
-
+COPY docker/nginx.conf /etc/nginx/templates/default
 
 WORKDIR /var/www
 
 # Application files
+COPY --from=build /opt/venv /opt/venv
 COPY --from=build /build /var/www
 COPY --from=assets /build/node_modules /var/www/node_modules
 
-ENV PATH=/var/www/.venv/bin:$PATH
+ENV PATH=/opt/venv/bin:$PATH
 
-RUN ls -lah .venv
 # Application set up
 COPY docker/settings.py temba/settings.py
 RUN set -ex; \
-    python3.9 manage.py collectstatic
+    python3 manage.py collectstatic
 
 EXPOSE 80
