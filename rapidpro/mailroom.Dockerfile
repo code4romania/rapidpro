@@ -1,7 +1,7 @@
-# FROM debian:11-slim
 FROM ubuntu:22.10
 
-ARG MAILROOM_REPO="rapidpro/mailroom"
+ARG MAILROOM_ORG="rapidpro"
+ARG MAILROOM_REPO="mailroom"
 ARG MAILROOM_VERSION="7.4.1"
 
 ENV IS_CONTAINERIZED=True
@@ -16,7 +16,7 @@ RUN set -ex; \
     update-ca-certificates; \
     rm -rf /var/lib/apt/lists/*; \
     #
-    wget -q -O mailroom.tar.gz "https://github.com/${MAILROOM_REPO}/releases/download/v${MAILROOM_VERSION}/mailroom_${MAILROOM_VERSION}_linux_amd64.tar.gz"; \
+    wget -q -O mailroom.tar.gz "https://github.com/${MAILROOM_ORG}/${MAILROOM_REPO}/releases/download/v${MAILROOM_VERSION}/${MAILROOM_REPO}_${MAILROOM_VERSION}_linux_amd64.tar.gz"; \
     mkdir /tmp/mailroom; \
     tar -xzC /tmp/mailroom -f mailroom.tar.gz; \
     #

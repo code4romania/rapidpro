@@ -1,7 +1,7 @@
-# FROM debian:11-slim
 FROM ubuntu:22.10
 
-ARG COURIER_REPO="nyaruka/courier"
+ARG COURIER_ORG="nyaruka"
+ARG COURIER_REPO="courier"
 ARG COURIER_VERSION="7.4.0"
 
 ENV IS_CONTAINERIZED=True
@@ -16,7 +16,7 @@ RUN set -ex; \
     update-ca-certificates; \
     rm -rf /var/lib/apt/lists/*; \
     #
-    wget -q -O courier.tar.gz "https://github.com/$COURIER_REPO/releases/download/v${COURIER_VERSION}/courier_${COURIER_VERSION}_linux_amd64.tar.gz"; \
+    wget -q -O courier.tar.gz "https://github.com/${COURIER_ORG}/${COURIER_REPO}/releases/download/v${COURIER_VERSION}/${COURIER_REPO}_${COURIER_VERSION}_linux_amd64.tar.gz"; \
     mkdir /tmp/courier; \
     tar -xzC /tmp/courier -f courier.tar.gz; \
     #
