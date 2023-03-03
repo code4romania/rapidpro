@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 name: Build Docker images
@@ -55,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: rapidpro
-          file: ${{ matrix.image }}.Dockerfile
+          file: rapidpro/${{ matrix.image }}.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
