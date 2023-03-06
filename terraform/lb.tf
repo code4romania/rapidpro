@@ -5,20 +5,20 @@ resource "aws_lb" "main" {
   security_groups    = [aws_security_group.lb.id]
 }
 
-resource "aws_alb_listener" "https" {
+resource "aws_lb_listener" "https" {
   certificate_arn   = aws_acm_certificate.rapidpro.arn
   load_balancer_arn = aws_lb.main.id
   port              = 443
   protocol          = "HTTPS"
 
   default_action {
-    target_group_arn = aws_alb_target_group.rapidpro.id
+    target_group_arn = aws_lb_target_group.rapidpro.id
     type             = "forward"
   }
 }
 
 
-resource "aws_alb_listener" "http" {
+resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.id
   port              = 80
   protocol          = "HTTP"
@@ -35,21 +35,22 @@ resource "aws_alb_listener" "http" {
 }
 
 
-resource "aws_alb_target_group" "rapidpro" {
+resource "aws_lb_target_group" "rapidpro" {
   name        = "rapidpro"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
-  #   health_check {
-  #     healthy_threshold   = "3"
-  #     interval            = "30"
-  #     protocol            = "HTTP"
-  #     matcher             = "200"
-  #     timeout             = "3"
-  #     path                = "/common/ping"
-  #     unhealthy_threshold = "2"
-  #   }
+  health_check {
+    enabled             = true
+    healthy_threshold   = "3"
+    interval            = "30"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "10"
+    path                = "/"
+    unhealthy_threshold = "3"
+  }
 }
 
 

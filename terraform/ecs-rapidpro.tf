@@ -3,8 +3,8 @@ resource "aws_ecs_task_definition" "rapidpro" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "512"
-  memory                   = "1024"
+  cpu                      = "1024"
+  memory                   = "2048"
 
   container_definitions = jsonencode([
     {
@@ -76,6 +76,10 @@ resource "aws_ecs_task_definition" "rapidpro" {
         {
           name  = "LOG_LEVEL"
           value = "warning"
+        },
+        {
+          name  = "RUN_MIGRATION"
+          value = "yes"
         }
       ]
     }
@@ -101,7 +105,7 @@ resource "aws_ecs_service" "rapidpro" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.rapidpro.arn
+    target_group_arn = aws_lb_target_group.rapidpro.arn
     container_name   = "rapidpro"
     container_port   = 80
   }
