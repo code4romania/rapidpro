@@ -39,6 +39,7 @@ COPY --from=build /build/package.* .
 
 RUN npm install less coffeescript --global --no-audit
 RUN npm install
+RUN lessc --include-path="/var/www/temba/"
 
 # The final image
 FROM python:3.9-slim
@@ -79,7 +80,7 @@ ENV PATH=/opt/venv/bin:$PATH
 
 # Application set up
 COPY docker/settings.py temba/settings.py
-RUN set -ex; \
-    python3 manage.py collectstatic
+# RUN set -ex; \
+#     python3 manage.py collectstatic
 
 EXPOSE 80
