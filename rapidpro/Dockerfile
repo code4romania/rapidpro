@@ -13,7 +13,7 @@ WORKDIR /build
 RUN set -ex; \
     apt-get update; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends wget build-essential gettext libpq-dev gdal-bin libgdal-dev git python3.9-dev; \
+    apt-get install -y --no-install-recommends nodejs npm wget build-essential gettext libpq-dev gdal-bin libgdal-dev git python3.9-dev; \
     rm -rf /var/lib/apt/lists/*; \
     #
     wget -q -O /tmp/rapidpro.tar.gz "https://github.com/${RAPIDPRO_ORG}/${RAPIDPRO_REPO}/archive/refs/tags/v${RAPIDPRO_VERSION}.tar.gz"; \
@@ -25,20 +25,19 @@ RUN set -ex; \
 RUN set -ex; \
     python3 -m venv $VIRTUAL_ENV; \
     python3 -m pip install --upgrade pip --no-cache-dir setuptools==58.0; \
-    python3 -m pip install poetry gunicorn[gevent] GDAL==$(gdal-config --version); \
+    python3 -m pip install poetry==1.3 gunicorn[gevent] GDAL==$(gdal-config --version); \
     poetry install; \
     poetry add git+https://github.com/danniel/django-tembaimporter.git
 
-RUN ls -lah /build
+COPY docker/settings_compress.py temba/settings_compress.py
+COPY docker/settings.py temba/settings.py
 
-FROM node:alpine as assets
-
-WORKDIR /build
-
-COPY --from=build /build/package.* .
-
-RUN npm install less coffeescript --global --no-audit
-RUN npm install
+RUN set -ex; \
+    npm install less coffeescript --global --no-audit; \
+    npm install; \
+    poetry run ./manage.py collectstatic --noinput; \
+    poetry run ./manage.py compress --extension=".haml" --settings=temba.settings_compress; \
+    rm -rf node_modules
 
 # The final image
 FROM python:3.9-slim
@@ -73,13 +72,10 @@ WORKDIR /var/www
 # Application files
 COPY --from=build /opt/venv /opt/venv
 COPY --from=build /build /var/www
-COPY --from=assets /build/node_modules /var/www/node_modules
 
 ENV PATH=/opt/venv/bin:$PATH
 
 # Application set up
 COPY docker/settings.py temba/settings.py
-RUN set -ex; \
-    python3 manage.py collectstatic
 
 EXPOSE 80
