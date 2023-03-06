@@ -1,0 +1,128 @@
+version: '3.9'
+
+services:
+
+  db:
+    container_name: db
+    image: postgis/postgis:13-3.3
+    ports:
+      - "5432"
+    env_file:
+      - .env
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    restart: unless-stopped
+
+  redis:
+    container_name: redis
+    image: redis:6-bullseye
+    ports:
+      - "6379"
+    env_file:
+      - .env
+    command: redis-server
+    restart: unless-stopped
+
+  temba:
+    container_name: temba
+    build:
+      context: rapidpro
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - "PYTHONUNBUFFERED=1"
+      - "LOG_LEVEL=warning"
+    restart: unless-stopped
+    ports:
+      - 80
+    depends_on:
+      - db
+      - redis
+
+  elastic:
+    container_name: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2-amd64
+    ports:
+      - 9200
+      - 9300
+    env_file:
+      - .env
+    environment:
+      - "logger.level=WARN"
+      - "discovery.type=single-node"
+    restart: unless-stopped
+
+  mailroom:
+    platform: linux/amd64
+    container_name: mailroom
+    build:
+      context: mailroom
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - "LOG_LEVEL=warning"
+    restart: unless-stopped
+    ports:
+      - 8090
+    depends_on:
+      - db
+      - elastic
+      - redis
+
+  courier:
+    platform: linux/amd64
+    container_name: courier
+    build:
+      context: courier
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - "LOG_LEVEL=warning"
+    restart: unless-stopped
+    ports:
+      - 8080
+    depends_on:
+      - db
+      - elastic
+      - redis
+
+  # TODO
+  # archiver:
+  #   platform: linux/amd64
+  #   container_name: archiver
+  #   build:
+  #     context: archiver
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - "LOG_LEVEL=info"
+  #   restart: unless-stopped
+  # #   depends_on:
+  # #     - db
+  # #     - elastic
+  # #     - redis
+
+  # TODO
+  # indexer:
+  #   platform: linux/amd64
+  #   container_name: indexer
+  #   build:
+  #     context: indexer
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - "LOG_LEVEL=info"
+  #   restart: unless-stopped
+  # #   depends_on:
+  # #     - db
+  # #     - elastic
+  # #     - redis
+
+volumes:
+  database-data:
+    name: pgdata

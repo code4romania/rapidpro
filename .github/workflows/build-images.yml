@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "containers/**"
   workflow_dispatch:
 
 name: Build Docker images
@@ -58,7 +60,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ${{ matrix.image }}
+          context: "containers/${{ matrix.image }}"
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
