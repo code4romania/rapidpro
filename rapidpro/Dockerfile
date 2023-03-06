@@ -13,7 +13,7 @@ WORKDIR /build
 RUN set -ex; \
     apt-get update; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends nodejs npm wget build-essential gettext libpq-dev gdal-bin libgdal-dev git python3.9-dev; \
+    apt-get install -y --no-install-recommends wget build-essential gettext libpq-dev gdal-bin libgdal-dev git python3.9-dev; \
     rm -rf /var/lib/apt/lists/*; \
     #
     wget -q -O /tmp/rapidpro.tar.gz "https://github.com/${RAPIDPRO_ORG}/${RAPIDPRO_REPO}/archive/refs/tags/v${RAPIDPRO_VERSION}.tar.gz"; \
@@ -29,15 +29,8 @@ RUN set -ex; \
     poetry install; \
     poetry add git+https://github.com/danniel/django-tembaimporter.git
 
-COPY docker/settings_compress.py temba/settings_compress.py
-COPY docker/settings.py temba/settings.py
-
-RUN set -ex; \
-    npm install less coffeescript --global --no-audit; \
-    npm install; \
-    poetry run ./manage.py collectstatic --noinput; \
-    poetry run ./manage.py compress --extension=".haml" --settings=temba.settings_compress; \
-    rm -rf node_modules
+# COPY docker/settings_compress.py temba/settings_compress.py
+# COPY docker/settings.py temba/settings.py
 
 # The final image
 FROM python:3.9-slim
@@ -48,7 +41,7 @@ ENV IS_CONTAINERIZED=True
 RUN set -ex; \
     apt-get update; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends xz-utils nginx gettext gdal-bin; \
+    apt-get install -y --no-install-recommends nodejs npm xz-utils nginx gettext gdal-bin; \
     rm -rf /var/lib/apt/lists/*
 
 # Supervision
@@ -74,8 +67,14 @@ COPY --from=build /opt/venv /opt/venv
 COPY --from=build /build /var/www
 
 ENV PATH=/opt/venv/bin:$PATH
+ENV RUN_COLLECT_STATIC=yes
 
 # Application set up
+
+RUN set -ex; \
+    npm install less coffeescript npm-force-resolutions --global --no-audit; \
+    npm ci --no-audit
+
 COPY docker/settings.py temba/settings.py
 
 EXPOSE 80

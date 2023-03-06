@@ -15,11 +15,11 @@ fi
 #     python3 manage.py compilemessages
 # fi
 
-# if [ "${RUN_COLLECT_STATIC}" = "yes" ]; then
-#     echo "Collect static"
-#     mkdir -p /var/www/sitestatic
-#     python3 manage.py collectstatic --noinput
-# fi
+if [ "${RUN_COLLECT_STATIC}" = "yes" ]; then
+    echo "Collect static"
+    mkdir -p /var/www/sitestatic
+    python3 manage.py collectstatic --noinput
+fi
 
 if [ "${RUN_CREATE_SUPER_USER}" = "yes" ]; then
     echo "Create superuser"
