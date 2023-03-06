@@ -49,10 +49,6 @@ resource "aws_ecs_task_definition" "courier" {
         {
           name  = "COURIER_LOG_LEVEL"
           value = "debug"
-        },
-        {
-          name  = "POSTGRES_PASSWORD"
-          value = aws_db_instance.db_instance.password
         }
       ]
     }
@@ -66,18 +62,8 @@ resource "aws_ecs_service" "courier" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
-  service_connect_configuration {
-    enabled   = true
-    namespace = aws_service_discovery_http_namespace.main.arn
-
-    service {
-      discovery_name = "courier"
-      port_name      = "courier"
-      client_alias {
-        dns_name = "courier"
-        port     = 8080
-      }
-    }
+  service_registries {
+    registry_arn = aws_service_discovery_service.courier.arn
   }
 
   network_configuration {
@@ -89,5 +75,19 @@ resource "aws_ecs_service" "courier" {
 
   lifecycle {
     ignore_changes = [desired_count]
+  }
+}
+
+resource "aws_service_discovery_service" "courier" {
+  name = "courier"
+
+  dns_config {
+    namespace_id   = aws_service_discovery_private_dns_namespace.ecs.id
+    routing_policy = "MULTIVALUE"
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
   }
 }

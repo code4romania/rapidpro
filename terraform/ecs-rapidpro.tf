@@ -67,11 +67,15 @@ resource "aws_ecs_task_definition" "rapidpro" {
         },
         {
           name  = "MAILROOM_URL"
-          value = "http://mailroom:8090"
+          value = "http://mailroom.ecs.svc:8090"
         },
         {
           name  = "COURIER_URL"
-          value = "http://courier:8080"
+          value = "http://courier.ecs.svc:8080"
+        },
+        {
+          name  = "LOG_LEVEL"
+          value = "warning"
         }
       ]
     }
@@ -85,18 +89,8 @@ resource "aws_ecs_service" "rapidpro" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
-  service_connect_configuration {
-    enabled   = true
-    namespace = aws_service_discovery_http_namespace.main.arn
-
-    service {
-      discovery_name = "rapidpro"
-      port_name      = "rapidpro"
-      client_alias {
-        dns_name = "rapidpro"
-        port     = 80
-      }
-    }
+  service_registries {
+    registry_arn = aws_service_discovery_service.rapidpro.arn
   }
 
   network_configuration {
@@ -114,5 +108,19 @@ resource "aws_ecs_service" "rapidpro" {
 
   lifecycle {
     ignore_changes = [desired_count]
+  }
+}
+
+resource "aws_service_discovery_service" "rapidpro" {
+  name = "rapidpro"
+
+  dns_config {
+    namespace_id   = aws_service_discovery_private_dns_namespace.ecs.id
+    routing_policy = "MULTIVALUE"
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
   }
 }

@@ -62,18 +62,8 @@ resource "aws_ecs_service" "mailroom" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
-  service_connect_configuration {
-    enabled   = true
-    namespace = aws_service_discovery_http_namespace.main.arn
-
-    service {
-      discovery_name = "mailroom"
-      port_name      = "mailroom"
-      client_alias {
-        dns_name = "mailroom"
-        port     = 8090
-      }
-    }
+  service_registries {
+    registry_arn = aws_service_discovery_service.mailroom.arn
   }
 
   network_configuration {
@@ -85,5 +75,19 @@ resource "aws_ecs_service" "mailroom" {
 
   lifecycle {
     ignore_changes = [desired_count]
+  }
+}
+
+resource "aws_service_discovery_service" "mailroom" {
+  name = "mailroom"
+
+  dns_config {
+    namespace_id   = aws_service_discovery_private_dns_namespace.ecs.id
+    routing_policy = "MULTIVALUE"
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
   }
 }

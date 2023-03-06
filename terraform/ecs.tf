@@ -2,8 +2,9 @@ resource "aws_ecs_cluster" "main" {
   name = "${local.namespace}-cluster"
 }
 
-resource "aws_service_discovery_http_namespace" "main" {
-  name = "${local.namespace}-service-discovery"
+resource "aws_service_discovery_private_dns_namespace" "ecs" {
+  name = "ecs.svc" # ecsdemo.cloud
+  vpc  = aws_vpc.main.id
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
