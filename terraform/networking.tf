@@ -1,7 +1,3 @@
-data "aws_availability_zones" "current" {
-  state = "available"
-}
-
 resource "aws_vpc" "main" {
   cidr_block           = local.vpc.cidr_block
   enable_dns_hostnames = true
@@ -52,11 +48,8 @@ resource "aws_elasticache_subnet_group" "elasticache_subnet_group" {
   }
 }
 
-resource "aws_internet_gateway" "internet_gateway" {
+resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
-  tags = {
-    Name = local.namespace
-  }
 }
 
 resource "aws_nat_gateway" "nat_gateway" {
@@ -75,12 +68,20 @@ resource "aws_eip" "nat_gateway" {
   }
 }
 
+# resource "aws_eip" "bastion" {
+#   instance = aws_instance.bastion.id
+#   vpc      = true
+#   tags = {
+#     Name = "${local.namespace}-bastion"
+#   }
+# }
+
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.internet_gateway.id
+    gateway_id = aws_internet_gateway.main.id
   }
 
   tags = {
@@ -112,3 +113,4 @@ resource "aws_route_table_association" "private" {
   subnet_id      = element(aws_subnet.private.*.id, count.index)
   route_table_id = aws_route_table.private.id
 }
+

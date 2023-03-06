@@ -9,3 +9,15 @@ resource "random_password" "db_pass" {
     ]
   }
 }
+
+resource "random_password" "app_key" {
+  length  = 50
+  special = true
+
+  lifecycle {
+    ignore_changes = [
+      length,
+      special
+    ]
+  }
+}

@@ -11,5 +11,9 @@ variable "env" {
 variable "region" {
   description = "Region where to deploy resources"
   type        = string
-  default     = "eu-west-1"
+  default     = "eu-central-1"
+}
+
+variable "rapidpro_public_domain" {
+  type = string
 }

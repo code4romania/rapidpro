@@ -5,10 +5,20 @@ terraform {
       version = "~> 4.57"
     }
   }
+
+  # cloud {
+  #   organization = "code4romania"
+
+  #   workspaces {
+  #     name = "onghub"
+  #   }
+  # }
 }
 
 provider "aws" {
   region = var.region
+
+  profile = "ureport-romania"
 
   default_tags {
     tags = {

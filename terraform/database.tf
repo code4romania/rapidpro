@@ -26,9 +26,9 @@ resource "aws_db_instance" "db_instance" {
   backup_retention_period = 30
   backup_window           = "01:00-01:30"
   copy_tags_to_snapshot   = true
-  skip_final_snapshot     = true
+  skip_final_snapshot     = var.env != "production"
 
-  maintenance_window = "Wed:01:45-Wed:03:00"
+  maintenance_window = "Mon:01:45-Mon:03:00"
 
   performance_insights_enabled          = true
   performance_insights_retention_period = 7
@@ -48,11 +48,4 @@ resource "aws_security_group" "database" {
     protocol    = "tcp"
     cidr_blocks = [local.vpc.cidr_block]
   }
-
-  # egress {
-  #   from_port   = 0
-  #   to_port     = 0
-  #   protocol    = "-1"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
 }
