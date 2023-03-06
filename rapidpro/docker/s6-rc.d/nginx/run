@@ -2,8 +2,5 @@
 
 set -e
 
-# TEMPLATE="/etc/nginx/templates/default"
-# OUTPUT_PATH="/etc/nginx/sites-available/default"
-
 envsubst '$MAILROOM_URL $COURIER_URL' </etc/nginx/templates/default >/etc/nginx/sites-available/default
 nginx -g "daemon off;"
