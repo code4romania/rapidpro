@@ -7,6 +7,6 @@ WORKERS=$(((2 * $(nproc)) + 1))
 gunicorn temba.wsgi \
     --bind "unix:///run/gunicorn.sock" \
     --log-level $LOG_LEVEL \
-    --worker-class gevent \
-    --workers $WORKERS \
+    # --worker-class gevent \
+    # --workers $WORKERS \
     --timeout 60
