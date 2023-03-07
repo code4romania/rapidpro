@@ -15,6 +15,7 @@ resource "aws_db_instance" "db_instance" {
   engine_version              = "14.7"
   allow_major_version_upgrade = false
   auto_minor_version_upgrade  = true
+  parameter_group_name        = aws_db_parameter_group.default.name
 
   # storage
   allocated_storage     = 20
@@ -35,6 +36,24 @@ resource "aws_db_instance" "db_instance" {
 
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
   vpc_security_group_ids = [aws_security_group.database.id]
+}
+
+resource "aws_db_parameter_group" "default" {
+  name   = "rds-pg"
+  family = "postgres14"
+
+  parameter {
+    name  = "log_statement"
+    value = "all"
+  }
+  parameter {
+    name  = "log_connections"
+    value = "1"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "database" {
