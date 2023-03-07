@@ -28,7 +28,7 @@ _default_database_config = {
     "OPTIONS": {},
     "DISABLE_SERVER_SIDE_CURSORS": True,
 }
-DATABASES = {"default": _default_database_config, "readonly": _default_database_config.copy()}
+DATABASES = {"default": _default_database_config}
 DEBUG = os.getenv("DEBUG", "False").lower() in ('true', '1', 'yes')
 DOMAIN_NAME = os.getenv("DOMAIN_NAME","example.com")
 

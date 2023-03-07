@@ -1,4 +1,5 @@
 #!/command/with-contenv sh
+set -ex
 cd /var/www
 
 # https://docs.gunicorn.org/en/latest/design.html#how-many-workers
@@ -7,6 +8,6 @@ WORKERS=$(((2 * $(nproc)) + 1))
 gunicorn temba.wsgi \
     --bind "unix:///run/gunicorn.sock" \
     --log-level $LOG_LEVEL \
-    # --worker-class gevent \
-    # --workers $WORKERS \
+    --worker-class gevent \
+    --workers $WORKERS \
     --timeout 60
