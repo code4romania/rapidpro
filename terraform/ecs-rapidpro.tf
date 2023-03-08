@@ -1,10 +1,10 @@
 resource "aws_ecs_task_definition" "rapidpro" {
   family                   = "${local.rapidpro.namespace}-task"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.rapidpro_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "1024"
-  memory                   = "2048"
+  cpu                      = "512"
+  memory                   = "1024"
 
   container_definitions = jsonencode([
     {
@@ -78,6 +78,10 @@ resource "aws_ecs_task_definition" "rapidpro" {
           value = "http://courier.ecs.svc:8080"
         },
         {
+          name  = "LOG_LEVEL"
+          value = var.debug ? "debug" : "warn"
+        },
+        {
           name  = "RUN_MIGRATION"
           value = "yes"
         }
@@ -127,4 +131,14 @@ resource "aws_service_discovery_service" "rapidpro" {
       type = "A"
     }
   }
+}
+
+resource "aws_iam_role" "rapidpro_execution_role" {
+  name               = "ECSTaskExecutionRole-${local.rapidpro.namespace}"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "rapidpro_execution_role_policy" {
+  role       = aws_iam_role.rapidpro_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

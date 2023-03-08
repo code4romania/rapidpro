@@ -1,15 +1,10 @@
 resource "aws_ecs_cluster" "main" {
-  name = "${local.namespace}-cluster"
+  name = local.namespace
 }
 
 resource "aws_service_discovery_private_dns_namespace" "ecs" {
   name = "ecs.svc" # ecsdemo.cloud
   vpc  = aws_vpc.main.id
-}
-
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ECSTaskExecutionRole"
-  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
 }
 
 data "aws_iam_policy_document" "ecs_task_execution_policy" {
