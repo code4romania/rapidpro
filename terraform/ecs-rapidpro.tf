@@ -74,10 +74,6 @@ resource "aws_ecs_task_definition" "rapidpro" {
           value = "http://courier.ecs.svc:8080"
         },
         {
-          name  = "LOG_LEVEL"
-          value = "warning"
-        },
-        {
           name  = "RUN_MIGRATION"
           value = "yes"
         }

@@ -1,5 +1,4 @@
 #!/command/with-contenv sh
-set -ex
 cd /var/www
 
 # https://docs.gunicorn.org/en/latest/design.html#how-many-workers

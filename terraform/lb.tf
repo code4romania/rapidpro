@@ -48,7 +48,7 @@ resource "aws_lb_target_group" "rapidpro" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "10"
-    path                = "/"
+    path                = "/ping"
     unhealthy_threshold = "3"
   }
 }

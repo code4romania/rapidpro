@@ -48,7 +48,7 @@ resource "aws_ecs_task_definition" "courier" {
         },
         {
           name  = "COURIER_LOG_LEVEL"
-          value = "debug"
+          value = var.debug ? "debug" : "warn"
         }
       ]
     }

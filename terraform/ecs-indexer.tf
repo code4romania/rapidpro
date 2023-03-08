@@ -1,5 +1,5 @@
-resource "aws_ecs_task_definition" "mailroom" {
-  family                   = "${local.mailroom.namespace}-task"
+resource "aws_ecs_task_definition" "indexer" {
+  family                   = "${local.indexer.namespace}-task"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -8,8 +8,8 @@ resource "aws_ecs_task_definition" "mailroom" {
 
   container_definitions = jsonencode([
     {
-      image     = "${local.mailroom.image.repo}:${local.mailroom.image.tag}"
-      name      = "mailroom"
+      image     = "${local.indexer.image.repo}:${local.indexer.image.tag}"
+      name      = "indexer"
       essential = true
 
       logConfiguration = {
@@ -17,53 +17,49 @@ resource "aws_ecs_task_definition" "mailroom" {
         options = {
           awslogs-group         = aws_cloudwatch_log_group.rapidpro.name
           awslogs-region        = var.region
-          awslogs-stream-prefix = local.mailroom.namespace
+          awslogs-stream-prefix = local.indexer.namespace
         }
       }
 
       portMappings = [
         {
-          name          = "mailroom"
-          containerPort = 8090
-          hostPort      = 8090
+          name          = "indexer"
+          containerPort = 8080
+          hostPort      = 8080
         }
       ]
 
       environment = [
         {
-          name  = "MAILROOM_DOMAIN"
-          value = var.rapidpro_public_domain
-        },
-        {
-          name  = "MAILROOM_ADDRESS"
-          value = "0.0.0.0"
-        },
-        {
-          name  = "MAILROOM_DB"
+          name  = "INDEXER_DB"
           value = local.connection_url.database
         },
         {
-          name  = "MAILROOM_REDIS"
-          value = local.connection_url.elasticache
+          name  = "INDEXER_ELASTIC_URL"
+          value = "https://${aws_elasticsearch_domain.rapidpro.endpoint}"
         },
         {
-          name  = "MAILROOM_LOG_LEVEL"
+          name  = "INDEXER_LOG_LEVEL"
           value = var.debug ? "debug" : "warn"
+        },
+        {
+          name  = "INDEXER_POLL"
+          value = tostring(15)
         }
       ]
     }
   ])
 }
 
-resource "aws_ecs_service" "mailroom" {
-  name            = "${local.mailroom.namespace}-service"
+resource "aws_ecs_service" "indexer" {
+  name            = "${local.indexer.namespace}-service"
   cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.mailroom.arn
+  task_definition = aws_ecs_task_definition.indexer.arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
   service_registries {
-    registry_arn = aws_service_discovery_service.mailroom.arn
+    registry_arn = aws_service_discovery_service.indexer.arn
   }
 
   network_configuration {
@@ -78,8 +74,8 @@ resource "aws_ecs_service" "mailroom" {
   }
 }
 
-resource "aws_service_discovery_service" "mailroom" {
-  name = "mailroom"
+resource "aws_service_discovery_service" "indexer" {
+  name = "indexer"
 
   dns_config {
     namespace_id   = aws_service_discovery_private_dns_namespace.ecs.id

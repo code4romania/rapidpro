@@ -8,6 +8,12 @@ variable "env" {
   }
 }
 
+variable "debug" {
+  description = "Enable debug mode"
+  type        = bool
+  default     = false
+}
+
 variable "region" {
   description = "Region where to deploy resources"
   type        = string
