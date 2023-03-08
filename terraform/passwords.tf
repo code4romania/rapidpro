@@ -21,3 +21,15 @@ resource "random_password" "app_key" {
     ]
   }
 }
+
+resource "random_password" "mailroom_auth_token" {
+  length  = 32
+  special = false
+
+  lifecycle {
+    ignore_changes = [
+      length,
+      special
+    ]
+  }
+}

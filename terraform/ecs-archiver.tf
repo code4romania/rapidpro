@@ -105,7 +105,7 @@ resource "aws_service_discovery_service" "archiver" {
 }
 
 resource "aws_iam_role" "archiver_execution_role" {
-  name               = "${local.archiver.namespace}-ECSTaskExecutionRole"
+  name               = "ECSTaskExecutionRole-${local.archiver.namespace}"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
 }
 

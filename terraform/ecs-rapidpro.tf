@@ -70,6 +70,10 @@ resource "aws_ecs_task_definition" "rapidpro" {
           value = "http://mailroom.ecs.svc:8090"
         },
         {
+          name  = "MAILROOM_AUTH_TOKEN"
+          value = random_password.mailroom_auth_token.result
+        },
+        {
           name  = "COURIER_URL"
           value = "http://courier.ecs.svc:8080"
         },

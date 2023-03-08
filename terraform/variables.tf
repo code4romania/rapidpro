@@ -23,3 +23,17 @@ variable "region" {
 variable "rapidpro_public_domain" {
   type = string
 }
+
+variable "ses_domain" {
+  type = string
+}
+
+variable "ses_domain_zone_id" {
+  type = string
+}
+
+variable "mailroom_fcm_key" {
+  description = "Firebase Cloud Messaging key used to sync Android channels"
+  type        = string
+  default     = ""
+}

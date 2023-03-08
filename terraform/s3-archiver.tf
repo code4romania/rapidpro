@@ -2,6 +2,14 @@ resource "aws_s3_bucket" "archiver" {
   bucket = "${local.archiver.namespace}-${random_string.s3_bucket_suffix.result}"
 }
 
+resource "aws_s3_bucket_ownership_controls" "archiver" {
+  bucket = aws_s3_bucket.archiver.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "archiver_public_access_block" {
   bucket = aws_s3_bucket.archiver.id
 
