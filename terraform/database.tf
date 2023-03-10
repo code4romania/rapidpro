@@ -1,5 +1,6 @@
 resource "aws_db_instance" "db_instance" {
   identifier          = local.namespace
+  db_name             = "rapidpro"
   instance_class      = "db.t4g.micro"
   publicly_accessible = false
   multi_az            = var.env == "production"
@@ -69,14 +70,4 @@ resource "aws_security_group" "database" {
     protocol    = "tcp"
     cidr_blocks = [local.vpc.cidr_block]
   }
-}
-
-resource "postgresql_database" "rapidpro" {
-  name  = "rapidpro"
-  owner = aws_db_instance.db_instance.username
-}
-
-resource "postgresql_database" "ureport" {
-  name  = "ureport"
-  owner = aws_db_instance.db_instance.username
 }
