@@ -6,6 +6,12 @@ locals {
     smtp        = "smtp://${aws_iam_access_key.mailroom.id}%40${aws_iam_access_key.mailroom.ses_smtp_password_v4}@email-smtp.${var.region}.amazonaws.com:587/?from=no-reply%40${var.domain_name}"
   }
 
+  mail = {
+    host = "email-smtp.${var.region}.amazonaws.com"
+    port = 587
+    from = "no-reply@${var.domain_name}"
+  }
+
   archiver = {
     namespace = "archiver-${var.env}"
 

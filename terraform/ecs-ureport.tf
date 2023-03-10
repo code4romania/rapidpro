@@ -88,6 +88,22 @@ resource "aws_ecs_task_definition" "ureport" {
         {
           name  = "RUN_MIGRATION"
           value = "yes"
+        },
+        {
+          name  = "EMAIL_HOST"
+          value = local.mail.host
+        },
+        {
+          name  = "EMAIL_HOST_USER"
+          value = aws_iam_access_key.ureport.id
+        },
+        {
+          name  = "EMAIL_HOST_PASSWORD"
+          value = aws_iam_access_key.ureport.ses_smtp_password_v4
+        },
+        {
+          name  = "DEFAULT_FROM_EMAIL"
+          value = local.mail.from
         }
       ]
     }
