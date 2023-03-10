@@ -1,5 +1,14 @@
 #!/command/with-contenv sh
+
 cd /var/www
+
+DEBUG="$(echo $DEBUG | tr "[:upper:]" "[:lower:]")"
+
+if test "$DEBUG" = "true" -o "$DEBUG" = "1" -o "$DEBUG" = "yes"; then
+    LOG_LEVEL="debug"
+else
+    LOG_LEVEL="warn"
+fi
 
 # https://docs.gunicorn.org/en/latest/design.html#how-many-workers
 WORKERS=$(((2 * $(nproc)) + 1))

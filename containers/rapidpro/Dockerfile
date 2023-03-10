@@ -65,6 +65,7 @@ COPY --from=build /build /var/www
 
 ENV PATH=/opt/venv/bin:$PATH
 ENV RUN_COLLECT_STATIC=yes
+ENV DEBUG=false
 
 # Application set up
 RUN set -ex; \
