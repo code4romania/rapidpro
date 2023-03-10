@@ -111,7 +111,7 @@ resource "aws_ecs_task_definition" "rapidpro" {
 }
 
 resource "aws_ecs_service" "rapidpro" {
-  name            = "${local.rapidpro.namespace}-service"
+  name            = "rapidpro"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.rapidpro.arn
   desired_count   = 1
