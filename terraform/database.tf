@@ -39,7 +39,7 @@ resource "aws_db_instance" "db_instance" {
 }
 
 resource "aws_db_parameter_group" "default" {
-  name   = "rds-pg"
+  name   = "${local.namespace}-rds-pg"
   family = "postgres14"
 
   parameter {
