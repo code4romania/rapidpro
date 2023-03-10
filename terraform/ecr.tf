@@ -17,3 +17,7 @@ data "aws_ecr_repository" "mailroom" {
 data "aws_ecr_repository" "rapidpro" {
   name = "rapidpro"
 }
+
+data "aws_ecr_repository" "ureport" {
+  name = "ureport"
+}

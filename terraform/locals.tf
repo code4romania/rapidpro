@@ -61,6 +61,25 @@ locals {
     }
   }
 
+  ureport = {
+    namespace = "ureport-${var.env}"
+    domain    = "ureport.${var.domain_name}"
+
+    database_url = format(
+      "postgres://%s:%s@%s:%d/%s",
+      aws_db_instance.db_instance.username,
+      aws_db_instance.db_instance.password,
+      aws_db_instance.db_instance.address,
+      aws_db_instance.db_instance.port,
+      "ureport"
+    )
+
+    image = {
+      repo = data.aws_ecr_repository.ureport.repository_url
+      tag  = "edge"
+    }
+  }
+
   vpc = {
     cidr_block = "10.0.0.0/16"
 
