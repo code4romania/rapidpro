@@ -8,7 +8,7 @@ from ureport.settings_common import *
 
 ALLOWED_HOSTS = ['*']
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() in ('true', '1', 'yes')
 THUMBNAIL_DEBUG = DEBUG
 
 
