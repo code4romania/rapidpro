@@ -1,7 +1,6 @@
 version: '3.9'
 
 services:
-
   db:
     container_name: db
     image: postgis/postgis:13-3.3
@@ -35,14 +34,14 @@ services:
       - "LOG_LEVEL=warning"
     restart: unless-stopped
     ports:
-      - 80
+      - 8080:80
     depends_on:
       - db
       - redis
 
   elastic:
     container_name: elastic
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2-amd64
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
     ports:
       - 9200
       - 9300
@@ -90,38 +89,38 @@ services:
       - redis
 
   # TODO
-  # archiver:
-  #   platform: linux/amd64
-  #   container_name: archiver
-  #   build:
-  #     context: archiver
-  #     dockerfile: Dockerfile
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - "LOG_LEVEL=info"
-  #   restart: unless-stopped
-  # #   depends_on:
-  # #     - db
-  # #     - elastic
-  # #     - redis
+  archiver:
+    platform: linux/amd64
+    container_name: archiver
+    build:
+      context: archiver
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - "LOG_LEVEL=info"
+    restart: unless-stopped
+    depends_on:
+      - db
+      - elastic
+      - redis
 
   # TODO
-  # indexer:
-  #   platform: linux/amd64
-  #   container_name: indexer
-  #   build:
-  #     context: indexer
-  #     dockerfile: Dockerfile
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - "LOG_LEVEL=info"
-  #   restart: unless-stopped
-  # #   depends_on:
-  # #     - db
-  # #     - elastic
-  # #     - redis
+  indexer:
+    platform: linux/amd64
+    container_name: indexer
+    build:
+      context: indexer
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - "LOG_LEVEL=info"
+    restart: unless-stopped
+    depends_on:
+      - db
+      - elastic
+      - redis
 
 volumes:
   database-data:

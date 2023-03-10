@@ -29,9 +29,6 @@ RUN set -ex; \
     poetry install; \
     poetry add git+https://github.com/danniel/django-tembaimporter.git
 
-# COPY docker/settings_compress.py temba/settings_compress.py
-# COPY docker/settings.py temba/settings.py
-
 # The final image
 FROM python:3.9-slim
 
@@ -55,10 +52,10 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
 
 ENTRYPOINT ["/init"]
 
-COPY docker/s6-rc.d /etc/s6-overlay/s6-rc.d
+COPY conf/s6-rc.d /etc/s6-overlay/s6-rc.d
 
 # NGINX
-COPY docker/nginx.conf /etc/nginx/templates/default
+COPY conf/nginx.conf /etc/nginx/templates/default
 
 WORKDIR /var/www
 
@@ -70,11 +67,10 @@ ENV PATH=/opt/venv/bin:$PATH
 ENV RUN_COLLECT_STATIC=yes
 
 # Application set up
-
 RUN set -ex; \
     npm install less coffeescript npm-force-resolutions --global --no-audit; \
     npm ci --no-audit
 
-COPY docker/settings.py temba/settings.py
+COPY conf/settings.py temba/settings.py
 
 EXPOSE 80
