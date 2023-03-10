@@ -89,3 +89,8 @@ CACHES = {
 }
 
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+COMPRESS_CACHEABLE_PRECOMPILERS = (
+    'text/coffeescript',
+    'text/less',
+)
