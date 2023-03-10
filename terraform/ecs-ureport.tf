@@ -66,24 +66,24 @@ resource "aws_ecs_task_definition" "ureport" {
           value = "http://rapidpro.ecs.svc"
         },
         {
-          name  = "LOG_LEVEL"
-          value = var.debug ? "debug" : "warn"
+          name  = "DEBUG"
+          value = var.debug
         },
         {
-          name  = "AWS_S3_REGION_NAME",
-          value = var.region,
+          name  = "AWS_S3_REGION_NAME"
+          value = var.region
         },
         {
-          name  = "AWS_STORAGE_BUCKET_NAME",
-          value = aws_s3_bucket.ureport.bucket,
+          name  = "AWS_STORAGE_BUCKET_NAME"
+          value = aws_s3_bucket.ureport.bucket
         },
         {
-          name  = "AWS_ACCESS_KEY_ID",
-          value = aws_iam_access_key.ureport.id,
+          name  = "AWS_ACCESS_KEY_ID"
+          value = aws_iam_access_key.ureport.id
         },
         {
-          name  = "AWS_SECRET_ACCESS_KEY",
-          value = aws_iam_access_key.ureport.secret,
+          name  = "AWS_SECRET_ACCESS_KEY"
+          value = aws_iam_access_key.ureport.secret
         },
         {
           name  = "RUN_MIGRATION"
