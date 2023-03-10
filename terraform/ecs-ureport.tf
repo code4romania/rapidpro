@@ -15,7 +15,7 @@ resource "aws_ecs_task_definition" "ureport" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.ureport.name
+          awslogs-group         = aws_cloudwatch_log_group.rapidpro.name
           awslogs-region        = var.region
           awslogs-stream-prefix = local.ureport.namespace
         }
