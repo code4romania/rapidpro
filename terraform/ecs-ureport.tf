@@ -67,7 +67,7 @@ resource "aws_ecs_task_definition" "ureport" {
         },
         {
           name  = "DEBUG"
-          value = var.debug
+          value = tostring(var.debug)
         },
         {
           name  = "AWS_S3_REGION_NAME"

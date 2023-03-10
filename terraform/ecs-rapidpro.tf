@@ -79,7 +79,7 @@ resource "aws_ecs_task_definition" "rapidpro" {
         },
         {
           name  = "DEBUG"
-          value = var.debug
+          value = tostring(var.debug)
         },
         {
           name  = "RUN_MIGRATION"
