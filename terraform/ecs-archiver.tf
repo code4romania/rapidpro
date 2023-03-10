@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "archiver" {
 }
 
 resource "aws_ecs_service" "archiver" {
-  name            = "${local.archiver.namespace}-service"
+  name            = "archiver"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.archiver.arn
   desired_count   = 1

@@ -56,7 +56,7 @@ resource "aws_ecs_task_definition" "courier" {
 }
 
 resource "aws_ecs_service" "courier" {
-  name            = "${local.courier.namespace}-service"
+  name            = "courier"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.courier.arn
   desired_count   = 1

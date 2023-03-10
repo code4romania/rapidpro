@@ -115,7 +115,7 @@ resource "aws_ecs_task_definition" "ureport" {
 }
 
 resource "aws_ecs_service" "ureport" {
-  name            = "${local.ureport.namespace}-service"
+  name            = "ureport"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.ureport.arn
   desired_count   = 1

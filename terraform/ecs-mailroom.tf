@@ -108,7 +108,7 @@ resource "aws_ecs_task_definition" "mailroom" {
 }
 
 resource "aws_ecs_service" "mailroom" {
-  name            = "${local.mailroom.namespace}-service"
+  name            = "mailroom"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.mailroom.arn
   desired_count   = 1

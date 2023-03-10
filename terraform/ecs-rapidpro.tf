@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "rapidpro" {
-  family                   = "${local.rapidpro.namespace}-task"
+  family                   = "rapidpro"
   execution_role_arn       = aws_iam_role.rapidpro_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -83,6 +83,10 @@ resource "aws_ecs_task_definition" "rapidpro" {
         },
         {
           name  = "RUN_MIGRATION"
+          value = "yes"
+        },
+        {
+          name  = "SEND_EMAILS"
           value = "yes"
         },
         {
