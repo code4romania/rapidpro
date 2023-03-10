@@ -29,11 +29,6 @@ resource "aws_elasticsearch_domain" "rapidpro" {
     security_group_ids = [aws_security_group.elasticsearch.id]
   }
 
-  #   advanced_options = {
-  #     "rest.action.multi.allow_explicit_index" = "true"
-  #     "override_main_response_version"         = "false"
-  #   }
-
   access_policies = <<CONFIG
 {
     "Version": "2012-10-17",
@@ -49,7 +44,7 @@ resource "aws_elasticsearch_domain" "rapidpro" {
 CONFIG
 
   encrypt_at_rest {
-    enabled = false
+    enabled = true
   }
 
   node_to_node_encryption {

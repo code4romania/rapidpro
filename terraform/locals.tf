@@ -4,7 +4,7 @@ locals {
   connection_url = {
     database    = "postgres://${aws_db_instance.db_instance.username}:${aws_db_instance.db_instance.password}@${aws_db_instance.db_instance.address}/${aws_db_instance.db_instance.db_name}"
     elasticache = "redis://${aws_elasticache_cluster.main.cache_nodes.0.address}:${aws_elasticache_cluster.main.port}/15"
-    smtp        = "smtp://${aws_iam_access_key.mailroom.id}%40${aws_iam_access_key.mailroom.ses_smtp_password_v4}@email-smtp.${var.region}.amazonaws.com:587/?from=no-reply%40${var.ses_domain}"
+    smtp        = "smtp://${aws_iam_access_key.mailroom.id}%40${aws_iam_access_key.mailroom.ses_smtp_password_v4}@email-smtp.${var.region}.amazonaws.com:587/?from=no-reply%40${var.domain_name}"
   }
 
   archiver = {
@@ -45,6 +45,7 @@ locals {
 
   rapidpro = {
     namespace = "rapidpro-${var.env}"
+    domain    = "rapidpro.${var.domain_name}"
 
     image = {
       repo = data.aws_ecr_repository.rapidpro.repository_url

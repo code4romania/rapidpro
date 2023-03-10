@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "courier" {
       environment = [
         {
           name  = "COURIER_DOMAIN"
-          value = var.rapidpro_public_domain
+          value = local.rapidpro.domain
         },
         {
           name  = "COURIER_ADDRESS"

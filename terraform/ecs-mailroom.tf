@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "mailroom" {
       environment = [
         {
           name  = "MAILROOM_DOMAIN"
-          value = var.rapidpro_public_domain
+          value = local.rapidpro.domain
         },
         {
           name  = "MAILROOM_ADDRESS"

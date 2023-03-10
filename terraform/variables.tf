@@ -26,15 +26,7 @@ variable "create_iam_service_linked_role" {
   default     = true
 }
 
-variable "rapidpro_public_domain" {
-  type = string
-}
-
-variable "ses_domain" {
-  type = string
-}
-
-variable "ses_domain_zone_id" {
+variable "domain_name" {
   type = string
 }
 

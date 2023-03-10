@@ -31,7 +31,7 @@ resource "aws_ecs_task_definition" "rapidpro" {
       environment = [
         {
           name  = "DOMAIN_NAME"
-          value = var.rapidpro_public_domain
+          value = local.rapidpro.domain
         },
         {
           name  = "SECRET_KEY"

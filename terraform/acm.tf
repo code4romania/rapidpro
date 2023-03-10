@@ -1,6 +1,6 @@
-resource "aws_acm_certificate" "rapidpro" {
-  domain_name               = var.rapidpro_public_domain
-  subject_alternative_names = ["*.${var.rapidpro_public_domain}"]
+resource "aws_acm_certificate" "main" {
+  domain_name               = var.domain_name
+  subject_alternative_names = ["*.${var.domain_name}"]
   validation_method         = "DNS"
 
   lifecycle {

@@ -6,7 +6,7 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_lb_listener" "https" {
-  certificate_arn   = aws_acm_certificate.rapidpro.arn
+  certificate_arn   = aws_acm_certificate.main.arn
   load_balancer_arn = aws_lb.main.id
   port              = 443
   protocol          = "HTTPS"
@@ -16,7 +16,6 @@ resource "aws_lb_listener" "https" {
     type             = "forward"
   }
 }
-
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.id
@@ -33,7 +32,6 @@ resource "aws_lb_listener" "http" {
     }
   }
 }
-
 
 resource "aws_lb_target_group" "rapidpro" {
   name        = "rapidpro"
@@ -52,8 +50,6 @@ resource "aws_lb_target_group" "rapidpro" {
     unhealthy_threshold = "3"
   }
 }
-
-
 
 resource "aws_security_group" "lb" {
   name        = "${local.namespace}-lb-sg"
