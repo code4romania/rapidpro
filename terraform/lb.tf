@@ -12,9 +12,19 @@ resource "aws_lb_listener" "https" {
   protocol          = "HTTPS"
 
   default_action {
-    target_group_arn = aws_lb_target_group.rapidpro.id
-    type             = "forward"
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "OK"
+      status_code  = "200"
+    }
   }
+
+  # default_action {
+  #   target_group_arn = aws_lb_target_group.rapidpro.id
+  #   type             = "forward"
+  # }
 }
 
 resource "aws_lb_listener" "http" {
@@ -78,6 +88,22 @@ resource "aws_lb_target_group" "rapidpro" {
   }
 }
 
+resource "aws_lb_listener_rule" "rapidpro_routing" {
+  listener_arn = aws_lb_listener.https.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.rapidpro.arn
+  }
+
+  condition {
+    host_header {
+      values = [local.rapidpro.domain]
+    }
+  }
+}
+
+
 resource "aws_lb_target_group" "ureport" {
   name        = "ureport"
   port        = 80
@@ -96,4 +122,19 @@ resource "aws_lb_target_group" "ureport" {
   }
 }
 
+
+resource "aws_lb_listener_rule" "ureport_routing" {
+  listener_arn = aws_lb_listener.https.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ureport.arn
+  }
+
+  condition {
+    host_header {
+      values = [local.ureport.domain]
+    }
+  }
+}
 
