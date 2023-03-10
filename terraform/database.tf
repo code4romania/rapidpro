@@ -43,12 +43,15 @@ resource "aws_db_parameter_group" "default" {
   family = "postgres14"
 
   parameter {
-    name  = "log_statement"
-    value = "all"
+    apply_method = "immediate"
+    name         = "log_statement"
+    value        = "none"
   }
+
   parameter {
-    name  = "log_connections"
-    value = "1"
+    apply_method = "immediate"
+    name         = "log_connections"
+    value        = "off"
   }
 
   lifecycle {

@@ -6,19 +6,17 @@ terraform {
     }
   }
 
-  # cloud {
-  #   organization = "code4romania"
+  cloud {
+    organization = "code4romania"
 
-  #   workspaces {
-  #     name = "onghub"
-  #   }
-  # }
+    workspaces {
+      name = "rapidpro"
+    }
+  }
 }
 
 provider "aws" {
   region = var.region
-
-  profile = "ureport-romania"
 
   default_tags {
     tags = {
