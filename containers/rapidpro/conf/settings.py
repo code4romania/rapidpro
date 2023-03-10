@@ -7,6 +7,7 @@ from .settings_common import *  # noqa
 
 ADMINS=()
 
+SEND_EMAILS = os.getenv("SEND_EMAILS", "False").lower() in ('true', '1', 'yes')
 EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "server@temba.io")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "mypassword")
