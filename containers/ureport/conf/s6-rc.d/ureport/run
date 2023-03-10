@@ -1,0 +1,13 @@
+#!/command/with-contenv sh
+
+cd /var/www
+
+# https://docs.gunicorn.org/en/latest/design.html#how-many-workers
+WORKERS=$(((2 * $(nproc)) + 1))
+
+gunicorn ureport.wsgi \
+    --bind "unix:///run/gunicorn.sock" \
+    --log-level $LOG_LEVEL \
+    --worker-class gevent \
+    --workers $WORKERS \
+    --timeout 60
