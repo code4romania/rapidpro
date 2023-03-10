@@ -51,6 +51,10 @@ resource "aws_ecs_task_definition" "archiver" {
           value = var.region
         },
         {
+          name  = "ARCHIVER_S3_ENDPOINT"
+          value = "https://s3.${var.region}.amazonaws.com"
+        },
+        {
           name  = "ARCHIVER_S3_BUCKET"
           value = aws_s3_bucket.archiver.bucket
         },
