@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "rapidpro" {
         },
         {
           name  = "POSTGRES_DB"
-          value = aws_db_instance.db_instance.db_name
+          value = postgresql_database.rapidpro.name
         },
         {
           name  = "POSTGRES_USER"

@@ -47,6 +47,15 @@ locals {
     namespace = "rapidpro-${var.env}"
     domain    = "rapidpro.${var.domain_name}"
 
+    database_url = format(
+      "postgres://%s:%s@%s:%d/%s",
+      aws_db_instance.db_instance.username,
+      aws_db_instance.db_instance.password,
+      aws_db_instance.db_instance.address,
+      aws_db_instance.db_instance.port,
+      postgresql_database.rapidpro.name
+    )
+
     image = {
       repo = data.aws_ecr_repository.rapidpro.repository_url
       tag  = "edge"

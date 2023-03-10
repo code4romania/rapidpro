@@ -44,7 +44,7 @@ resource "aws_ecs_task_definition" "mailroom" {
         },
         {
           name  = "MAILROOM_DB"
-          value = local.connection_url.database
+          value = local.rapidpro.database_url
         },
         {
           name  = "MAILROOM_REDIS"

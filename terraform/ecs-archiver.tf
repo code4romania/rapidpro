@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "archiver" {
         },
         {
           name  = "ARCHIVER_DB"
-          value = local.connection_url.database
+          value = local.rapidpro.database_url
         },
         {
           name  = "ARCHIVER_TEMP_DIR"

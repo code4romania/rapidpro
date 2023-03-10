@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "courier" {
         },
         {
           name  = "COURIER_DB"
-          value = local.connection_url.database
+          value = local.rapidpro.database_url
         },
         {
           name  = "COURIER_REDIS"
