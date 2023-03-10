@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "courier" {
-  family                   = "${local.courier.namespace}-task"
+  family                   = local.courier.namespace
   execution_role_arn       = aws_iam_role.courier_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"

@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "archiver" {
-  family                   = "${local.archiver.namespace}-task"
+  family                   = local.archiver.namespace
   execution_role_arn       = aws_iam_role.archiver_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"

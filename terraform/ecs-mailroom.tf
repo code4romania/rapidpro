@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "mailroom" {
-  family                   = "${local.mailroom.namespace}-task"
+  family                   = local.mailroom.namespace
   execution_role_arn       = aws_iam_role.mailroom_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"

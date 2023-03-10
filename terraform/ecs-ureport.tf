@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "ureport" {
-  family                   = "${local.ureport.namespace}-task"
+  family                   = local.ureport.namespace
   execution_role_arn       = aws_iam_role.ureport_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"

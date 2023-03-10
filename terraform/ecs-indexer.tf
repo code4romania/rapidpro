@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "indexer" {
-  family                   = "${local.indexer.namespace}-task"
+  family                   = local.indexer.namespace
   execution_role_arn       = aws_iam_role.indexer_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
