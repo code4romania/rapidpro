@@ -47,6 +47,32 @@ resource "aws_route53_record" "rapidpro_public_ipv6" {
   }
 }
 
+# U-Report main A record
+resource "aws_route53_record" "ureport_main_public_ipv4" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = local.ureport.domains.main
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
+# U-Report mai AAAA record
+resource "aws_route53_record" "ureport_main_public_ipv6" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = local.ureport.domains.main
+  type    = "AAAA"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
 # U-Report RO A record
 resource "aws_route53_record" "ureport_ro_public_ipv4" {
   zone_id = aws_route53_zone.main.zone_id

@@ -31,7 +31,11 @@ resource "aws_ecs_task_definition" "ureport" {
       environment = [
         {
           name  = "HOSTNAME"
-          value = local.ureport.domain
+          value = local.ureport.domains.main
+        },
+        {
+          name  = "EMPTY_SUBDOMAIN_HOST"
+          value = "https://${local.ureport.domains.main}"
         },
         {
           name  = "SECRET_KEY"

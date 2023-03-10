@@ -69,11 +69,11 @@ locals {
 
   ureport = {
     namespace = "ureport-${var.env}"
-    domain    = "ureport.${var.domain_name}"
 
     domains = {
-      ro = "ureport-ro.${var.domain_name}"
-      uk = "ureport-uk.${var.domain_name}"
+      main = "ureport.${var.domain_name}"
+      ro   = "ureport-ro.${var.domain_name}"
+      uk   = "ureport-uk.${var.domain_name}"
     }
 
     database_url = format(
