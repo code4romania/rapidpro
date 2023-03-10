@@ -133,7 +133,10 @@ resource "aws_lb_listener_rule" "ureport_routing" {
 
   condition {
     host_header {
-      values = [local.ureport.domain]
+      values = [
+        local.ureport.domains.ro,
+        local.ureport.domains.uk,
+      ]
     }
   }
 }

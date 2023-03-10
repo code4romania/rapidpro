@@ -71,6 +71,11 @@ locals {
     namespace = "ureport-${var.env}"
     domain    = "ureport.${var.domain_name}"
 
+    domains = {
+      ro = "ureport-ro.${var.domain_name}"
+      uk = "ureport-uk.${var.domain_name}"
+    }
+
     database_url = format(
       "postgres://%s:%s@%s:%d/%s",
       aws_db_instance.db_instance.username,

@@ -47,10 +47,10 @@ resource "aws_route53_record" "rapidpro_public_ipv6" {
   }
 }
 
-# U-Report A record
-resource "aws_route53_record" "ureport_public_ipv4" {
+# U-Report RO A record
+resource "aws_route53_record" "ureport_ro_public_ipv4" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = local.ureport.domain
+  name    = local.ureport.domains.ro
   type    = "A"
 
   alias {
@@ -60,10 +60,36 @@ resource "aws_route53_record" "ureport_public_ipv4" {
   }
 }
 
-# U-Report AAAA record
-resource "aws_route53_record" "ureport_public_ipv6" {
+# U-Report RO AAAA record
+resource "aws_route53_record" "ureport_ro_public_ipv6" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = local.ureport.domain
+  name    = local.ureport.domains.ro
+  type    = "AAAA"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
+# U-Report UK A record
+resource "aws_route53_record" "ureport_uk_public_ipv4" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = local.ureport.domains.uk
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
+# U-Report UK AAAA record
+resource "aws_route53_record" "ureport_uk_public_ipv6" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = local.ureport.domains.uk
   type    = "AAAA"
 
   alias {
