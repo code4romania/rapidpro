@@ -1,6 +1,6 @@
 resource "aws_iam_service_linked_role" "es" {
+  count            = var.create_iam_service_linked_role ? 1 : 0
   aws_service_name = "es.amazonaws.com"
-  custom_suffix    = var.env
 }
 
 resource "aws_elasticsearch_domain" "rapidpro" {
