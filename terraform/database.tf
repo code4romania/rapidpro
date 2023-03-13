@@ -70,4 +70,11 @@ resource "aws_security_group" "database" {
     protocol    = "tcp"
     cidr_blocks = [local.vpc.cidr_block]
   }
+
+  egress {
+    from_port = "5432"
+    to_port   = "5432"
+    protocol  = "tcp"
+    self      = true
+  }
 }
