@@ -43,7 +43,7 @@ BRANDING = {
         "styles": ["brands/rapidpro/font/style.css"],
         "default_plan": TOPUP_PLAN,
         "welcome_topup": 1000,
-        "email": "join@rapidpro.io",
+        "email": "join@example.com",
         "support_email": "noreply@example.com",
         "link": f"https://{DOMAIN_NAME}",
         "api_link": f"https://{DOMAIN_NAME}",
@@ -53,7 +53,7 @@ BRANDING = {
         "favico": "brands/rapidpro/rapidpro.ico",
         "splash": "brands/rapidpro/splash.jpg",
         "logo": "brands/rapidpro/logo.png",
-        "allow_signups": True,
+        "allow_signups": os.getenv("ALLOW_SIGNUPS", "False").lower() in ('true', '1', 'yes'),
         "flow_types": ["M", "V", "B", "S"],  # see Flow.FLOW_TYPES
         "location_support": True,
         "tiers": dict(multi_user=0, multi_org=0),
