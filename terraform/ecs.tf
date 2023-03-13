@@ -41,21 +41,23 @@ resource "aws_security_group" "ecs" {
 
 resource "aws_iam_role" "remote_access" {
   name = "ECSTaskRole-remote-access"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ssmmessages:CreateControlChannel",
-          "ssmmessages:CreateDataChannel",
-          "ssmmessages:OpenControlChannel",
-          "ssmmessages:OpenDataChannel",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
+  inline_policy {
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = [
+            "ssmmessages:CreateControlChannel",
+            "ssmmessages:CreateDataChannel",
+            "ssmmessages:OpenControlChannel",
+            "ssmmessages:OpenDataChannel",
+          ]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "remote_access" {
