@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "ureport-web" {
   container_definitions = jsonencode([
     {
       image     = "${local.ureport.image.repo}:${local.ureport.image.tag}"
-      name      = "ureport"
+      name      = "ureport-web"
       essential = true
 
       logConfiguration = {
