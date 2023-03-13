@@ -115,7 +115,7 @@ resource "aws_ecs_task_definition" "ureport-web" {
 }
 
 resource "aws_ecs_service" "ureport-web" {
-  name            = "ureport"
+  name            = "ureport-web"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.ureport-web.arn
   desired_count   = 1

@@ -112,7 +112,7 @@ resource "aws_ecs_task_definition" "ureport-celery-beat" {
 }
 
 resource "aws_ecs_service" "ureport-celery-beat" {
-  name            = "ureport"
+  name            = "ureport-celery-beat"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.ureport-celery-beat.arn
   desired_count   = 1
