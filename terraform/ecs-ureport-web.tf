@@ -138,7 +138,7 @@ resource "aws_ecs_service" "ureport-web" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.ureport.arn
-    container_name   = "ureport"
+    container_name   = "ureport-web"
     container_port   = 80
   }
 
@@ -147,8 +147,8 @@ resource "aws_ecs_service" "ureport-web" {
   }
 }
 
-resource "aws_service_discovery_service" "ureport" {
-  name = "ureport"
+resource "aws_service_discovery_service" "ureport-web" {
+  name = "ureport-web"
 
   dns_config {
     namespace_id   = aws_service_discovery_private_dns_namespace.ecs.id
