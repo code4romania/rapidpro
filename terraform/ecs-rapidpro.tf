@@ -4,8 +4,8 @@ resource "aws_ecs_task_definition" "rapidpro" {
   execution_role_arn       = aws_iam_role.rapidpro_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "1024"
-  memory                   = "2048"
+  cpu                      = "512"
+  memory                   = "1024"
 
   container_definitions = jsonencode([
     {
