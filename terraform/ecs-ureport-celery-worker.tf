@@ -6,6 +6,8 @@ resource "aws_ecs_task_definition" "ureport-celery-worker" {
   cpu                      = "512"
   memory                   = "1024"
 
+  task_role_arn = aws_iam_role.remote_access.arn
+
   container_definitions = jsonencode([
     {
       image     = "${local.ureport-celery.image.repo}:${local.ureport-celery.image.tag}"
@@ -118,6 +120,8 @@ resource "aws_ecs_service" "ureport-celery-worker" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  enable_execute_command = true
+
   service_registries {
     registry_arn = aws_service_discovery_service.ureport-celery-worker.arn
   }
@@ -157,3 +161,4 @@ resource "aws_iam_role_policy_attachment" "ureport_celery_worker_execution_role_
   role       = aws_iam_role.ureport_celery_worker_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+

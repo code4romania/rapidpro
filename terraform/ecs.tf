@@ -19,6 +19,20 @@ data "aws_iam_policy_document" "ecs_task_execution_policy" {
   }
 }
 
+data "aws_iam_policy_document" "ecs_execute_command_task_policy" {
+
+  statement {
+    actions = [
+      "ssmmessages:CreateControlChannel",
+      "ssmmessages:CreateDataChannel",
+      "ssmmessages:OpenControlChannel",
+      "ssmmessages:OpenDataChannel",
+    ]
+
+    resources = ["*"]
+  }
+}
+
 resource "aws_security_group" "ecs" {
   name        = "${local.namespace}-ecs"
   description = "Inbound - Security Group attached to the ECS Service (${var.env})"
@@ -37,4 +51,8 @@ resource "aws_security_group" "ecs" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_iam_role" "remote_access" {
+  assume_role_policy = data.aws_iam_policy_document.ecs_execute_command_task_policy.json
 }
