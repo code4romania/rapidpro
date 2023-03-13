@@ -9,10 +9,11 @@ ADMINS=()
 
 SEND_EMAILS = os.getenv("SEND_EMAILS", "False").lower() in ('true', '1', 'yes')
 EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "server@temba.io")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "mypassword")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "server@temba.io")
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() in ('true', '1', 'yes')
 EMAIL_TIMEOUT = 10
 
 SECRET_KEY = os.getenv("SECRET_KEY", "your secret key")
