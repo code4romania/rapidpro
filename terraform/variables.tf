@@ -19,6 +19,11 @@ variable "enable_execute_command" {
   type        = bool
   default     = false
 }
+variable "force_new_deployment" {
+  description = "Enable to force a new task deployment of the service. This can be used to update tasks to use a newer Docker image with same image/tag combination"
+  type        = bool
+  default     = true
+}
 
 variable "region" {
   description = "Region where to deploy resources"

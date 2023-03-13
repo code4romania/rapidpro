@@ -122,6 +122,7 @@ resource "aws_ecs_service" "rapidpro" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  force_new_deployment   = var.force_new_deployment
   enable_execute_command = var.enable_execute_command
 
   service_registries {
