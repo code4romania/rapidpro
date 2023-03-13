@@ -27,6 +27,7 @@ jobs:
           - mailroom
           - rapidpro
           - ureport
+          - ureport-celery
 
     steps:
       - name: Checkout
