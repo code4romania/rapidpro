@@ -25,10 +25,18 @@ resource "aws_security_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port       = "80"
-    to_port         = "80"
+    description     = "Traffic from load-balancer"
+    from_port       = 80
+    to_port         = 80
     protocol        = "tcp"
     security_groups = [aws_security_group.lb.id]
+  }
+
+  ingress {
+    description = "Internal traffic"
+    from_port   = 0
+    to_port     = 65535
+    self        = true
   }
 
   egress {
