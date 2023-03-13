@@ -40,7 +40,8 @@ resource "aws_security_group" "ecs" {
 }
 
 resource "aws_iam_role" "remote_access" {
-  name = "ECSTaskRole-remote-access"
+  name               = "ECSTaskRole-remote-access"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
   inline_policy {
     policy = jsonencode({
       Version = "2012-10-17"
@@ -58,9 +59,4 @@ resource "aws_iam_role" "remote_access" {
       ]
     })
   }
-}
-
-resource "aws_iam_role_policy_attachment" "remote_access" {
-  role       = aws_iam_role.remote_access.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
