@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "ureport-celery-beat" {
         },
         {
           name  = "POSTGRES_HOSTNAME"
-          value = aws_db_instance.db_instance.address
+          value = aws_db_proxy.main.endpoint
         },
         {
           name  = "POSTGRES_PORT"

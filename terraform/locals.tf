@@ -56,7 +56,7 @@ locals {
       "postgres://%s:%s@%s:%d/%s",
       aws_db_instance.db_instance.username,
       aws_db_instance.db_instance.password,
-      aws_db_instance.db_instance.address,
+      aws_db_proxy.main.endpoint,
       aws_db_instance.db_instance.port,
       "rapidpro"
     )
@@ -83,7 +83,7 @@ locals {
       "postgres://%s:%s@%s:%d/%s",
       aws_db_instance.db_instance.username,
       aws_db_instance.db_instance.password,
-      aws_db_instance.db_instance.address,
+      aws_db_proxy.main.endpoint,
       aws_db_instance.db_instance.port,
       "ureport"
     )
