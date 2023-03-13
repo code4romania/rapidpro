@@ -29,7 +29,10 @@ data "aws_iam_policy_document" "ecs_execute_command_task_policy" {
       "ssmmessages:OpenDataChannel",
     ]
 
-    resources = ["*"]
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
   }
 }
 
