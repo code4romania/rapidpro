@@ -25,7 +25,7 @@ resource "aws_security_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Traffic from load-balancer"
+    description     = "Load balancer traffic"
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
