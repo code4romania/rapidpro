@@ -19,23 +19,6 @@ data "aws_iam_policy_document" "ecs_task_execution_policy" {
   }
 }
 
-data "aws_iam_policy_document" "ecs_execute_command_task_policy" {
-
-  statement {
-    actions = [
-      "ssmmessages:CreateControlChannel",
-      "ssmmessages:CreateDataChannel",
-      "ssmmessages:OpenControlChannel",
-      "ssmmessages:OpenDataChannel",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-
 resource "aws_security_group" "ecs" {
   name        = "${local.namespace}-ecs"
   description = "Inbound - Security Group attached to the ECS Service (${var.env})"
@@ -57,8 +40,22 @@ resource "aws_security_group" "ecs" {
 }
 
 resource "aws_iam_role" "remote_access" {
-  name               = "ECSTaskRole-remote-access"
-  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
+  name = "ECSTaskRole-remote-access"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "remote_access" {
