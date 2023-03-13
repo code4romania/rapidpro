@@ -72,8 +72,8 @@ locals {
 
     domains = {
       main = "ureport.${var.domain_name}"
-      ro   = "ureport-ro.${var.domain_name}"
-      uk   = "ureport-uk.${var.domain_name}"
+      ro   = "ro.ureport.${var.domain_name}"
+      uk   = "uk.ureport.${var.domain_name}"
     }
 
     database_url = format(
