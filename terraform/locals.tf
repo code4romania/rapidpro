@@ -68,7 +68,10 @@ locals {
   }
 
   ureport = {
-    namespace = "ureport-${var.env}"
+    namespace = {
+      main = "ureport-${var.env}"
+      web  = "ureport-web-${var.env}"
+    }
 
     domains = {
       main = "ureport.${var.domain_name}"
@@ -91,6 +94,17 @@ locals {
     }
   }
 
+  ureport-celery = {
+    namespace = {
+      beat   = "ureport-celery-beat-${var.env}"
+      worker = "ureport-celery-worker-${var.env}"
+    }
+
+    image = {
+      repo = data.aws_ecr_repository.ureport-celery.repository_url
+      tag  = "edge"
+    }
+  }
   vpc = {
     cidr_block = "10.0.0.0/16"
 

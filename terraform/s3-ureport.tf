@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "ureport" {
-  bucket = "${local.ureport.namespace}-${random_string.s3_bucket_suffix.result}"
+  bucket = "${local.ureport.namespace.main}-${random_string.s3_bucket_suffix.result}"
 }
 
 resource "aws_s3_bucket_ownership_controls" "ureport" {
@@ -34,7 +34,7 @@ resource "aws_iam_access_key" "ureport" {
 }
 
 resource "aws_iam_user" "ureport" {
-  name = "${local.ureport.namespace}-user"
+  name = "${local.ureport.namespace.main}-user"
 }
 
 data "aws_iam_policy_document" "ureport_bucket_acccess" {
@@ -56,7 +56,7 @@ data "aws_iam_policy_document" "ureport_bucket_acccess" {
 }
 
 resource "aws_iam_user_policy" "ureport_access_policy" {
-  name   = "${local.ureport.namespace}-s3-access-policy"
+  name   = "${local.ureport.namespace.main}-s3-access-policy"
   user   = aws_iam_user.ureport.name
   policy = data.aws_iam_policy_document.ureport_bucket_acccess.json
 }

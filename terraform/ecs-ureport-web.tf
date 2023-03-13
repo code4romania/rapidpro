@@ -1,6 +1,6 @@
-resource "aws_ecs_task_definition" "ureport" {
-  family                   = local.ureport.namespace
-  execution_role_arn       = aws_iam_role.ureport_execution_role.arn
+resource "aws_ecs_task_definition" "ureport-web" {
+  family                   = local.ureport.namespace.web
+  execution_role_arn       = aws_iam_role.ureport_web_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "512"
@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "ureport" {
         options = {
           awslogs-group         = aws_cloudwatch_log_group.rapidpro.name
           awslogs-region        = var.region
-          awslogs-stream-prefix = local.ureport.namespace
+          awslogs-stream-prefix = local.ureport.namespace.web
         }
       }
 
@@ -114,10 +114,10 @@ resource "aws_ecs_task_definition" "ureport" {
   ])
 }
 
-resource "aws_ecs_service" "ureport" {
+resource "aws_ecs_service" "ureport-web" {
   name            = "ureport"
   cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.ureport.arn
+  task_definition = aws_ecs_task_definition.ureport-web.arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
@@ -157,12 +157,12 @@ resource "aws_service_discovery_service" "ureport" {
   }
 }
 
-resource "aws_iam_role" "ureport_execution_role" {
-  name               = "ECSTaskExecutionRole-${local.ureport.namespace}"
+resource "aws_iam_role" "ureport_web_execution_role" {
+  name               = "ECSTaskExecutionRole-${local.ureport.namespace.web}"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
 }
 
-resource "aws_iam_role_policy_attachment" "ureport_execution_role_policy" {
-  role       = aws_iam_role.ureport_execution_role.name
+resource "aws_iam_role_policy_attachment" "ureport_web_execution_role_policy" {
+  role       = aws_iam_role.ureport_web_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

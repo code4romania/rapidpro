@@ -21,3 +21,6 @@ data "aws_ecr_repository" "rapidpro" {
 data "aws_ecr_repository" "ureport" {
   name = "ureport"
 }
+data "aws_ecr_repository" "ureport-celery" {
+  name = "ureport-celery"
+}
