@@ -126,7 +126,7 @@ resource "aws_ecs_service" "ureport-web" {
   enable_execute_command = var.enable_execute_command
 
   service_registries {
-    registry_arn = aws_service_discovery_service.ureport.arn
+    registry_arn = aws_service_discovery_service.ureport-web.arn
   }
 
   network_configuration {
