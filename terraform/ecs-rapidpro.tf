@@ -79,6 +79,10 @@ resource "aws_ecs_task_definition" "rapidpro" {
           value = "http://courier.ecs.svc:8080"
         },
         {
+          name  = "ALLOW_SIGNUPS"
+          value = tostring(false)
+        },
+        {
           name  = "DEBUG"
           value = tostring(var.debug)
         },
