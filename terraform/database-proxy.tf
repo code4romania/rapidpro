@@ -40,7 +40,7 @@ resource "aws_secretsmanager_secret_version" "db_proxy" {
   secret_string = jsonencode({
     "engine"               = "postgres"
     "username"             = aws_db_instance.db_instance.username
-    "password"             = aws_db_instance.db_instance.address
+    "password"             = aws_db_instance.db_instance.password
     "host"                 = aws_db_instance.db_instance.address
     "port"                 = aws_db_instance.db_instance.port
     "dbInstanceIdentifier" = aws_db_instance.db_instance.id
