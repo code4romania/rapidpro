@@ -1,12 +1,12 @@
 resource "aws_ecs_task_definition" "ureport-celery-worker" {
   family                   = local.ureport-celery.namespace.worker
+  task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.ureport_celery_worker_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "512"
   memory                   = "1024"
 
-  task_role_arn = aws_iam_role.remote_access.arn
 
   container_definitions = jsonencode([
     {
@@ -120,7 +120,7 @@ resource "aws_ecs_service" "ureport-celery-worker" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
-  enable_execute_command = true
+  enable_execute_command = var.enable_execute_command
 
   service_registries {
     registry_arn = aws_service_discovery_service.ureport-celery-worker.arn

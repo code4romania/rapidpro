@@ -14,6 +14,12 @@ variable "debug" {
   default     = false
 }
 
+variable "enable_execute_command" {
+  description = "Enable aws ecs execute_command"
+  type        = bool
+  default     = false
+}
+
 variable "region" {
   description = "Region where to deploy resources"
   type        = string

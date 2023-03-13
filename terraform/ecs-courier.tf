@@ -1,5 +1,6 @@
 resource "aws_ecs_task_definition" "courier" {
   family                   = local.courier.namespace
+  task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.courier_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -61,6 +62,8 @@ resource "aws_ecs_service" "courier" {
   task_definition = aws_ecs_task_definition.courier.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+
+  enable_execute_command = var.enable_execute_command
 
   service_registries {
     registry_arn = aws_service_discovery_service.courier.arn

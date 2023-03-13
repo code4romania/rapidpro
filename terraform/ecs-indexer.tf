@@ -1,5 +1,6 @@
 resource "aws_ecs_task_definition" "indexer" {
   family                   = local.indexer.namespace
+  task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.indexer_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -57,6 +58,8 @@ resource "aws_ecs_service" "indexer" {
   task_definition = aws_ecs_task_definition.indexer.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+
+  enable_execute_command = var.enable_execute_command
 
   service_registries {
     registry_arn = aws_service_discovery_service.indexer.arn
