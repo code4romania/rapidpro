@@ -71,8 +71,9 @@ DATABASES = {
         "HOST": os.getenv("POSTGRES_HOSTNAME","localhost"),
         "PORT": os.getenv("POSTGRES_PORT","5432"),
         'ATOMIC_REQUESTS': True,
-        'OPTIONS': {
-        }
+        "CONN_MAX_AGE": 0,
+        'OPTIONS': {},
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     }
 }
 
