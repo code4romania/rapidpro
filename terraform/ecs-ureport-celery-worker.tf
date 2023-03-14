@@ -120,7 +120,6 @@ resource "aws_ecs_service" "ureport-celery-worker" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
-  force_new_deployment   = var.force_new_deployment
   enable_execute_command = var.enable_execute_command
 
   service_registries {
@@ -136,6 +135,11 @@ resource "aws_ecs_service" "ureport-celery-worker" {
 
   lifecycle {
     ignore_changes = [desired_count]
+  }
+
+  force_new_deployment = var.force_new_deployment
+  triggers = {
+    redeployment = timestamp()
   }
 }
 
