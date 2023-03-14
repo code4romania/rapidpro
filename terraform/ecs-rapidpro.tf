@@ -144,11 +144,6 @@ resource "aws_ecs_service" "rapidpro" {
   lifecycle {
     ignore_changes = [desired_count]
   }
-
-  force_new_deployment = var.force_new_deployment
-  triggers = {
-    redeployment = timestamp()
-  }
 }
 
 resource "aws_service_discovery_service" "rapidpro" {

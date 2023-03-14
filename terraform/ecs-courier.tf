@@ -79,11 +79,6 @@ resource "aws_ecs_service" "courier" {
   lifecycle {
     ignore_changes = [desired_count]
   }
-
-  force_new_deployment = var.force_new_deployment
-  triggers = {
-    redeployment = timestamp()
-  }
 }
 
 resource "aws_service_discovery_service" "courier" {

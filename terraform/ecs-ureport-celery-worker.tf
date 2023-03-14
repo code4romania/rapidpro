@@ -136,11 +136,6 @@ resource "aws_ecs_service" "ureport-celery-worker" {
   lifecycle {
     ignore_changes = [desired_count]
   }
-
-  force_new_deployment = var.force_new_deployment
-  triggers = {
-    redeployment = timestamp()
-  }
 }
 
 resource "aws_service_discovery_service" "ureport-celery-worker" {
