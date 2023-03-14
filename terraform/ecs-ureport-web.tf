@@ -4,8 +4,8 @@ resource "aws_ecs_task_definition" "ureport-web" {
   execution_role_arn       = aws_iam_role.ureport_web_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "4096"
-  memory                   = "8192"
+  cpu                      = "1024"
+  memory                   = "2048"
 
   container_definitions = jsonencode([
     {
