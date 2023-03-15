@@ -54,7 +54,7 @@ ENTRYPOINT ["/init"]
 COPY conf/s6-rc.d /etc/s6-overlay/s6-rc.d
 
 # NGINX
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/templates/nginx.conf
 
 WORKDIR /var/www
 
