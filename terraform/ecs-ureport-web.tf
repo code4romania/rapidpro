@@ -4,8 +4,8 @@ resource "aws_ecs_task_definition" "ureport-web" {
   execution_role_arn       = aws_iam_role.ureport_web_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "1024"
-  memory                   = "2048"
+  cpu                      = 1024
+  memory                   = 2048
 
   container_definitions = jsonencode([
     {
@@ -198,7 +198,7 @@ resource "aws_appautoscaling_policy" "ureport-web" {
   service_namespace  = aws_appautoscaling_target.ureport-web.service_namespace
 
   target_tracking_scaling_policy_configuration {
-    target_value       = 80
+    target_value       = 70
     scale_in_cooldown  = 30
     scale_out_cooldown = 60
 
