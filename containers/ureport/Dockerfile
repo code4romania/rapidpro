@@ -72,5 +72,9 @@ RUN set -ex; \
     npm ci --no-audit
 
 COPY conf/settings.py ureport/settings.py
+COPY conf/healthcheck.sh /usr/local/bin/healthcheck
 
 EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD ["healthcheck"]
