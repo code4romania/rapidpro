@@ -13,6 +13,14 @@ resource "aws_ecs_task_definition" "ureport-web" {
       name      = "ureport-web"
       essential = true
 
+      ulimits = [
+        {
+          name      = "nofile"
+          softLimit = 4096
+          hardLimit = 1048576
+        }
+      ]
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
