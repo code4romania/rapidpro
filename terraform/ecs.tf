@@ -62,7 +62,6 @@ resource "aws_iam_role_policy" "ssm_agent" {
 
 data "aws_iam_policy_document" "ssm_task_permissions" {
   statement {
-    effect    = "Allow"
     resources = ["*"]
     actions = [
       "ssmmessages:CreateControlChannel",

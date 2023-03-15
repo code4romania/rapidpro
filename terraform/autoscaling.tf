@@ -5,7 +5,7 @@ resource "aws_iam_role" "autoscaling" {
 
 resource "aws_iam_role_policy" "autoscaling" {
   name   = "${local.namespace}-autoscaling-policy"
-  policy = data.aws_iam_policy_document.autoscaling_role.json
+  policy = data.aws_iam_policy_document.autoscaling_role_policy.json
   role   = aws_iam_role.autoscaling.id
 }
 
