@@ -169,3 +169,35 @@ resource "aws_iam_role_policy_attachment" "ureport_web_execution_role_policy" {
   role       = aws_iam_role.ureport_web_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+# Autoscaling
+resource "aws_appautoscaling_target" "ureport-web" {
+  max_capacity       = 5
+  min_capacity       = 1
+  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.ureport-web.name}"
+  role_arn           = aws_iam_role.autoscaling.arn
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+
+  depends_on = [aws_ecs_service.ureport-web]
+}
+
+resource "aws_appautoscaling_policy" "ureport-web" {
+  name               = "${aws_ecs_service.ureport-web.name}-autoscaling-policy"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ureport-web.resource_id
+  scalable_dimension = aws_appautoscaling_target.ureport-web.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ureport-web.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    target_value       = 80
+    scale_in_cooldown  = 30
+    scale_out_cooldown = 60
+
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+  }
+
+  depends_on = [aws_appautoscaling_target.ureport-web]
+}
