@@ -77,3 +77,27 @@ resource "aws_cloudfront_origin_request_policy" "ureport-web" {
     query_string_behavior = "none"
   }
 }
+
+resource "aws_s3_bucket_policy" "ureport_s3_bucket_policy" {
+  bucket = aws_s3_bucket.ureport.id
+  policy = data.aws_iam_policy_document.ureport_s3_bucket_policy.json
+}
+
+data "aws_iam_policy_document" "ureport_s3_bucket_policy" {
+  statement {
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.ureport.arn}/*"
+    ]
+
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_cloudfront_origin_access_identity.ureport-web.iam_arn
+      ]
+    }
+  }
+}
