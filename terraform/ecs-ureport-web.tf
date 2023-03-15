@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "ureport-web" {
         },
         {
           name  = "AWS_S3_CUSTOM_DOMAIN"
-          value = "https://${aws_cloudfront_distribution.ureport-web.domain_name}"
+          value = aws_cloudfront_distribution.ureport-web.domain_name
         },
         {
           name  = "AWS_S3_REGION_NAME"

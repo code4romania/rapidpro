@@ -51,7 +51,7 @@ resource "aws_db_parameter_group" "default" {
   parameter {
     apply_method = "immediate"
     name         = "log_connections"
-    value        = "off"
+    value        = 0
   }
 
   lifecycle {
