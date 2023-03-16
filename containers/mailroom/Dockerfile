@@ -29,4 +29,4 @@ EXPOSE 8090
 
 USER mailroom
 
-ENTRYPOINT [ "mailroom", "--debug-conf" ]
+ENTRYPOINT [ "mailroom" ]

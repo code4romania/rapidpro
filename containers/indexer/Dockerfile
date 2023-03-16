@@ -29,4 +29,4 @@ EXPOSE 8080
 
 USER indexer
 
-ENTRYPOINT [ "indexer", "--debug-conf" ]
+ENTRYPOINT [ "indexer" ]

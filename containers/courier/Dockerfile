@@ -29,4 +29,4 @@ EXPOSE 8080
 
 USER courier
 
-ENTRYPOINT [ "courier", "--debug-conf" ]
+ENTRYPOINT [ "courier" ]

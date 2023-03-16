@@ -29,4 +29,4 @@ EXPOSE 8080
 
 USER archiver
 
-ENTRYPOINT [ "archiver", "--debug-conf" ]
+ENTRYPOINT [ "archiver" ]
