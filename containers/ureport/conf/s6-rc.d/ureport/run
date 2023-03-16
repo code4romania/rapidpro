@@ -16,4 +16,6 @@ gunicorn ureport.wsgi \
     --log-level $LOG_LEVEL \
     --worker-class gevent \
     --workers $WORKERS \
+    --worker-connections 5000 \
+    --max-requests 500 \
     --timeout 60
