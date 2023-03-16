@@ -1,6 +1,13 @@
 #!/command/with-contenv sh
 
-set -e
+export WORKER_PROCESSES=$(nproc)
+export WORKER_CONNECTIONS=$(expr $(ulimit -n) / $WORKER_PROCESSES)
 
-envsubst '$MAILROOM_URL $COURIER_URL' </etc/nginx/templates/default >/etc/nginx/sites-available/default
-nginx -g "daemon off;"
+envsubst '
+$MAILROOM_URL
+$COURIER_URL
+$WORKER_PROCESSES
+$WORKER_CONNECTIONS
+' </etc/nginx/templates/nginx.conf >/etc/nginx/nginx.conf
+
+nginx
