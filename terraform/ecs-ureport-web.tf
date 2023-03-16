@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "ureport-web" {
       ulimits = [
         {
           name      = "nofile"
-          softLimit = 4096
+          softLimit = 16384
           hardLimit = 1048576
         }
       ]
@@ -202,7 +202,7 @@ resource "aws_appautoscaling_policy" "ureport-web" {
   service_namespace  = aws_appautoscaling_target.ureport-web.service_namespace
 
   target_tracking_scaling_policy_configuration {
-    target_value       = 70
+    target_value       = 60
     scale_in_cooldown  = 30
     scale_out_cooldown = 60
 
