@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "mailroom" {
         },
         {
           name  = "MAILROOM_ELASTIC"
-          value = "https://${aws_elasticsearch_domain.rapidpro.endpoint}"
+          value = "https://${aws_opensearch_domain.main.endpoint}"
         },
         {
           name  = "MAILROOM_SMTP_SERVER"

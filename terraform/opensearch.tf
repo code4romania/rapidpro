@@ -3,13 +3,13 @@ resource "aws_iam_service_linked_role" "es" {
   aws_service_name = "es.amazonaws.com"
 }
 
-resource "aws_elasticsearch_domain" "rapidpro" {
-  domain_name           = "rapidpro"
-  elasticsearch_version = "7.10"
+resource "aws_opensearch_domain" "main" {
+  domain_name    = "rapidpro"
+  engine_version = "OpenSearch_2.5"
 
 
   cluster_config {
-    instance_type            = "t3.small.elasticsearch"
+    instance_type            = "t3.small.search"
     instance_count           = 2
     dedicated_master_count   = 0
     dedicated_master_enabled = false
@@ -32,22 +32,10 @@ resource "aws_elasticsearch_domain" "rapidpro" {
       element(aws_subnet.private.*.id, 1)
     ]
 
-    security_group_ids = [aws_security_group.elasticsearch.id]
+    security_group_ids = [aws_security_group.opensearch.id]
   }
 
-  access_policies = <<CONFIG
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "es:*",
-            "Principal": "*",
-            "Effect": "Allow",
-            "Resource": "arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/rapidpro/*"
-        }
-    ]
-}
-CONFIG
+  access_policies = data.aws_iam_policy_document.opensearch.json
 
   encrypt_at_rest {
     enabled = true
@@ -73,9 +61,24 @@ CONFIG
   depends_on = [aws_iam_service_linked_role.es]
 }
 
+data "aws_iam_policy_document" "opensearch" {
+  statement {
+    effect = "Allow"
 
-resource "aws_security_group" "elasticsearch" {
-  name   = "${local.namespace}-elasticsearch-rapidpro"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions   = ["es:*"]
+    resources = ["arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/rapidpro/*"]
+  }
+}
+
+
+
+resource "aws_security_group" "opensearch" {
+  name   = "${local.namespace}-opensearch-rapidpro"
   vpc_id = aws_vpc.main.id
 
   ingress {

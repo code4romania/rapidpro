@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "indexer" {
         },
         {
           name  = "INDEXER_ELASTIC_URL"
-          value = "https://${aws_elasticsearch_domain.rapidpro.endpoint}"
+          value = "https://${aws_opensearch_domain.main.endpoint}"
         },
         {
           name  = "INDEXER_LOG_LEVEL"
