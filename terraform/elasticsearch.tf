@@ -28,7 +28,8 @@ resource "aws_elasticsearch_domain" "rapidpro" {
 
   vpc_options {
     subnet_ids = [
-      element(aws_subnet.private.*.id, 0)
+      element(aws_subnet.private.*.id, 0),
+      element(aws_subnet.private.*.id, 1)
     ]
 
     security_group_ids = [aws_security_group.elasticsearch.id]
