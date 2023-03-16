@@ -45,7 +45,7 @@ resource "aws_ecs_task_definition" "indexer" {
         },
         {
           name  = "INDEXER_POLL"
-          value = tostring(15)
+          value = tostring(300)
         }
       ]
     }
