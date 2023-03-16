@@ -2,9 +2,7 @@
 
 cd /var/www
 
-DEBUG="$(echo $DEBUG | tr "[:upper:]" "[:lower:]")"
-
-if test "$DEBUG" = "true" -o "$DEBUG" = "1" -o "$DEBUG" = "yes"; then
+if test "$DEBUG" = true; then
     LOG_LEVEL="debug"
 else
     LOG_LEVEL="warn"
@@ -18,4 +16,6 @@ gunicorn temba.wsgi \
     --log-level $LOG_LEVEL \
     --worker-class gevent \
     --workers $WORKERS \
+    --worker-connections 5000 \
+    --max-requests 500 \
     --timeout 60
