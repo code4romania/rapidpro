@@ -10,9 +10,14 @@ resource "aws_elasticsearch_domain" "rapidpro" {
 
   cluster_config {
     instance_type            = "t3.small.elasticsearch"
-    instance_count           = 1
+    instance_count           = 2
     dedicated_master_count   = 0
     dedicated_master_enabled = false
+    zone_awareness_enabled   = var.env == "production"
+
+    zone_awareness_config {
+      availability_zone_count = 2
+    }
   }
 
   ebs_options {
