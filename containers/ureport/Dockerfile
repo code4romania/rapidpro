@@ -37,7 +37,7 @@ ENV IS_CONTAINERIZED=True
 RUN set -ex; \
     apt-get update; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends nodejs npm libpq5 xz-utils nginx gettext; \
+    apt-get install -y --no-install-recommends nodejs npm libpq5 xz-utils nginx gettext tzdata; \
     rm -rf /var/lib/apt/lists/*
 
 # Supervision
