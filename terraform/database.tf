@@ -24,10 +24,11 @@ resource "aws_db_instance" "db_instance" {
   storage_encrypted     = true
 
   # backup
-  backup_retention_period = 30
-  backup_window           = "01:00-01:30"
-  copy_tags_to_snapshot   = true
-  skip_final_snapshot     = var.env != "production"
+  backup_retention_period   = 30
+  backup_window             = "01:00-01:30"
+  copy_tags_to_snapshot     = true
+  skip_final_snapshot       = var.env != "production"
+  final_snapshot_identifier = "${local.namespace}-final-snapshot"
 
   maintenance_window = "Mon:01:45-Mon:03:00"
 
