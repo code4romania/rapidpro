@@ -4,6 +4,7 @@ on:
       - main
     paths:
       - "containers/**"
+      - ".github/workflows/build-images.yml"
   workflow_dispatch:
 
 name: Build Docker images
