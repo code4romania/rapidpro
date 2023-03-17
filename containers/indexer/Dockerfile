@@ -12,7 +12,7 @@ RUN set -ex; \
     adduser --system --ingroup indexer indexer; \
     #
     apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates wget; \
+    apt-get install -y --no-install-recommends ca-certificates wget tzdata; \
     update-ca-certificates; \
     rm -rf /var/lib/apt/lists/*; \
     #
