@@ -24,9 +24,6 @@ module "ecs_cluster" {
   userdata_cloudwatch_log_retention        = 3
   protect_from_scale_in                    = true
 
-
-  tags = local.tags
-
   depends_on = [aws_iam_service_linked_role.ecs]
 }
 

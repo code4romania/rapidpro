@@ -159,7 +159,3 @@ variable "spot_instance_pools" {
   type        = number
   default     = 2
 }
-
-variable "availability_zone" {
-  type = string
-}
