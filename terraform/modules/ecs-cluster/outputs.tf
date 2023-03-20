@@ -17,3 +17,7 @@ output "asg_arn" {
 output "asg_name" {
   value = aws_autoscaling_group.ecs.name
 }
+
+output "service_discovery_namespace_id" {
+  value = aws_service_discovery_private_dns_namespace.ecs.id
+}

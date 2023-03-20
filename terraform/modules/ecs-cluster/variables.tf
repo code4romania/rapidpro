@@ -1,4 +1,3 @@
-
 variable "name" {
   description = "Name to be used throughout the resources"
   type        = string
@@ -158,4 +157,9 @@ variable "spot_instance_pools" {
   description = "Number of Spot pools per availability zone to allocate capacity. EC2 Auto Scaling selects the cheapest Spot pools and evenly allocates Spot capacity across the number of Spot pools that you specify. Only available with spot_allocation_strategy set to lowest-price. Otherwise it must be set to 0, if it has been defined before"
   type        = number
   default     = 2
+}
+
+variable "service_discovery_domain" {
+  type    = string
+  default = "ecs.svc"
 }
