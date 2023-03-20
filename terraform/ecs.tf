@@ -1,0 +1,58 @@
+module "ecs_cluster" {
+  source = "./modules/ecs-cluster"
+
+  name              = local.namespace
+  availability_zone = data.aws_availability_zones.current[0]
+  vpc_id            = aws_vpc.main.id
+  ecs_subnets       = [aws_subnet.private.0.id]
+  security_groups   = [aws_security_group.ecs.id]
+  instance_types = {
+    "m5.large" = ""
+    "t3.large" = ""
+  }
+
+  min_size                  = 1
+  max_size                  = 3
+  minimum_scaling_step_size = 1
+  maximum_scaling_step_size = 1
+
+  target_capacity                          = 1
+  capacity_rebalance                       = true
+  on_demand_base_capacity                  = 0
+  on_demand_percentage_above_base_capacity = 0
+  ecs_cloudwatch_log_retention             = 3
+  userdata_cloudwatch_log_retention        = 3
+  spot_instance_pools                      = var.spot_instance_pools
+  protect_from_scale_in                    = true
+
+
+  tags = local.tags
+
+  depends_on = [aws_iam_service_linked_role.ecs]
+}
+
+resource "aws_iam_service_linked_role" "ecs" {
+  count            = var.create_iam_service_linked_role ? 1 : 0
+  aws_service_name = "ecs.amazonaws.com"
+}
+
+resource "aws_security_group" "ecs" {
+  name        = "${local.namespace}-ecs"
+  description = "Inbound - Security Group attached to the ECS Service (${var.env})"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description = "Internal traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = true
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
