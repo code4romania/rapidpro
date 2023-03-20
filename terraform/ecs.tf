@@ -1,11 +1,10 @@
 module "ecs_cluster" {
   source = "./modules/ecs-cluster"
 
-  name              = local.namespace
-  availability_zone = data.aws_availability_zones.current.names[0]
-  vpc_id            = aws_vpc.main.id
-  ecs_subnets       = [aws_subnet.private.0.id]
-  security_groups   = [aws_security_group.ecs.id]
+  name            = local.namespace
+  vpc_id          = aws_vpc.main.id
+  ecs_subnets     = [aws_subnet.private.0.id]
+  security_groups = [aws_security_group.ecs.id]
   instance_types = {
     "m5.large" = ""
     "t3.large" = ""
