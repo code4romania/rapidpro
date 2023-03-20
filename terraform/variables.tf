@@ -28,11 +28,10 @@ variable "region_name" {
 variable "region_az" {
   description = "Availability Zone"
   type        = string
-  default     = "b"
 
   validation {
-    condition     = contains(["${var.region_name}a", "${var.region_name}b", "${var.region_name}c"], var.region_az)
-    error_message = "Allowed values for region_az are \"${var.region_name}a\", \"${var.region_name}b\" or \"${var.region_name}c\"."
+    condition     = contains(["a", "b", "c"], var.region_az)
+    error_message = "Allowed values for region_az are \"a\", \"b\" or \"c\"."
   }
 }
 
