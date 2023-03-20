@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region = var.region_name
 
   default_tags {
     tags = {

@@ -20,9 +20,20 @@ variable "enable_execute_command" {
   default     = false
 }
 
-variable "region" {
-  description = "Region where to deploy resources"
+variable "region_name" {
+  description = "Region"
   type        = string
+}
+
+variable "region_az" {
+  description = "Availability Zone"
+  type        = string
+  default     = "b"
+
+  validation {
+    condition     = contains(["${var.region_name}a", "${var.region_name}b", "${var.region_name}c"], var.region_az)
+    error_message = "Allowed values for region_az are \"${var.region_name}a\", \"${var.region_name}b\" or \"${var.region_name}c\"."
+  }
 }
 
 variable "create_iam_service_linked_role" {
