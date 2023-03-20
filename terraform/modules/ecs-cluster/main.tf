@@ -5,11 +5,18 @@ resource "aws_ecs_cluster" "ecs" {
 
 ### Spot Capacity
 resource "aws_launch_template" "ecs" {
-  name                    = "${var.name}-ecs-nodes"
-  image_id                = data.aws_ami.this.id
-  instance_type           = var.default_instance_type
-  vpc_security_group_ids  = var.security_groups
-  user_data               = base64encode(data.template_file.user_data.rendered)
+  name                   = "${var.name}-ecs-nodes"
+  image_id               = data.aws_ami.this.id
+  instance_type          = var.default_instance_type
+  vpc_security_group_ids = var.security_groups
+  user_data = base64encode(
+    templatefile("${path.module}/assets/user_data.sh", {
+      ecs_cluster_name            = var.name
+      disk_path                   = var.disk_path
+      maintenance_log_group_name  = aws_cloudwatch_log_group.userdata.name
+      additional_user_data_script = var.additional_user_data_script
+    })
+  )
   disable_api_termination = var.disable_api_termination
 
   ebs_optimized = true
