@@ -88,3 +88,37 @@ resource "aws_secretsmanager_secret_version" "rds" {
     "port"     = aws_db_instance.main.port
   })
 }
+
+resource "aws_secretsmanager_secret" "rapidpro-db-url" {
+  name = "${local.namespace}-rapidpro-db-url"
+}
+
+resource "aws_secretsmanager_secret_version" "rapidpro-db-url" {
+  secret_id = aws_secretsmanager_secret.rapidpro-db-url.id
+
+  secret_string = format(
+    "postgres://%s:%s@%s:%d/%s",
+    aws_db_instance.db_instance.username,
+    aws_db_instance.db_instance.password,
+    aws_db_proxy.main.endpoint,
+    aws_db_instance.db_instance.port,
+    "rapidpro"
+  )
+}
+
+resource "aws_secretsmanager_secret" "ureport-db-url" {
+  name = "${local.namespace}-ureport-db-url"
+}
+
+resource "aws_secretsmanager_secret_version" "ureport-db-url" {
+  secret_id = aws_secretsmanager_secret.ureport-db-url.id
+
+  secret_string = format(
+    "postgres://%s:%s@%s:%d/%s",
+    aws_db_instance.db_instance.username,
+    aws_db_instance.db_instance.password,
+    aws_db_proxy.main.endpoint,
+    aws_db_instance.db_instance.port,
+    "ureport"
+  )
+}
