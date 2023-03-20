@@ -1,6 +1,9 @@
 locals {
   namespace = var.env
 
+  # Target AZ
+  availability_zone = data.aws_availability_zones.current.names[0]
+
   networking = {
     cidr_block = "10.0.0.0/16"
 
