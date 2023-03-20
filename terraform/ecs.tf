@@ -2,7 +2,7 @@ module "ecs_cluster" {
   source = "./modules/ecs-cluster"
 
   name              = local.namespace
-  availability_zone = data.aws_availability_zones.current[0]
+  availability_zone = data.aws_availability_zones.current.names[0]
   vpc_id            = aws_vpc.main.id
   ecs_subnets       = [aws_subnet.private.0.id]
   security_groups   = [aws_security_group.ecs.id]
@@ -22,7 +22,6 @@ module "ecs_cluster" {
   on_demand_percentage_above_base_capacity = 0
   ecs_cloudwatch_log_retention             = 3
   userdata_cloudwatch_log_retention        = 3
-  spot_instance_pools                      = var.spot_instance_pools
   protect_from_scale_in                    = true
 
 
