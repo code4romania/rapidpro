@@ -98,10 +98,10 @@ resource "aws_secretsmanager_secret_version" "rapidpro-db-url" {
 
   secret_string = format(
     "postgres://%s:%s@%s:%d/%s",
-    aws_db_instance.db_instance.username,
-    aws_db_instance.db_instance.password,
+    aws_db_instance.main.username,
+    aws_db_instance.main.password,
     aws_db_proxy.main.endpoint,
-    aws_db_instance.db_instance.port,
+    aws_db_instance.main.port,
     "rapidpro"
   )
 }
@@ -115,10 +115,10 @@ resource "aws_secretsmanager_secret_version" "ureport-db-url" {
 
   secret_string = format(
     "postgres://%s:%s@%s:%d/%s",
-    aws_db_instance.db_instance.username,
-    aws_db_instance.db_instance.password,
+    aws_db_instance.main.username,
+    aws_db_instance.main.password,
     aws_db_proxy.main.endpoint,
-    aws_db_instance.db_instance.port,
+    aws_db_instance.main.port,
     "ureport"
   )
 }
