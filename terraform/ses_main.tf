@@ -28,7 +28,7 @@ resource "aws_route53_record" "txt_dmarc" {
 
 # Configuration set
 resource "aws_ses_configuration_set" "main" {
-  name                       = var.domain_name
+  name                       = local.namespace
   sending_enabled            = true
   reputation_metrics_enabled = true
 
