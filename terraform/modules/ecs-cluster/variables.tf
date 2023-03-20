@@ -42,11 +42,6 @@ variable "security_groups" {
   type        = list(string)
 }
 
-variable "kms_key_arn" {
-  description = "KMS key used to encrypt the EBS volumes"
-  type        = string
-}
-
 variable "min_size" {
   description = "The minimum size of the auto scaling group."
   type        = string
