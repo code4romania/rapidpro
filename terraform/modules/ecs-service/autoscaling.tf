@@ -1,5 +1,5 @@
 resource "aws_appautoscaling_target" "this" {
-  count = var.min_capacity == var.max_capacity ? 0 : 1
+  count = local.fixed_capacity ? 0 : 1
 
   service_namespace  = "ecs"
   resource_id        = "service/${data.aws_ecs_cluster.this.cluster_name}/${aws_ecs_service.this.name}"
@@ -9,7 +9,7 @@ resource "aws_appautoscaling_target" "this" {
 }
 
 resource "aws_appautoscaling_policy" "this" {
-  count = var.min_capacity == var.max_capacity ? 0 : 1
+  count = local.fixed_capacity ? 0 : 1
 
   name               = "${var.name}-target-scaling"
   resource_id        = aws_appautoscaling_target.this.0.resource_id

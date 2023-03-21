@@ -1,4 +1,8 @@
 locals {
+
+  fixed_capacity       = var.min_capacity == var.max_capacity
+  fixed_capacity_count = local.fixed_capacity ? var.min_capacity : 0
+
   healthCheck = replace(jsonencode(var.healthCheck), local.classes["digit"], "$1")
 
   linuxParameters = replace(

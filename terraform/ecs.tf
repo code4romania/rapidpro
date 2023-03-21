@@ -15,7 +15,7 @@ module "ecs_cluster" {
   minimum_scaling_step_size = 1
   maximum_scaling_step_size = 1
 
-  target_capacity                          = 1
+  target_capacity                          = 85
   capacity_rebalance                       = true
   on_demand_base_capacity                  = 0
   on_demand_percentage_above_base_capacity = 0

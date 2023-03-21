@@ -3,7 +3,7 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
   cluster         = data.aws_ecs_cluster.this.arn
 
-  desired_count = var.min_capacity == var.max_capacity ? 1 : 0
+  desired_count = local.fixed_capacity_count
 
   deployment_maximum_percent         = var.deployment_maximum_percent
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
