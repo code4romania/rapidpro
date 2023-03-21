@@ -47,19 +47,19 @@ locals {
   container_definitions = jsonencode([{
     command                = jsonencode(var.command) == "[]" ? null : var.command
     cpu                    = var.cpu == 0 ? null : var.cpu
-    disableNetworking      = var.disableNetworking ? true : false
+    disableNetworking      = var.disableNetworking
     dnsSearchDomains       = jsonencode(var.dnsSearchDomains) == "[]" ? null : var.dnsSearchDomains
     dnsServers             = jsonencode(var.dnsServers) == "[]" ? null : var.dnsServers
     dockerLabels           = jsonencode(var.dockerLabels) == "{}" ? null : var.dockerLabels
     dockerSecurityOptions  = jsonencode(var.dockerSecurityOptions) == "[]" ? null : var.dockerSecurityOptions
     entryPoint             = jsonencode(var.entryPoint) == "[]" ? null : var.entryPoint
     environment            = jsonencode(var.environment) == "[]" ? null : var.environment
-    essential              = var.essential ? true : false
+    essential              = var.essential
     extraHosts             = jsonencode(var.extraHosts) == "[]" ? null : var.extraHosts
     healthCheck            = local.healthCheck == "{}" ? null : jsondecode(local.healthCheck)
     hostname               = var.hostname == "" ? null : var.hostname
     image                  = "${var.image_repo}:${var.image_tag}"
-    interactive            = var.interactive ? true : false
+    interactive            = var.interactive
     links                  = jsonencode(var.links) == "[]" ? null : var.links
     linuxParameters        = local.linuxParameters == "{}" ? null : jsondecode(local.linuxParameters)
     logConfiguration       = local.logConfiguration == "{}" ? null : jsondecode(local.logConfiguration)
@@ -68,9 +68,9 @@ locals {
     mountPoints            = local.mountPoints == "[]" ? null : jsondecode(local.mountPoints)
     name                   = var.name == "" ? null : var.name
     portMappings           = local.portMappings == "[]" ? null : jsondecode(local.portMappings)
-    privileged             = var.privileged ? true : false
-    pseudoTerminal         = var.pseudoTerminal ? true : false
-    readonlyRootFilesystem = var.readonlyRootFilesystem ? true : false
+    privileged             = var.privileged
+    pseudoTerminal         = var.pseudoTerminal
+    readonlyRootFilesystem = var.readonlyRootFilesystem
     repositoryCredentials  = jsonencode(var.repositoryCredentials) == "{}" ? null : var.repositoryCredentials
     resourceRequirements   = jsonencode(var.resourceRequirements) == "[]" ? null : var.resourceRequirements
     secrets                = jsonencode(var.secrets) == "[]" ? null : var.secrets

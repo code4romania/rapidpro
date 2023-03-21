@@ -169,11 +169,13 @@ variable "cpu" {
 }
 
 variable "disableNetworking" {
+  type        = bool
   default     = false
   description = "When this parameter is true, networking is disabled within the container"
 }
 
 variable "essential" {
+  type        = bool
   default     = true
   description = "If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped"
 }
@@ -194,6 +196,7 @@ variable "image_tag" {
 }
 
 variable "interactive" {
+  type        = bool
   default     = false
   description = "When this parameter is true, this allows you to deploy containerized applications that require stdin or a tty to be allocated"
 }
@@ -215,17 +218,19 @@ variable "container_memory_soft_limit" {
 }
 
 variable "privileged" {
-  type        = string
+  type        = bool
   default     = true
   description = "When this parameter is true, the container is given elevated privileges on the host container instance"
 }
 
 variable "pseudoTerminal" {
+  type        = bool
   default     = false
   description = "When this parameter is true, a TTY is allocated"
 }
 
 variable "readonlyRootFilesystem" {
+  type        = bool
   default     = false
   description = "When this parameter is true, the container is given read-only access to its root file system"
 }

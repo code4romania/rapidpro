@@ -1,6 +1,8 @@
 module "ecs_courier" {
   source = "./modules/ecs-service"
 
+  enable_execute_command = var.enable_execute_command
+
   name                        = "courier"
   cluster_name                = module.ecs_cluster.cluster_name
   image_repo                  = data.aws_ecr_repository.courier.repository_url
