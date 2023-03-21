@@ -42,10 +42,6 @@ module "ecs_mailroom" {
       value = "0.0.0.0"
     },
     {
-      name  = "MAILROOM_AUTH_TOKEN"
-      value = local.elasticache_url
-    },
-    {
       name  = "MAILROOM_LOG_LEVEL"
       value = "error"
     },
