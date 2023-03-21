@@ -109,6 +109,7 @@ module "ecs_mailroom" {
   allowed_secrets = [
     aws_secretsmanager_secret.rapidpro-db-url.arn,
     aws_secretsmanager_secret.mailroom_auth_token.arn,
+    aws_secretsmanager_secret.mailroom_fcm_key.arn,
   ]
 }
 
