@@ -67,19 +67,19 @@ module "ecs_rapidpro" {
       value = tostring(aws_elasticache_cluster.main.port)
     },
     {
-      name  = "MAILROOM_ADDRESS"
-      value = "mailroom.ecs.svc:8090"
+      name  = "MAILROOM_HOST"
+      value = "mailroom.ecs.svc"
     },
     {
-      name  = "MAILROOM_ADDRESS_SRV"
+      name  = "MAILROOM_SRV"
       value = "service=mailroom resolve"
     },
     {
-      name  = "COURIER_ADDRESS"
-      value = "courier.ecs.svc:8080"
+      name  = "COURIER_HOST"
+      value = "courier.ecs.svc"
     },
     {
-      name  = "COURIER_ADDRESS_SRV"
+      name  = "COURIER_SRV"
       value = "service=courier resolve"
     },
     {
