@@ -23,6 +23,9 @@ module "ecs_cluster" {
   userdata_cloudwatch_log_retention        = 3
   protect_from_scale_in                    = true
 
+  spot_allocation_strategy = "price-capacity-optimized"
+  spot_instance_pools      = 0
+
   depends_on = [aws_iam_service_linked_role.ecs]
 }
 
