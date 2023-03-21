@@ -6,7 +6,7 @@ data "aws_ami" "this" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-*-amazon-ecs-optimized"]
+    values = ["amzn2-ami-*-amazon-ecs-optimized"]
   }
 
   filter {

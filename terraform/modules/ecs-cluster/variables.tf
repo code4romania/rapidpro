@@ -73,9 +73,9 @@ variable "on_demand_percentage_above_base_capacity" {
 }
 
 variable "spot_allocation_strategy" {
-  description = "How to allocate capacity across the Spot pools. Valid values: lowest-price / capacity-optimized"
+  description = "How to allocate capacity across the Spot pools. Valid values: lowest-price / capacity-optimized / price-capacity-optimized"
   type        = string
-  default     = "lowest-price"
+  default     = "price-capacity-optimized"
 }
 
 variable "launch_template_version" {
