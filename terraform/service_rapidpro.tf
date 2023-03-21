@@ -18,10 +18,6 @@ module "ecs_rapidpro" {
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
 
-  network_mode            = "awsvpc"
-  network_security_groups = [aws_security_group.ecs.id]
-  network_subnets         = [aws_subnet.private.0.id]
-
   ordered_placement_strategy = [
     {
       type  = "binpack"
@@ -71,12 +67,20 @@ module "ecs_rapidpro" {
       value = tostring(aws_elasticache_cluster.main.port)
     },
     {
-      name  = "MAILROOM_URL"
-      value = "http://mailroom.ecs.svc:8090"
+      name  = "MAILROOM_ADDRESS"
+      value = "mailroom.ecs.svc:8090"
     },
     {
-      name  = "COURIER_URL"
-      value = "http://courier.ecs.svc:8080"
+      name  = "MAILROOM_ADDRESS_SRV"
+      value = "service=mailroom resolve"
+    },
+    {
+      name  = "COURIER_ADDRESS"
+      value = "courier.ecs.svc:8080"
+    },
+    {
+      name  = "COURIER_ADDRESS_SRV"
+      value = "service=courier resolve"
     },
     {
       name  = "ALLOW_SIGNUPS"

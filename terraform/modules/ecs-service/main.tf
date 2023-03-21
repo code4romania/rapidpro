@@ -13,17 +13,9 @@ resource "aws_ecs_service" "this" {
   enable_execute_command = var.enable_execute_command
 
   service_registries {
-    registry_arn = aws_service_discovery_service.this.arn
-  }
-
-  dynamic "network_configuration" {
-    for_each = var.network_mode == "awsvpc" ? [1] : []
-
-    content {
-      assign_public_ip = false
-      security_groups  = var.network_security_groups
-      subnets          = var.network_subnets
-    }
+    registry_arn   = aws_service_discovery_service.this.arn
+    container_name = var.name
+    container_port = var.container_port
   }
 
   dynamic "load_balancer" {
