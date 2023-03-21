@@ -6,6 +6,16 @@ locals {
 
   elasticache_url = "redis://${aws_elasticache_cluster.main.cache_nodes.0.address}:${aws_elasticache_cluster.main.port}/15"
 
+  domains = {
+    rapidpro = "rapidpro.${var.domain_name}"
+
+    ureport = {
+      main = "ureport.${var.domain_name}"
+      ro   = "ro.ureport.${var.domain_name}"
+      uk   = "uk.ureport.${var.domain_name}"
+    }
+  }
+
   networking = {
     cidr_block = "10.0.0.0/16"
 

@@ -12,5 +12,8 @@ trim_trailing_whitespace = true
 trim_trailing_whitespace = false
 indent_size = 2
 
+[*.tf]
+indent_size = 2
+
 [*.{yml,yaml}]
 indent_size = 2
