@@ -265,6 +265,16 @@ variable "pid_mode" {
   description = "The process namespace to use for the containers in the task"
 }
 
+variable "network_security_groups" {
+  default = []
+  type    = list(map(string))
+}
+
+variable "network_subnets" {
+  default = []
+  type    = list(map(string))
+}
+
 variable "placement_constraints" {
   default     = []
   description = "An array of placement constraint objects to use for the task"

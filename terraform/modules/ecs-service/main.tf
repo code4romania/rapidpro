@@ -16,6 +16,16 @@ resource "aws_ecs_service" "this" {
     registry_arn = aws_service_discovery_service.this.arn
   }
 
+  dynamic "network_configuration" {
+    for_each = var.network_mode == "awsvpc" ? [1] : []
+
+    content {
+      assign_public_ip = false
+      security_groups  = var.network_security_groups
+      subnets          = var.network_subnets
+    }
+  }
+
   dynamic "load_balancer" {
     for_each = var.target_group_arn == null ? [] : [1]
 
