@@ -44,7 +44,7 @@ resource "aws_iam_role" "ecs-task" {
   }
 
   dynamic "inline_policy" {
-    for_each = var.enable_execute_command ? [] : [1]
+    for_each = var.enable_execute_command ? [1] : []
 
     content {
       name   = "SSMPolicy"
