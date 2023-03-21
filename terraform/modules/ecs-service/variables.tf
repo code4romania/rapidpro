@@ -267,12 +267,12 @@ variable "pid_mode" {
 
 variable "network_security_groups" {
   default = []
-  type    = list(map(string))
+  type    = list(string)
 }
 
 variable "network_subnets" {
   default = []
-  type    = list(map(string))
+  type    = list(string)
 }
 
 variable "placement_constraints" {
