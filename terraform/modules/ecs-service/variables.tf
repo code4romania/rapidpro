@@ -36,7 +36,7 @@ variable "deployment_minimum_healthy_percent" {
 variable "health_check_grace_period_seconds" {
   description = "(Optional) Seconds to ignore failing load balancer health checks on newly instantiated tasks to prevent premature shutdown, up to 2147483647. Only valid for services configured to use load balancers."
   type        = number
-  default     = 30
+  default     = 0
 }
 
 variable "force_new_deployment" {
