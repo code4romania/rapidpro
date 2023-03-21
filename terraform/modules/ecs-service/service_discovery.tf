@@ -14,4 +14,8 @@ resource "aws_service_discovery_service" "this" {
       }
     }
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
