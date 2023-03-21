@@ -4,8 +4,10 @@ export WORKER_PROCESSES=$(nproc)
 export WORKER_CONNECTIONS=$(expr $(ulimit -n) / $WORKER_PROCESSES)
 
 envsubst '
-$MAILROOM_URL
-$COURIER_URL
+$MAILROOM_ADDRESS
+$MAILROOM_ADDRESS_SRV
+$COURIER_ADDRESS
+$COURIER_ADDRESS_SRV
 $WORKER_PROCESSES
 $WORKER_CONNECTIONS
 ' </etc/nginx/templates/nginx.conf >/etc/nginx/nginx.conf
