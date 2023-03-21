@@ -89,12 +89,12 @@ resource "aws_secretsmanager_secret_version" "rds" {
   })
 }
 
-resource "aws_secretsmanager_secret" "rapidpro-db-url" {
-  name = "${local.namespace}-rapidpro-db-url"
+resource "aws_secretsmanager_secret" "rapidpro_db_url" {
+  name = "${local.namespace}-rapidpro_db_url"
 }
 
-resource "aws_secretsmanager_secret_version" "rapidpro-db-url" {
-  secret_id = aws_secretsmanager_secret.rapidpro-db-url.id
+resource "aws_secretsmanager_secret_version" "rapidpro_db_url" {
+  secret_id = aws_secretsmanager_secret.rapidpro_db_url.id
 
   secret_string = format(
     "postgres://%s:%s@%s:%d/%s",
@@ -106,12 +106,12 @@ resource "aws_secretsmanager_secret_version" "rapidpro-db-url" {
   )
 }
 
-resource "aws_secretsmanager_secret" "ureport-db-url" {
-  name = "${local.namespace}-ureport-db-url"
+resource "aws_secretsmanager_secret" "ureport_db_url" {
+  name = "${local.namespace}-ureport_db_url"
 }
 
-resource "aws_secretsmanager_secret_version" "ureport-db-url" {
-  secret_id = aws_secretsmanager_secret.ureport-db-url.id
+resource "aws_secretsmanager_secret_version" "ureport_db_url" {
+  secret_id = aws_secretsmanager_secret.ureport_db_url.id
 
   secret_string = format(
     "postgres://%s:%s@%s:%d/%s",

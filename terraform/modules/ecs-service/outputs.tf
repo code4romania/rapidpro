@@ -11,5 +11,5 @@ output "service_arn" {
 }
 
 output "task_role_arn" {
-  value = aws_iam_role.ecs-task.arn
+  value = aws_iam_role.ecs_task.arn
 }

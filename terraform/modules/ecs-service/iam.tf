@@ -1,5 +1,5 @@
 ### IAM resources
-data "aws_iam_policy_document" "ecs-task-assume" {
+data "aws_iam_policy_document" "ecs_task_assume" {
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -10,14 +10,14 @@ data "aws_iam_policy_document" "ecs-task-assume" {
   }
 }
 
-data "aws_iam_policy_document" "ecs-secret-policy" {
+data "aws_iam_policy_document" "ecs_secret_policy" {
   statement {
     actions   = ["secretsmanager:GetSecretValue"]
     resources = var.allowed_secrets
   }
 }
 
-data "aws_iam_policy_document" "ssm-policy" {
+data "aws_iam_policy_document" "ssm_policy" {
   statement {
     actions = [
       "ssmmessages:CreateControlChannel",
@@ -29,9 +29,9 @@ data "aws_iam_policy_document" "ssm-policy" {
   }
 }
 
-resource "aws_iam_role" "ecs-task" {
+resource "aws_iam_role" "ecs_task" {
   name                = "${var.name}-ecs-task"
-  assume_role_policy  = data.aws_iam_policy_document.ecs-task-assume.json
+  assume_role_policy  = data.aws_iam_policy_document.ecs_task_assume.json
   managed_policy_arns = concat(["arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"], var.managed_policies)
 
   dynamic "inline_policy" {
@@ -39,7 +39,7 @@ resource "aws_iam_role" "ecs-task" {
 
     content {
       name   = "SecretsPolicy"
-      policy = data.aws_iam_policy_document.ecs-secret-policy.json
+      policy = data.aws_iam_policy_document.ecs_secret_policy.json
     }
   }
 
@@ -48,7 +48,7 @@ resource "aws_iam_role" "ecs-task" {
 
     content {
       name   = "SSMPolicy"
-      policy = data.aws_iam_policy_document.ssm-policy.json
+      policy = data.aws_iam_policy_document.ssm_policy.json
     }
   }
 

@@ -55,9 +55,9 @@ module "ecs_courier" {
   secrets = [
     {
       name      = "COURIER_DB"
-      valueFrom = aws_secretsmanager_secret.rapidpro-db-url.arn
+      valueFrom = aws_secretsmanager_secret.rapidpro_db_url.arn
     }
   ]
 
-  allowed_secrets = [aws_secretsmanager_secret.rapidpro-db-url.arn]
+  allowed_secrets = [aws_secretsmanager_secret.rapidpro_db_url.arn]
 }

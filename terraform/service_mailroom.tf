@@ -95,7 +95,7 @@ module "ecs_mailroom" {
   secrets = [
     {
       name      = "MAILROOM_DB"
-      valueFrom = aws_secretsmanager_secret.rapidpro-db-url.arn
+      valueFrom = aws_secretsmanager_secret.rapidpro_db_url.arn
     },
     {
       name      = "MAILROOM_AUTH_TOKEN"
@@ -108,7 +108,7 @@ module "ecs_mailroom" {
   ]
 
   allowed_secrets = [
-    aws_secretsmanager_secret.rapidpro-db-url.arn,
+    aws_secretsmanager_secret.rapidpro_db_url.arn,
     aws_secretsmanager_secret.mailroom_auth_token.arn,
     aws_secretsmanager_secret.mailroom_fcm_key.arn,
   ]
