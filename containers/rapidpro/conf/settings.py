@@ -84,7 +84,9 @@ CACHES = {
 
 INTERNAL_IPS = ("127.0.0.1",)
 
-MAILROOM_URL = os.environ.get("MAILROOM_URL", "http://%s" % os.environ.get("MAILROOM_ADDRESS", "localhost:8090"))
+MAILROOM_HOST = os.environ.get("MAILROOM_HOST", "localhost")
+MAILROOM_PORT = os.environ.get("MAILROOM_PORT", 8090)
+MAILROOM_URL = "http://%s:%s" % (MAILROOM_HOST, MAILROOM_PORT)
 MAILROOM_AUTH_TOKEN = os.environ.get("MAILROOM_AUTH_TOKEN", "")
 
 INSTALLED_APPS = INSTALLED_APPS + ("storages", "tembaimporter", )
