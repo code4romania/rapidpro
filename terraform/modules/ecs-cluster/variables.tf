@@ -87,7 +87,7 @@ variable "launch_template_version" {
 variable "protect_from_scale_in" {
   description = "Allows setting instance protection. The autoscaling group will not select instances with this setting for termination during scale in events."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enabled_metrics" {
