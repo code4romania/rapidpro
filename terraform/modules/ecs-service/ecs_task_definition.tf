@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "this" {
-  container_definitions = replace(local.container_definitions, "/\"(null)\"/", "$1")
+  container_definitions = local.container_definitions
   execution_role_arn    = aws_iam_role.ecs-task.arn
   task_role_arn         = aws_iam_role.ecs-task.arn
   family                = var.name
