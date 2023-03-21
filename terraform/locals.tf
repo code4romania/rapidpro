@@ -16,6 +16,12 @@ locals {
     }
   }
 
+  mail = {
+    host = "email-smtp.${var.region}.amazonaws.com"
+    port = 587
+    from = "no-reply@${var.domain_name}"
+  }
+
   networking = {
     cidr_block = "10.0.0.0/16"
 
