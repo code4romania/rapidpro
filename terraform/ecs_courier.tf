@@ -46,7 +46,7 @@ module "ecs_courier" {
     {
       name  = "COURIER_LOG_LEVEL"
       value = "error"
-    },
+    }
   ]
 
   secrets = [
