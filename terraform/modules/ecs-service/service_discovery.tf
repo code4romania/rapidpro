@@ -10,7 +10,7 @@ resource "aws_service_discovery_service" "this" {
 
       dns_records {
         ttl  = 10
-        type = "SRV"
+        type = "A"
       }
     }
   }
