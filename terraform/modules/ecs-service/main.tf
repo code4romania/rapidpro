@@ -10,6 +10,10 @@ resource "aws_ecs_service" "this" {
 
   enable_execute_command = var.enable_execute_command
 
+  service_registries {
+    registry_arn = aws_service_discovery_service.this.arn
+  }
+
   dynamic "load_balancer" {
     for_each = var.target_group_arn == null ? [] : [1]
 

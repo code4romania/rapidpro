@@ -351,3 +351,8 @@ variable "enable_execute_command" {
   default     = false
   description = "Enable aws ecs execute_command"
 }
+
+variable "service_discovery_namespace_id" {
+  type    = string
+  default = null
+}

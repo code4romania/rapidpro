@@ -3,19 +3,20 @@ module "ecs_courier" {
 
   enable_execute_command = var.enable_execute_command
 
-  name                        = "courier"
-  cluster_name                = module.ecs_cluster.cluster_name
-  image_repo                  = data.aws_ecr_repository.courier.repository_url
-  image_tag                   = "edge"
-  container_port              = 8080
-  min_capacity                = 1
-  max_capacity                = 1
-  memory                      = 512
-  container_memory_soft_limit = 512
-  container_memory_hard_limit = 1024
-  predefined_metric_type      = "ECSServiceAverageCPUUtilization"
-  target_value                = 80
-  log_group_name              = module.ecs_cluster.log_group_name
+  name                           = "courier"
+  cluster_name                   = module.ecs_cluster.cluster_name
+  image_repo                     = data.aws_ecr_repository.courier.repository_url
+  image_tag                      = "edge"
+  container_port                 = 8080
+  min_capacity                   = 1
+  max_capacity                   = 1
+  memory                         = 512
+  container_memory_soft_limit    = 512
+  container_memory_hard_limit    = 1024
+  predefined_metric_type         = "ECSServiceAverageCPUUtilization"
+  target_value                   = 80
+  log_group_name                 = module.ecs_cluster.log_group_name
+  service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
 
   ordered_placement_strategy = [
     {
