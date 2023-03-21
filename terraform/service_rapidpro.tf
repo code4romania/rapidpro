@@ -10,7 +10,7 @@ module "ecs_rapidpro" {
   container_port                 = 80
   min_capacity                   = 1
   max_capacity                   = 1
-  memory                         = 512
+  memory                         = 1024
   container_memory_soft_limit    = 1024
   container_memory_hard_limit    = 2048
   predefined_metric_type         = "ECSServiceAverageCPUUtilization"
