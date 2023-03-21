@@ -59,7 +59,7 @@ locals {
     digit = "/\"(-[[:digit:]]|[[:digit:]]+)\"/"
   }
 
-  container_definitions = {
+  container_definitions = format("[%s]", {
     command                = local.command == "[]" ? "null" : local.command
     cpu                    = var.cpu == 0 ? "null" : var.cpu
     disableNetworking      = var.disableNetworking ? true : false
@@ -94,6 +94,6 @@ locals {
     user                   = var.user == "" ? "null" : var.user
     volumesFrom            = local.volumesFrom == "[]" ? "null" : local.volumesFrom
     workingDirectory       = var.workingDirectory == "" ? "null" : var.workingDirectory
-  }
+  })
 
 }
