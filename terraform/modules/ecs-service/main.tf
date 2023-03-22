@@ -27,10 +27,10 @@ resource "aws_ecs_service" "this" {
   }
 
   dynamic "load_balancer" {
-    for_each = var.target_group_arn == null ? [] : [1]
+    for_each = local.use_load_balancer ? [1] : []
 
     content {
-      target_group_arn = var.target_group_arn
+      target_group_arn = aws_lb_target_group.this.0.arn
       container_name   = var.name
       container_port   = var.container_port
     }

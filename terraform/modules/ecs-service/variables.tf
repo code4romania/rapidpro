@@ -303,12 +303,6 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "target_group_arn" {
-  description = "The ARN of the Load Balancer target group to associate with the service."
-  type        = string
-  default     = null
-}
-
 variable "ordered_placement_strategy" {
   description = "Service level strategy rules that are taken into consideration during task placement. List from top to bottom in order of precedence."
   type = list(object({
