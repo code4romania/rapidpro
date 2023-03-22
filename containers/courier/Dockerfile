@@ -23,6 +23,9 @@ RUN set -ex; \
     mv /tmp/courier/courier /usr/local/bin/courier; \
     rm -rf /tmp/courier courier.tar.gz; \
     #
+    mkdir -p /var/spool/courier; \
+    chown courier:courier /var/spool/courier; \
+    #
     apt-get purge -y --auto-remove wget
 
 EXPOSE 8080
