@@ -256,7 +256,7 @@ variable "ipc_mode" {
 }
 
 variable "network_mode" {
-  default     = "bridge"
+  default     = "awsvpc"
   description = "The Docker networking mode to use for the containers in the task"
 }
 

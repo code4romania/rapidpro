@@ -6,8 +6,8 @@ module "ecs_cluster" {
   ecs_subnets     = [aws_subnet.private.0.id]
   security_groups = [aws_security_group.ecs.id]
   instance_types = {
-    "m5.large" = ""
-    "t3.large" = ""
+    "m5.large"  = ""
+    "m5a.large" = ""
   }
 
   min_size                  = 1
