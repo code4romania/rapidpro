@@ -48,7 +48,7 @@ module "ecs_mailroom" {
     },
     {
       name  = "MAILROOM_ELASTIC"
-      value = "https://${aws_opensearch_domain.main.endpoint}"
+      value = local.elasticsearch_url
     },
     {
       name  = "MAILROOM_S3_REGION"
