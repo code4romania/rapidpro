@@ -202,7 +202,7 @@ variable "interactive" {
 }
 
 variable "memory" {
-  default     = 512
+  default     = 0
   description = "The hard limit (in MiB) of memory to present to the container"
   type        = number
 }

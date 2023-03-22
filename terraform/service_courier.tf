@@ -10,7 +10,6 @@ module "ecs_courier" {
   container_port                 = 8080
   min_capacity                   = 1
   max_capacity                   = 1
-  memory                         = 512
   container_memory_soft_limit    = 512
   container_memory_hard_limit    = 1024
   predefined_metric_type         = "ECSServiceAverageCPUUtilization"
@@ -26,14 +25,6 @@ module "ecs_courier" {
     {
       type  = "binpack"
       field = "memory"
-    },
-    {
-      type  = "binpack"
-      field = "cpu"
-    },
-    {
-      type  = "spread"
-      field = "instanceId"
     }
   ]
 
