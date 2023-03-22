@@ -18,6 +18,10 @@ module "ecs_mailroom" {
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
 
+  network_mode            = "awsvpc"
+  network_security_groups = [aws_security_group.ecs.id]
+  network_subnets         = [aws_subnet.private.0.id]
+
   ordered_placement_strategy = [
     {
       type  = "binpack"
