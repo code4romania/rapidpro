@@ -1,7 +1,8 @@
 locals {
-
   fixed_capacity       = var.min_capacity == var.max_capacity
   fixed_capacity_count = local.fixed_capacity ? var.min_capacity : 0
+
+  use_load_balancer = var.lb_vpc_id != null && var.lb_listener_arn != null && length(var.lb_hosts) > 0
 
   healthCheck = replace(jsonencode(var.healthCheck), local.classes["digit"], "$1")
 

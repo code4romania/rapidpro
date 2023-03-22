@@ -368,3 +368,36 @@ variable "service_discovery_namespace_id" {
   type    = string
   default = null
 }
+
+variable "lb_dns_name" {
+  type    = string
+  default = null
+}
+
+variable "lb_zone_id" {
+  type    = string
+  default = null
+}
+
+variable "lb_vpc_id" {
+  type        = string
+  default     = null
+  description = "Identifier of the VPC in which to create the target group"
+}
+
+variable "lb_listener_arn" {
+  type        = string
+  default     = null
+  description = "The ARN of the listener to which to attach the Load Balancer Listener Rule."
+}
+
+variable "lb_hosts" {
+  type        = list(string)
+  default     = []
+  description = "list of host header patterns to match"
+}
+
+variable "lb_domain_zone_id" {
+  type    = string
+  default = null
+}
