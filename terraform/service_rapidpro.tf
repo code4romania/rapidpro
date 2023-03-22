@@ -6,12 +6,13 @@ module "ecs_rapidpro" {
   min_capacity = 1
   max_capacity = 1
 
-  lb_dns_name       = aws_lb.main.dns_name
-  lb_zone_id        = aws_lb.main.zone_id
-  lb_vpc_id         = aws_vpc.main.id
-  lb_listener_arn   = aws_lb_listener.https.arn
-  lb_hosts          = [local.domains.rapidpro]
-  lb_domain_zone_id = aws_route53_zone.main.zone_id
+  lb_dns_name             = aws_lb.main.dns_name
+  lb_zone_id              = aws_lb.main.zone_id
+  lb_vpc_id               = aws_vpc.main.id
+  lb_listener_arn         = aws_lb_listener.https.arn
+  lb_hosts                = [local.domains.rapidpro]
+  lb_domain_zone_id       = aws_route53_zone.main.zone_id
+  lb_health_check_enabled = true
 
   image_repo = data.aws_ecr_repository.rapidpro.repository_url
   image_tag  = "edge"

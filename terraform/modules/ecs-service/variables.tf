@@ -395,3 +395,45 @@ variable "lb_domain_zone_id" {
   type    = string
   default = null
 }
+
+variable "lb_health_check_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether health checks are enabled"
+}
+variable "lb_healthy_threshold" {
+  type        = number
+  default     = 3
+  description = "Number of consecutive health check successes required before considering a target healthy. The range is 2-10. Defaults to 3."
+}
+variable "lb_interval" {
+  type        = number
+  default     = 30
+  description = "Approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. Defaults to 30."
+}
+variable "lb_protocol" {
+  type        = string
+  default     = "HTTP"
+  description = "Protocol the load balancer uses when performing health checks on targets. Must be either TCP, HTTP, or HTTPS. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. Defaults to HTTP."
+}
+variable "lb_matcher" {
+  type        = string
+  default     = "200"
+  description = "Response codes to use when checking for a healthy responses from a target. You can specify multiple values (for example, \"200,202\" for HTTP(s) or \"0,12\" for GRPC) or a range of values (for example, \"200-299\" or \"0-99\"). Required for HTTP/HTTPS/GRPC ALB."
+
+}
+variable "lb_timeout" {
+  type        = number
+  default     = 10
+  description = "Amount of time, in seconds, during which no response from a target means a failed health check. The range is 2–120 seconds."
+}
+variable "lb_path" {
+  type        = string
+  default     = "/ping"
+  description = "Destination for the health check request. Required for HTTP/HTTPS ALB and HTTP NLB. Only applies to HTTP/HTTPS."
+}
+variable "lb_unhealthy_threshold" {
+  type        = number
+  default     = 3
+  description = "Number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. Defaults to 3."
+}
