@@ -330,6 +330,7 @@ variable "max_capacity" {
 
 variable "target_value" {
   type        = number
+  default     = 100
   description = "The target value for the metric"
 }
 
@@ -347,6 +348,7 @@ variable "scale_out_cooldown" {
 
 variable "predefined_metric_type" {
   type        = string
+  default     = null
   description = "The metric type."
 }
 

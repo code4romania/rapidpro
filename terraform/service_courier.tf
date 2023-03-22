@@ -1,25 +1,26 @@
 module "ecs_courier" {
   source = "./modules/ecs-service"
 
-  enable_execute_command = var.enable_execute_command
+  name         = "courier"
+  cluster_name = module.ecs_cluster.cluster_name
+  min_capacity = 1
+  max_capacity = 1
 
-  name                           = "courier"
-  cluster_name                   = module.ecs_cluster.cluster_name
-  image_repo                     = data.aws_ecr_repository.courier.repository_url
-  image_tag                      = "edge"
-  container_port                 = 8080
-  min_capacity                   = 1
-  max_capacity                   = 1
-  container_memory_soft_limit    = 512
-  container_memory_hard_limit    = 1024
-  predefined_metric_type         = "ECSServiceAverageCPUUtilization"
-  target_value                   = 80
+  image_repo = data.aws_ecr_repository.courier.repository_url
+  image_tag  = "edge"
+
+  container_memory_soft_limit = 256
+  container_memory_hard_limit = 512
+
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
 
+  container_port          = 8080
   network_mode            = "awsvpc"
   network_security_groups = [aws_security_group.ecs.id]
   network_subnets         = [aws_subnet.private.0.id]
+
+  enable_execute_command = var.enable_execute_command
 
   ordered_placement_strategy = [
     {
@@ -54,5 +55,7 @@ module "ecs_courier" {
     }
   ]
 
-  allowed_secrets = [aws_secretsmanager_secret.rapidpro_db_url.arn]
+  allowed_secrets = [
+    aws_secretsmanager_secret.rapidpro_db_url.arn,
+  ]
 }
