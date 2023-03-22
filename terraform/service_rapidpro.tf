@@ -34,18 +34,6 @@ module "ecs_rapidpro" {
       value = local.domains.rapidpro
     },
     {
-      name  = "COURIER_ADDRESS"
-      value = "0.0.0.0"
-    },
-    {
-      name  = "COURIER_REDIS"
-      value = local.elasticache_url
-    },
-    {
-      name  = "COURIER_LOG_LEVEL"
-      value = "error"
-    },
-    {
       name  = "POSTGRES_HOSTNAME"
       value = aws_db_proxy.main.endpoint
     },
@@ -66,16 +54,8 @@ module "ecs_rapidpro" {
       value = "mailroom.ecs.svc"
     },
     {
-      name  = "MAILROOM_SRV"
-      value = "service=mailroom resolve"
-    },
-    {
       name  = "COURIER_HOST"
       value = "courier.ecs.svc"
-    },
-    {
-      name  = "COURIER_SRV"
-      value = "service=courier resolve"
     },
     {
       name  = "ALLOW_SIGNUPS"
