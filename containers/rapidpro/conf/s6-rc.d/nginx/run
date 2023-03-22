@@ -5,9 +5,9 @@ export WORKER_CONNECTIONS=$(expr $(ulimit -n) / $WORKER_PROCESSES)
 
 envsubst '
 $MAILROOM_HOST
-$MAILROOM_SRV
+$MAILROOM_PORT
 $COURIER_HOST
-$COURIER_SRV
+$COURIER_PORT
 $WORKER_PROCESSES
 $WORKER_CONNECTIONS
 ' </etc/nginx/templates/nginx.conf >/etc/nginx/nginx.conf

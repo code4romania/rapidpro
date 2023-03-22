@@ -67,6 +67,11 @@ ENV PATH=/opt/venv/bin:$PATH
 ENV RUN_COLLECT_STATIC=yes
 ENV DEBUG=false
 
+ENV MAILROOM_HOST=mailroom
+ENV MAILROOM_PORT=8090
+ENV COURIER_HOST=courier
+ENV COURIER_PORT=8080
+
 # Application set up
 RUN set -ex; \
     npm install less coffeescript npm-force-resolutions --global --no-audit; \
