@@ -79,7 +79,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "RUN_MIGRATION"
-      value = "yes"
+      value = var.run_migration ? "yes" : "no"
     },
     {
       name  = "SEND_EMAILS"

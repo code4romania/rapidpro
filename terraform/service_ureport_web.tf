@@ -83,7 +83,7 @@ module "ecs_ureport_web" {
     },
     {
       name  = "RUN_MIGRATION"
-      value = "yes"
+      value = var.run_migration ? "yes" : "no"
     },
     {
       name  = "EMAIL_HOST"

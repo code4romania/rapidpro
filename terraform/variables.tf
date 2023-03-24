@@ -40,3 +40,9 @@ variable "mailroom_fcm_key" {
   type        = string
   default     = ""
 }
+
+variable "run_migration" {
+  description = "Whether to run migrations on rapidpro and ureport-web container init."
+  type        = bool
+  default     = true
+}
