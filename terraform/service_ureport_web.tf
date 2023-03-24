@@ -132,8 +132,8 @@ module "ecs_ureport_web" {
 
   allowed_secrets = [
     aws_secretsmanager_secret.ureport_secret_key.arn,
-    aws_secretsmanager_secret.mailroom_auth_token.arn,
     aws_secretsmanager_secret.rds.arn,
+    module.s3_ureport.secret_arn,
   ]
 }
 
