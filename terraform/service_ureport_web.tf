@@ -1,7 +1,7 @@
-module "ecs_rapidpro" {
+module "ecs_ureport_web" {
   source = "./modules/ecs-service"
 
-  name         = "rapidpro"
+  name         = "ureport-web"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1
@@ -14,7 +14,7 @@ module "ecs_rapidpro" {
   lb_domain_zone_id       = aws_route53_zone.main.zone_id
   lb_health_check_enabled = true
 
-  image_repo = data.aws_ecr_repository.rapidpro.repository_url
+  image_repo = data.aws_ecr_repository.ureport.repository_url
   image_tag  = "edge"
 
   container_memory_soft_limit = 1024
@@ -42,8 +42,12 @@ module "ecs_rapidpro" {
 
   environment = [
     {
-      name  = "DOMAIN_NAME"
-      value = local.domains.rapidpro
+      name  = "HOSTNAME"
+      value = local.domains.ureport.main
+    },
+    {
+      name  = "EMPTY_SUBDOMAIN_HOST"
+      value = "https://${local.domains.ureport.main}"
     },
     {
       name  = "POSTGRES_HOSTNAME"
@@ -51,38 +55,34 @@ module "ecs_rapidpro" {
     },
     {
       name  = "POSTGRES_DB"
-      value = aws_db_instance.main.db_name
+      value = "ureport"
     },
     {
-      name  = "REDIS_HOST"
-      value = aws_elasticache_cluster.main.cache_nodes.0.address
+      name  = "CELERY_BROKER_URL"
+      value = local.elasticache_url
     },
     {
-      name  = "REDIS_PORT"
-      value = tostring(aws_elasticache_cluster.main.port)
-    },
-    {
-      name  = "MAILROOM_HOST"
-      value = "mailroom.ecs.svc"
-    },
-    {
-      name  = "COURIER_HOST"
-      value = "courier.ecs.svc"
-    },
-    {
-      name  = "ALLOW_SIGNUPS"
-      value = tostring(false)
+      name  = "RAPIDPRO_API_URL"
+      value = "http://rapidpro.ecs.svc"
     },
     {
       name  = "DEBUG"
-      value = tostring(false)
+      value = tostring(var.debug)
+    },
+    {
+      name  = "AWS_S3_CUSTOM_DOMAIN"
+      value = module.cloudfront_ureport.domain_name
+    },
+    {
+      name  = "AWS_S3_REGION_NAME"
+      value = var.region
+    },
+    {
+      name  = "AWS_STORAGE_BUCKET_NAME"
+      value = module.s3_ureport.bucket
     },
     {
       name  = "RUN_MIGRATION"
-      value = "yes"
-    },
-    {
-      name  = "SEND_EMAILS"
       value = "yes"
     },
     {
@@ -91,11 +91,11 @@ module "ecs_rapidpro" {
     },
     {
       name  = "EMAIL_HOST_USER"
-      value = aws_iam_access_key.rapidpro.id
+      value = aws_iam_access_key.ureport.id
     },
     {
       name  = "EMAIL_HOST_PASSWORD"
-      value = aws_iam_access_key.rapidpro.ses_smtp_password_v4
+      value = aws_iam_access_key.ureport.ses_smtp_password_v4
     },
     {
       name  = "DEFAULT_FROM_EMAIL"
@@ -106,7 +106,7 @@ module "ecs_rapidpro" {
   secrets = [
     {
       name      = "SECRET_KEY"
-      valueFrom = aws_secretsmanager_secret.rapidpro_secret_key.arn
+      valueFrom = aws_secretsmanager_secret.ureport_secret_key.arn
     },
     {
       name      = "POSTGRES_PORT"
@@ -121,29 +121,45 @@ module "ecs_rapidpro" {
       valueFrom = "${aws_secretsmanager_secret.rds.arn}:password::"
     },
     {
-      name      = "MAILROOM_AUTH_TOKEN"
-      valueFrom = aws_secretsmanager_secret.mailroom_auth_token.arn
+      name      = "AWS_ACCESS_KEY_ID"
+      valueFrom = "${module.s3_ureport.secret_arn}:access_key_id::"
+    },
+    {
+      name      = "AWS_SECRET_ACCESS_KEY"
+      valueFrom = "${module.s3_ureport.secret_arn}:secret_access_key::"
     },
   ]
 
   allowed_secrets = [
-    aws_secretsmanager_secret.rapidpro_secret_key.arn,
+    aws_secretsmanager_secret.ureport_secret_key.arn,
     aws_secretsmanager_secret.mailroom_auth_token.arn,
     aws_secretsmanager_secret.rds.arn,
   ]
 }
 
+module "s3_ureport" {
+  source = "./modules/s3"
 
-resource "aws_secretsmanager_secret" "rapidpro_secret_key" {
-  name = "${local.namespace}-rapidpro_secret_key"
+  name = "ureport-${local.namespace}"
 }
 
-resource "aws_secretsmanager_secret_version" "rapidpro_secret_key" {
-  secret_id     = aws_secretsmanager_secret.rapidpro_secret_key.id
-  secret_string = random_password.rapidpro_secret_key.result
+module "cloudfront_ureport" {
+  source = "./modules/cloudfront"
+
+  name   = "ureport-${local.namespace}"
+  bucket = module.s3_ureport.bucket
 }
 
-resource "random_password" "rapidpro_secret_key" {
+resource "aws_secretsmanager_secret" "ureport_secret_key" {
+  name = "${local.namespace}-ureport_secret_key"
+}
+
+resource "aws_secretsmanager_secret_version" "ureport_secret_key" {
+  secret_id     = aws_secretsmanager_secret.ureport_secret_key.id
+  secret_string = random_password.ureport_secret_key.result
+}
+
+resource "random_password" "ureport_secret_key" {
   length  = 50
   special = true
 
@@ -155,10 +171,10 @@ resource "random_password" "rapidpro_secret_key" {
   }
 }
 
-resource "aws_iam_access_key" "rapidpro" {
-  user = aws_iam_user.rapidpro.name
+resource "aws_iam_access_key" "ureport" {
+  user = aws_iam_user.ureport.name
 }
 
-resource "aws_iam_user" "rapidpro" {
-  name = "${local.namespace}-rapidpro-user"
+resource "aws_iam_user" "ureport" {
+  name = "${local.namespace}-ureport-user"
 }
