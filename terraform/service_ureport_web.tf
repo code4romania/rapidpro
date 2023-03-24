@@ -4,7 +4,7 @@ module "ecs_ureport_web" {
   name         = "ureport-web"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
-  max_capacity = 1
+  max_capacity = 3
 
   lb_dns_name             = aws_lb.main.dns_name
   lb_zone_id              = aws_lb.main.zone_id

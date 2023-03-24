@@ -4,7 +4,7 @@ module "ecs_rapidpro" {
   name         = "rapidpro"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
-  max_capacity = 1
+  max_capacity = 3
 
   lb_dns_name             = aws_lb.main.dns_name
   lb_zone_id              = aws_lb.main.zone_id
