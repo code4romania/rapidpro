@@ -9,8 +9,8 @@ module "ecs_ureport_celery_beat" {
   image_repo = data.aws_ecr_repository.ureport_celery.repository_url
   image_tag  = "edge"
 
-  container_memory_soft_limit = 256
-  container_memory_hard_limit = 512
+  container_memory_soft_limit = 128
+  container_memory_hard_limit = 256
 
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id

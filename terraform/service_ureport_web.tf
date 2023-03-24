@@ -17,8 +17,8 @@ module "ecs_ureport_web" {
   image_repo = data.aws_ecr_repository.ureport.repository_url
   image_tag  = "edge"
 
-  container_memory_soft_limit = 1024
-  container_memory_hard_limit = 2048
+  container_memory_soft_limit = 512
+  container_memory_hard_limit = 1024
 
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
