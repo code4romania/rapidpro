@@ -93,6 +93,10 @@ module "ecs_rapidpro" {
       name  = "AWS_STORAGE_BUCKET_NAME"
       value = module.s3_rapidpro_storage.bucket
     },
+    {
+      name  = "ARCHIVE_BUCKET"
+      value = module.s3_rapidpro_archive.bucket
+    },
   ]
 
   secrets = [
@@ -183,3 +187,9 @@ module "s3_rapidpro_storage" {
   name = "rapidpro-storage-${local.namespace}"
 }
 
+module "s3_rapidpro_archive" {
+  source = "./modules/s3"
+
+  name     = "rapidpro-archive-${local.namespace}"
+  iam_user = module.s3_rapidpro_storage.iam_user.name
+}
