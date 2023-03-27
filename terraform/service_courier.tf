@@ -87,11 +87,10 @@ module "s3_courier" {
   source = "./modules/s3"
 
   name = "courier-${local.namespace}"
-}
 
-module "cloudfront_courier" {
-  source = "./modules/cloudfront"
-
-  name   = "courier-${local.namespace}"
-  bucket = module.s3_courier.bucket
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+  enable_versioning       = true
 }
