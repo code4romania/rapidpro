@@ -37,7 +37,7 @@ locals {
     environment            = length(var.environment) == 0 ? null : var.environment
     essential              = var.essential
     extraHosts             = length(var.extraHosts) == 0 ? null : var.extraHosts
-    healthCheck            = jsonencode(local.healthCheck) == "{}" ? null : local.healthCheck
+    healthCheck            = jsonencode(var.healthCheck) == "{}" ? null : var.healthCheck
     hostname               = var.hostname == "" ? null : var.hostname
     image                  = "${var.image_repo}:${var.image_tag}"
     interactive            = var.interactive
