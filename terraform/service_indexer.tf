@@ -38,7 +38,7 @@ module "ecs_indexer" {
     },
     {
       name  = "INDEXER_LOG_LEVEL"
-      value = "debug"
+      value = "info"
     },
     {
       name  = "INDEXER_REBUILD"
@@ -47,6 +47,18 @@ module "ecs_indexer" {
     {
       name  = "INDEXER_CLEANUP"
       value = tostring(true)
+    },
+    {
+      name  = "INDEXER_CONTACTS_INDEX"
+      value = "contacts"
+    },
+    {
+      name  = "INDEXER_CONTACTS_SHARDS"
+      value = tostring(aws_opensearch_domain.main.cluster_config.0.instance_count)
+    },
+    {
+      name  = "INDEXER_CONTACTS_REPLICAS"
+      value = tostring(1)
     },
   ]
 

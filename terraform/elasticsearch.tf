@@ -45,10 +45,6 @@ resource "aws_opensearch_domain" "main" {
     automated_snapshot_start_hour = 23
   }
 
-  tags = {
-    Domain = "production"
-  }
-
   depends_on = [aws_iam_service_linked_role.es]
 }
 
