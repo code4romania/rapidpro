@@ -4,8 +4,6 @@ locals {
 
   use_load_balancer = var.lb_vpc_id != null && var.lb_listener_arn != null && length(var.lb_hosts) > 0
 
-
-
   logConfiguration = {
     "logDriver" : "awslogs",
     "options" : {
@@ -39,7 +37,7 @@ locals {
     environment            = length(var.environment) == 0 ? null : var.environment
     essential              = var.essential
     extraHosts             = length(var.extraHosts) == 0 ? null : var.extraHosts
-    healthCheck            = var.healthCheck
+    healthCheck            = jsonencode(local.healthCheck) == "{}" ? null : local.healthCheck
     hostname               = var.hostname == "" ? null : var.hostname
     image                  = "${var.image_repo}:${var.image_tag}"
     interactive            = var.interactive
@@ -63,5 +61,4 @@ locals {
     volumesFrom            = local.volumesFrom == "[]" ? null : jsondecode(local.volumesFrom)
     workingDirectory       = var.workingDirectory
   }])
-
 }
