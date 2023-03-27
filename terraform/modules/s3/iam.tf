@@ -1,14 +1,16 @@
 resource "aws_iam_user" "this" {
-  name = "${var.name}-user"
+  count = local.create_iam_user ? 1 : 0
+  name  = "${var.name}-user"
 }
 
 resource "aws_iam_access_key" "this" {
-  user = aws_iam_user.this.name
+  count = local.create_iam_user ? 1 : 0
+  user  = aws_iam_user.this.0.name
 }
 
 resource "aws_iam_user_policy" "access_policy" {
   name   = "${var.name}-s3-access-policy"
-  user   = aws_iam_user.this.name
+  user   = local.create_iam_user ? aws_iam_user.this.0.name : var.iam_user
   policy = data.aws_iam_policy_document.bucket_acccess.json
 }
 

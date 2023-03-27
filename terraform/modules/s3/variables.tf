@@ -3,6 +3,11 @@ variable "name" {
   type        = string
 }
 
+variable "iam_user" {
+  description = "Use existing IAM User. If null, creates a new iam user."
+  type        = string
+  default     = null
+}
 
 variable "enable_versioning" {
   description = "Whether Amazon S3 should enable versioning for this bucket."

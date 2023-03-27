@@ -85,6 +85,14 @@ module "ecs_rapidpro" {
       name  = "SEND_EMAILS"
       value = tostring(true)
     },
+    {
+      name  = "AWS_S3_REGION_NAME"
+      value = var.region
+    },
+    {
+      name  = "AWS_STORAGE_BUCKET_NAME"
+      value = module.s3_rapidpro_storage.bucket
+    },
   ]
 
   secrets = [
@@ -127,7 +135,15 @@ module "ecs_rapidpro" {
     {
       name      = "DEFAULT_FROM_EMAIL"
       valueFrom = "${aws_secretsmanager_secret.smtp.arn}:from::"
-    }
+    },
+    {
+      name      = "AWS_ACCESS_KEY_ID"
+      valueFrom = "${module.s3_rapidpro_storage.secret_arn}:access_key_id::"
+    },
+    {
+      name      = "AWS_SECRET_ACCESS_KEY"
+      valueFrom = "${module.s3_rapidpro_storage.secret_arn}:secret_access_key::"
+    },
   ]
 
   allowed_secrets = [
@@ -135,6 +151,7 @@ module "ecs_rapidpro" {
     aws_secretsmanager_secret.mailroom_auth_token.arn,
     aws_secretsmanager_secret.smtp.arn,
     aws_secretsmanager_secret.rds.arn,
+    module.s3_rapidpro_storage.secret_arn,
   ]
 }
 
@@ -159,3 +176,10 @@ resource "random_password" "rapidpro_secret_key" {
     ]
   }
 }
+
+module "s3_rapidpro_storage" {
+  source = "./modules/s3"
+
+  name = "rapidpro-storage-${local.namespace}"
+}
+
