@@ -8,12 +8,6 @@ variable "env" {
   }
 }
 
-variable "debug" {
-  description = "Enable debug mode"
-  type        = bool
-  default     = false
-}
-
 variable "enable_execute_command" {
   description = "Enable aws ecs execute_command"
   type        = bool

@@ -56,7 +56,7 @@ module "ecs_ureport_celery_worker" {
     },
     {
       name  = "DEBUG"
-      value = tostring(var.debug)
+      value = tostring(false)
     },
     {
       name  = "AWS_S3_CUSTOM_DOMAIN"
