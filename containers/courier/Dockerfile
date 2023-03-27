@@ -1,35 +1,27 @@
-FROM ubuntu:22.10
+FROM golang:latest as build
 
-ARG COURIER_ORG="nyaruka"
-ARG COURIER_REPO="courier"
-ARG COURIER_VERSION="7.4.0"
+ARG ORG="nyaruka"
+ARG REPO="courier"
+ARG VERSION="7.4.0"
+ARG CGO_ENABLED=0
 
-ENV IS_CONTAINERIZED=True
 ENV DEBIAN_FRONTEND=noninteractive
+ENV SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
+
+ADD https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz .
 
 RUN set -ex; \
-    addgroup --system courier; \
-    adduser --system --ingroup courier courier; \
-    #
-    apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates wget tzdata; \
-    update-ca-certificates; \
-    rm -rf /var/lib/apt/lists/*; \
-    #
-    wget -q -O courier.tar.gz "https://github.com/${COURIER_ORG}/${COURIER_REPO}/releases/download/v${COURIER_VERSION}/${COURIER_REPO}_${COURIER_VERSION}_linux_amd64.tar.gz"; \
-    mkdir /tmp/courier; \
-    tar -xzC /tmp/courier -f courier.tar.gz; \
-    #
-    mv /tmp/courier/courier /usr/local/bin/courier; \
-    rm -rf /tmp/courier courier.tar.gz; \
-    #
-    mkdir -p /var/spool/courier; \
-    chown courier:courier /var/spool/courier; \
-    #
-    apt-get purge -y --auto-remove wget
+    mkdir -p $SRC_DIR; \
+    tar -zxvf v${VERSION}.tar.gz --strip-components 1 -C $SRC_DIR;
+
+WORKDIR $SRC_DIR
+
+RUN go install -ldflags '-s -w' -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
+
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=build /go/bin/courier /courier
 
 EXPOSE 8080
 
-USER courier
-
-ENTRYPOINT [ "courier" ]
+ENTRYPOINT [ "/courier" ]

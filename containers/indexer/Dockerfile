@@ -1,32 +1,27 @@
-FROM ubuntu:22.10
+FROM golang:latest as build
 
-ARG INDEXER_ORG="nyaruka"
-ARG INDEXER_REPO="rp-indexer"
-ARG INDEXER_VERSION="7.4.0"
+ARG ORG="nyaruka"
+ARG REPO="rp-indexer"
+ARG VERSION="7.4.0"
+ARG CGO_ENABLED=0
 
-ENV IS_CONTAINERIZED=True
 ENV DEBIAN_FRONTEND=noninteractive
+ENV SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
+
+ADD https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz .
 
 RUN set -ex; \
-    addgroup --system indexer; \
-    adduser --system --ingroup indexer indexer; \
-    #
-    apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates wget tzdata; \
-    update-ca-certificates; \
-    rm -rf /var/lib/apt/lists/*; \
-    #
-    wget -q -O rp-indexer.tar.gz "https://github.com/${INDEXER_ORG}/${INDEXER_REPO}/releases/download/v${INDEXER_VERSION}/${INDEXER_REPO}_${INDEXER_VERSION}_linux_amd64.tar.gz"; \
-    mkdir /tmp/rp-indexer; \
-    tar -xzC /tmp/rp-indexer -f rp-indexer.tar.gz; \
-    #
-    mv /tmp/rp-indexer/rp-indexer /usr/local/bin/indexer; \
-    rm -rf /tmp/rp-indexer rp-indexer.tar.gz; \
-    #
-    apt-get purge -y --auto-remove wget
+    mkdir -p $SRC_DIR; \
+    tar -zxvf v${VERSION}.tar.gz --strip-components 1 -C $SRC_DIR;
+
+WORKDIR $SRC_DIR
+
+RUN go install -ldflags '-s -w' -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
+
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=build /go/bin/rp-indexer /indexer
 
 EXPOSE 8080
 
-USER indexer
-
-ENTRYPOINT [ "indexer" ]
+ENTRYPOINT [ "/indexer" ]

@@ -1,32 +1,27 @@
-FROM ubuntu:22.10
+FROM golang:latest as build
 
-ARG MAILROOM_ORG="rapidpro"
-ARG MAILROOM_REPO="mailroom"
-ARG MAILROOM_VERSION="7.4.1"
+ARG ORG="nyaruka"
+ARG REPO="mailroom"
+ARG VERSION="7.4.0"
+ARG CGO_ENABLED=0
 
-ENV IS_CONTAINERIZED=True
 ENV DEBIAN_FRONTEND=noninteractive
+ENV SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
+
+ADD https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz .
 
 RUN set -ex; \
-    addgroup --system mailroom; \
-    adduser --system --ingroup mailroom mailroom; \
-    #
-    apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates wget tzdata; \
-    update-ca-certificates; \
-    rm -rf /var/lib/apt/lists/*; \
-    #
-    wget -q -O mailroom.tar.gz "https://github.com/${MAILROOM_ORG}/${MAILROOM_REPO}/releases/download/v${MAILROOM_VERSION}/${MAILROOM_REPO}_${MAILROOM_VERSION}_linux_amd64.tar.gz"; \
-    mkdir /tmp/mailroom; \
-    tar -xzC /tmp/mailroom -f mailroom.tar.gz; \
-    #
-    mv /tmp/mailroom/mailroom /usr/local/bin/mailroom; \
-    rm -rf /tmp/mailroom mailroom.tar.gz; \
-    #
-    apt-get purge -y --auto-remove wget
+    mkdir -p $SRC_DIR; \
+    tar -zxvf v${VERSION}.tar.gz --strip-components 1 -C $SRC_DIR;
 
-EXPOSE 8090
+WORKDIR $SRC_DIR
 
-USER mailroom
+RUN go install -ldflags '-s -w' -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
 
-ENTRYPOINT [ "mailroom" ]
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=build /go/bin/mailroom /mailroom
+
+EXPOSE 8080
+
+ENTRYPOINT [ "/mailroom" ]
