@@ -56,6 +56,15 @@ variable "command" {
   type        = list(string)
 }
 
+variable "dependsOn" {
+  default     = []
+  description = "The dependencies defined for container startup and shutdown"
+  type = list(object({
+    containerName = string
+    condition     = string
+  }))
+}
+
 variable "dnsSearchDomains" {
   default     = []
   description = "A list of DNS search domains that are presented to the container"
