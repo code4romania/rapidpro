@@ -20,8 +20,6 @@ module "ecs_courier" {
   network_security_groups = [aws_security_group.ecs.id]
   network_subnets         = [aws_subnet.private.0.id]
 
-  enable_execute_command = var.enable_execute_command
-
   ordered_placement_strategy = [
     {
       type  = "binpack"
@@ -45,6 +43,10 @@ module "ecs_courier" {
     {
       name  = "COURIER_LOG_LEVEL"
       value = "error"
+    },
+    {
+      name  = "COURIER_SPOOL_DIR"
+      value = "/tmp/courier"
     }
   ]
 

@@ -29,7 +29,6 @@ locals {
     command                = length(var.command) == 0 ? null : var.command
     cpu                    = var.cpu == 0 ? null : var.cpu
     disableNetworking      = var.disableNetworking
-    dependsOn              = var.dependsOn
     dnsSearchDomains       = length(var.dnsSearchDomains) == 0 ? null : var.dnsSearchDomains
     dnsServers             = length(var.dnsServers) == 0 ? null : var.dnsServers
     dockerLabels           = length(var.dockerLabels) == 0 ? null : var.dockerLabels

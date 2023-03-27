@@ -56,15 +56,6 @@ variable "command" {
   type        = list(string)
 }
 
-variable "dependsOn" {
-  default     = []
-  description = "The dependencies defined for container startup and shutdown"
-  type = list(object({
-    containerName = string
-    condition     = string
-  }))
-}
-
 variable "dnsSearchDomains" {
   default     = []
   description = "A list of DNS search domains that are presented to the container"
@@ -224,6 +215,15 @@ variable "container_memory_hard_limit" {
 variable "container_memory_soft_limit" {
   description = "The soft limit (in MiB) of memory to reserve for the container. "
   type        = number
+}
+
+variable "container_depends_on" {
+  default     = null
+  description = "The dependencies defined for container startup and shutdown"
+  type = list(object({
+    containerName = string
+    condition     = string
+  }))
 }
 
 variable "privileged" {

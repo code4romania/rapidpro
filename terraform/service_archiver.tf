@@ -20,8 +20,6 @@ module "ecs_archiver" {
   network_security_groups = [aws_security_group.ecs.id]
   network_subnets         = [aws_subnet.private.0.id]
 
-  enable_execute_command = var.enable_execute_command
-
   ordered_placement_strategy = [
     {
       type  = "binpack"
@@ -52,7 +50,7 @@ module "ecs_archiver" {
     },
     {
       name  = "ARCHIVER_LOG_LEVEL"
-      value = "error"
+      value = "info"
     }
   ]
 
