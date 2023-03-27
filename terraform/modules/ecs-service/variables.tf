@@ -110,7 +110,7 @@ variable "healthCheck" {
 }
 
 variable "linuxParameters" {
-  default     = {}
+  default     = null
   description = "Linux-specific modifications that are applied to the container, such as Linux KernelCapabilities"
   type        = any
 }
@@ -241,7 +241,8 @@ variable "user" {
 }
 
 variable "workingDirectory" {
-  default     = ""
+  type        = string
+  default     = null
   description = "The working directory in which to run commands inside the container"
 }
 
