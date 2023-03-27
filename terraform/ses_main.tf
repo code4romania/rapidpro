@@ -36,26 +36,3 @@ resource "aws_ses_configuration_set" "main" {
     tls_policy = "Require"
   }
 }
-
-# IAM
-data "aws_iam_policy_document" "ses_email_send" {
-  statement {
-    actions = [
-      "SES:SendEmail",
-      "SES:SendRawEmail"
-    ]
-
-    resources = [aws_ses_domain_identity.main.arn]
-
-    principals {
-      identifiers = ["*"]
-      type        = "AWS"
-    }
-  }
-}
-
-resource "aws_ses_identity_policy" "email_send_policy" {
-  identity = aws_ses_domain_identity.main.arn
-  name     = "email-send-policy"
-  policy   = data.aws_iam_policy_document.ses_email_send.json
-}

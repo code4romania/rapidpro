@@ -85,22 +85,6 @@ module "ecs_rapidpro" {
       name  = "SEND_EMAILS"
       value = tostring(true)
     },
-    {
-      name  = "EMAIL_HOST"
-      value = local.mail.host
-    },
-    {
-      name  = "EMAIL_HOST_USER"
-      value = aws_iam_access_key.rapidpro.id
-    },
-    {
-      name  = "EMAIL_HOST_PASSWORD"
-      value = aws_iam_access_key.rapidpro.ses_smtp_password_v4
-    },
-    {
-      name  = "DEFAULT_FROM_EMAIL"
-      value = local.mail.from
-    }
   ]
 
   secrets = [
@@ -124,11 +108,32 @@ module "ecs_rapidpro" {
       name      = "MAILROOM_AUTH_TOKEN"
       valueFrom = aws_secretsmanager_secret.mailroom_auth_token.arn
     },
+    {
+      name      = "EMAIL_HOST"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:host::"
+    },
+    {
+      name      = "EMAIL_PORT"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:port::"
+    },
+    {
+      name      = "EMAIL_HOST_USER"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:user::"
+    },
+    {
+      name      = "EMAIL_HOST_PASSWORD"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:password::"
+    },
+    {
+      name      = "DEFAULT_FROM_EMAIL"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:from::"
+    }
   ]
 
   allowed_secrets = [
     aws_secretsmanager_secret.rapidpro_secret_key.arn,
     aws_secretsmanager_secret.mailroom_auth_token.arn,
+    aws_secretsmanager_secret.smtp.arn,
     aws_secretsmanager_secret.rds.arn,
   ]
 }
@@ -153,12 +158,4 @@ resource "random_password" "rapidpro_secret_key" {
       special
     ]
   }
-}
-
-resource "aws_iam_access_key" "rapidpro" {
-  user = aws_iam_user.rapidpro.name
-}
-
-resource "aws_iam_user" "rapidpro" {
-  name = "${local.namespace}-rapidpro-user"
 }

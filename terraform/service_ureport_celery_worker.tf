@@ -75,22 +75,6 @@ module "ecs_ureport_celery_worker" {
       value = var.run_migration ? "yes" : "no"
     },
     {
-      name  = "EMAIL_HOST"
-      value = local.mail.host
-    },
-    {
-      name  = "EMAIL_HOST_USER"
-      value = aws_iam_access_key.ureport.id
-    },
-    {
-      name  = "EMAIL_HOST_PASSWORD"
-      value = aws_iam_access_key.ureport.ses_smtp_password_v4
-    },
-    {
-      name  = "DEFAULT_FROM_EMAIL"
-      value = local.mail.from
-    },
-    {
       name  = "RUN_CELERY_BEAT"
       value = tostring(false)
     }
@@ -121,11 +105,32 @@ module "ecs_ureport_celery_worker" {
       name      = "AWS_SECRET_ACCESS_KEY"
       valueFrom = "${module.s3_ureport.secret_arn}:secret_access_key::"
     },
+    {
+      name      = "EMAIL_HOST"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:host::"
+    },
+    {
+      name      = "EMAIL_PORT"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:port::"
+    },
+    {
+      name      = "EMAIL_HOST_USER"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:user::"
+    },
+    {
+      name      = "EMAIL_HOST_PASSWORD"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:password::"
+    },
+    {
+      name      = "DEFAULT_FROM_EMAIL"
+      valueFrom = "${aws_secretsmanager_secret.smtp.arn}:from::"
+    }
   ]
 
   allowed_secrets = [
     aws_secretsmanager_secret.ureport_secret_key.arn,
     aws_secretsmanager_secret.rds.arn,
+    aws_secretsmanager_secret.smtp.arn,
     module.s3_ureport.secret_arn,
   ]
 }
