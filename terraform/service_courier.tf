@@ -47,17 +47,51 @@ module "ecs_courier" {
     {
       name  = "COURIER_SPOOL_DIR"
       value = "/tmp/courier"
-    }
+    },
+    {
+      name  = "COURIER_S3_REGION"
+      value = var.region
+    },
+    {
+      name  = "COURIER_S3_ENDPOINT"
+      value = "https://s3.${var.region}.amazonaws.com"
+    },
+    {
+      name  = "COURIER_S3_MEDIA_BUCKET"
+      value = module.s3_courier.bucket
+    },
   ]
 
   secrets = [
     {
       name      = "COURIER_DB"
       valueFrom = aws_secretsmanager_secret.rapidpro_db_url.arn
-    }
+    },
+    {
+      name      = "COURIER_AWS_ACCESS_KEY_ID"
+      valueFrom = "${module.s3_courier.secret_arn}:access_key_id::"
+    },
+    {
+      name      = "COURIER_AWS_SECRET_ACCESS_KEY"
+      valueFrom = "${module.s3_courier.secret_arn}:secret_access_key::"
+    },
   ]
 
   allowed_secrets = [
     aws_secretsmanager_secret.rapidpro_db_url.arn,
+    module.s3_courier.secret_arn,
   ]
+}
+
+module "s3_courier" {
+  source = "./modules/s3"
+
+  name = "courier-${local.namespace}"
+}
+
+module "cloudfront_courier" {
+  source = "./modules/cloudfront"
+
+  name   = "courier-${local.namespace}"
+  bucket = module.s3_courier.bucket
 }
