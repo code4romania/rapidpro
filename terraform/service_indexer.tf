@@ -42,7 +42,7 @@ module "ecs_indexer" {
     },
     {
       name  = "INDEXER_REBUILD"
-      value = tostring(true)
+      value = tostring(false)
     },
     {
       name  = "INDEXER_CLEANUP"
