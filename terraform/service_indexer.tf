@@ -38,7 +38,7 @@ module "ecs_indexer" {
     },
     {
       name  = "INDEXER_LOG_LEVEL"
-      value = "error"
+      value = "info"
     }
   ]
 
