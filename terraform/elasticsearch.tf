@@ -9,7 +9,7 @@ resource "aws_opensearch_domain" "main" {
 
   cluster_config {
     instance_type            = "t3.small.search"
-    instance_count           = 1
+    instance_count           = 2
     dedicated_master_count   = 0
     dedicated_master_enabled = false
     zone_awareness_enabled   = false
