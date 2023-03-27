@@ -75,7 +75,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "DEBUG"
-      value = tostring(false)
+      value = tostring(true)
     },
     {
       name  = "RUN_MIGRATION"
@@ -83,7 +83,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "SEND_EMAILS"
-      value = "yes"
+      value = tostring(true)
     },
     {
       name  = "EMAIL_HOST"
