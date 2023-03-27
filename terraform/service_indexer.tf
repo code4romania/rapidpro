@@ -34,12 +34,20 @@ module "ecs_indexer" {
     },
     {
       name  = "INDEXER_POLL"
-      value = tostring(300)
+      value = tostring(5)
     },
     {
       name  = "INDEXER_LOG_LEVEL"
-      value = "info"
-    }
+      value = "debug"
+    },
+    {
+      name  = "INDEXER_REBUILD"
+      value = tostring(true)
+    },
+    {
+      name  = "INDEXER_CLEANUP"
+      value = tostring(true)
+    },
   ]
 
   secrets = [
