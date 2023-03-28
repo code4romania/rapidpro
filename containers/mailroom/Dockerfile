@@ -30,6 +30,6 @@ FROM gcr.io/distroless/static:nonroot
 COPY --from=build /go/bin/mailroom /mailroom
 COPY --from=build /go/src/github.com/nyaruka/mailroom/docs /docs
 
-EXPOSE 8080
+EXPOSE 8090
 
 ENTRYPOINT [ "/mailroom" ]
