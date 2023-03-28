@@ -95,7 +95,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "ARCHIVE_BUCKET"
-      value = module.s3_rapidpro_archive.bucket
+      value = module.s3_archiver.bucket
     },
   ]
 
@@ -142,11 +142,11 @@ module "ecs_rapidpro" {
     },
     {
       name      = "AWS_ACCESS_KEY_ID"
-      valueFrom = "${module.s3_rapidpro_storage.secret_arn}:access_key_id::"
+      valueFrom = "${module.iam_user_rapidpro.secret_arn}:access_key_id::"
     },
     {
       name      = "AWS_SECRET_ACCESS_KEY"
-      valueFrom = "${module.s3_rapidpro_storage.secret_arn}:secret_access_key::"
+      valueFrom = "${module.iam_user_rapidpro.secret_arn}:secret_access_key::"
     },
   ]
 
@@ -156,9 +156,9 @@ module "ecs_rapidpro" {
     aws_secretsmanager_secret.smtp.arn,
     aws_secretsmanager_secret.rds.arn,
     module.s3_rapidpro_storage.secret_arn,
+    module.iam_user_rapidpro.secret_arn,
   ]
 }
-
 
 resource "aws_secretsmanager_secret" "rapidpro_secret_key" {
   name = "${local.namespace}-rapidpro_secret_key"
@@ -184,12 +184,31 @@ resource "random_password" "rapidpro_secret_key" {
 module "s3_rapidpro_storage" {
   source = "./modules/s3"
 
-  name = "rapidpro-storage-${local.namespace}"
+  name     = "rapidpro-storage-${local.namespace}"
+  iam_user = module.iam_user_rapidpro.name
 }
 
-module "s3_rapidpro_archive" {
-  source = "./modules/s3"
+module "iam_user_rapidpro" {
+  source = "./modules/iam_user"
 
-  name     = "rapidpro-archive-${local.namespace}"
-  iam_user = module.s3_rapidpro_storage.iam_user.name
+  name   = "rapidpro-${local.namespace}"
+  policy = data.aws_iam_policy_document.bucket_acccess.json
+}
+
+data "aws_iam_policy_document" "bucket_acccess" {
+  statement {
+    actions = [
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:DeleteObject",
+      "s3:GetObjectAcl",
+      "s3:PutObjectAcl",
+      "s3:PutObject"
+    ]
+
+    resources = [
+      module.s3_archiver.bucket_arn,
+      "${module.s3_archiver.bucket_arn}/*",
+    ]
+  }
 }
