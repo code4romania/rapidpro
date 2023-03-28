@@ -86,7 +86,7 @@ module "ecs_courier" {
 module "s3_courier" {
   source = "./modules/s3"
 
-  name = "courier-${local.namespace}"
+  name = "${local.namespace}-courier"
 
   block_public_acls       = false
   block_public_policy     = false

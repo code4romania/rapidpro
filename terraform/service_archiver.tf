@@ -78,5 +78,5 @@ module "ecs_archiver" {
 module "s3_archiver" {
   source = "./modules/s3"
 
-  name = "archiver-${local.namespace}"
+  name = "${local.namespace}-archiver"
 }

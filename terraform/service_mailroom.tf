@@ -137,5 +137,5 @@ resource "aws_secretsmanager_secret" "mailroom_fcm_key" {
 module "s3_mailroom" {
   source = "./modules/s3"
 
-  name = "mailroom-${local.namespace}"
+  name = "${local.namespace}-mailroom"
 }

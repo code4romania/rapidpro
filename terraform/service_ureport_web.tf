@@ -145,18 +145,18 @@ module "ecs_ureport_web" {
 module "s3_ureport" {
   source = "./modules/s3"
 
-  name = "ureport-${local.namespace}"
+  name = "${local.namespace}-ureport"
 }
 
 module "cloudfront_ureport" {
   source = "./modules/cloudfront"
 
-  name   = "ureport-${local.namespace}"
+  name   = "${local.namespace}-ureport"
   bucket = module.s3_ureport.bucket
 }
 
 resource "aws_secretsmanager_secret" "ureport_secret_key" {
-  name = "${local.namespace}-ureport_secret_key"
+  name = "${local.namespace}-ureport-secret_key"
 }
 
 resource "aws_secretsmanager_secret_version" "ureport_secret_key" {
@@ -174,12 +174,4 @@ resource "random_password" "ureport_secret_key" {
       special
     ]
   }
-}
-
-resource "aws_iam_access_key" "ureport" {
-  user = aws_iam_user.ureport.name
-}
-
-resource "aws_iam_user" "ureport" {
-  name = "${local.namespace}-ureport-user"
 }

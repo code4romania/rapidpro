@@ -183,14 +183,14 @@ resource "random_password" "rapidpro_secret_key" {
 module "s3_rapidpro_storage" {
   source = "./modules/s3"
 
-  name     = "rapidpro-storage-${local.namespace}"
+  name     = "${local.namespace}-rapidpro-storage"
   iam_user = module.iam_user_rapidpro.name
 }
 
 module "iam_user_rapidpro" {
   source = "./modules/iam_user"
 
-  name   = "rapidpro-${local.namespace}"
+  name   = "${local.namespace}-rapidpro"
   policy = data.aws_iam_policy_document.bucket_acccess.json
 }
 
