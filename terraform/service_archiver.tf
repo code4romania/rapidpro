@@ -50,7 +50,7 @@ module "ecs_archiver" {
     },
     {
       name  = "ARCHIVER_LOG_LEVEL"
-      value = "info"
+      value = "error"
     }
   ]
 
