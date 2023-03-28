@@ -7,9 +7,9 @@ output "bucket_arn" {
 }
 
 output "iam_user" {
-  value = try(aws_iam_user.this[0], null)
+  value = try(module.iam_user.0.name, null)
 }
 
 output "secret_arn" {
-  value = try(aws_secretsmanager_secret.this.0.arn, null)
+  value = try(module.iam_user.0.secret_arn, null)
 }
