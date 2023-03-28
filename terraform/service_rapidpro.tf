@@ -155,7 +155,6 @@ module "ecs_rapidpro" {
     aws_secretsmanager_secret.mailroom_auth_token.arn,
     aws_secretsmanager_secret.smtp.arn,
     aws_secretsmanager_secret.rds.arn,
-    module.s3_rapidpro_storage.secret_arn,
     module.iam_user_rapidpro.secret_arn,
   ]
 }
