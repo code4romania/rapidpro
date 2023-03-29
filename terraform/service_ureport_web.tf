@@ -67,7 +67,7 @@ module "ecs_ureport_web" {
     },
     {
       name  = "DEBUG"
-      value = tostring(false)
+      value = tostring(true)
     },
     {
       name  = "AWS_S3_CUSTOM_DOMAIN"
