@@ -121,8 +121,8 @@ services:
       - db
       - redis
 
-  ureport-celery-beat:
-    container_name: ureport-celery-beat
+  ureport-celery:
+    container_name: ureport-celery
     build:
       context: ureport-celery
       dockerfile: Dockerfile
@@ -131,23 +131,6 @@ services:
     environment:
       POSTGRES_DB: ureport
       RAPIDPRO_API_URL: temba
-      RUN_CELERY_BEAT: true
-    restart: unless-stopped
-    depends_on:
-      - db
-      - redis
-
-  ureport-celery-worker:
-    container_name: ureport-celery-worker
-    build:
-      context: ureport-celery
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    environment:
-      POSTGRES_DB: ureport
-      RAPIDPRO_API_URL: temba
-      RUN_CELERY_BEAT: false
     restart: unless-stopped
     depends_on:
       - db

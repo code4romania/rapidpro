@@ -1,0 +1,16 @@
+#!/command/with-contenv sh
+
+cd /var/www
+
+if test "$DEBUG" = true; then
+    LOG_LEVEL="debug"
+else
+    LOG_LEVEL="warning"
+fi
+
+celery -A ureport worker \
+    --uid nobody \
+    --autoscale 4,1 \
+    --events \
+    -O fair \
+    --loglevel $LOG_LEVEL

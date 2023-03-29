@@ -1,0 +1,12 @@
+#!/command/with-contenv sh
+
+cd /var/www
+
+if test "$DEBUG" = true; then
+    LOG_LEVEL="debug"
+else
+    LOG_LEVEL="warning"
+fi
+
+celery -A ureport beat \
+    --loglevel $LOG_LEVEL

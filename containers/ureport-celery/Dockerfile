@@ -61,6 +61,5 @@ COPY --from=build /build /var/www
 
 ENV PATH=/opt/venv/bin:$PATH
 ENV DEBUG=false
-ENV RUN_CELERY_BEAT=false
 
 COPY conf/settings.py ureport/settings.py
