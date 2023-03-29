@@ -49,7 +49,6 @@ services:
     restart: unless-stopped
 
   mailroom:
-    platform: linux/amd64
     container_name: mailroom
     build:
       context: mailroom
@@ -65,7 +64,6 @@ services:
       - redis
 
   courier:
-    platform: linux/amd64
     container_name: courier
     build:
       context: courier
@@ -80,9 +78,7 @@ services:
       - elastic
       - redis
 
-
   archiver:
-    platform: linux/amd64
     container_name: archiver
     build:
       context: archiver
@@ -96,7 +92,6 @@ services:
       - redis
 
   indexer:
-    platform: linux/amd64
     container_name: indexer
     build:
       context: indexer

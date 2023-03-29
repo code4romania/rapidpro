@@ -5,18 +5,16 @@ ARG REPO="rp-archiver"
 ARG VERSION="7.4.0"
 ARG CGO_ENABLED=0
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
-
-ADD https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz .
-
-RUN set -ex; \
-    mkdir -p $SRC_DIR; \
-    tar -zxvf v${VERSION}.tar.gz --strip-components 1 -C $SRC_DIR;
+ARG DEBIAN_FRONTEND=noninteractive
+ARG SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
 
 WORKDIR $SRC_DIR
 
-RUN go install -ldflags '-s -w' -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
+RUN set -ex; \
+    curl -L https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz | tar zxv --strip-components 1;
+
+RUN set -ex; \
+    go install -ldflags "-s -w -X 'main.version=v${VERSION}'" -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
 
 FROM gcr.io/distroless/static:nonroot
 
