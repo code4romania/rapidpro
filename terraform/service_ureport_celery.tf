@@ -1,7 +1,7 @@
-module "ecs_ureport_celery_worker" {
+module "ecs_ureport_celery" {
   source = "./modules/ecs-service"
 
-  name         = "ureport-celery-worker"
+  name         = "ureport-celery"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1
@@ -9,8 +9,8 @@ module "ecs_ureport_celery_worker" {
   image_repo = data.aws_ecr_repository.ureport_celery.repository_url
   image_tag  = "edge"
 
-  container_memory_soft_limit = 128
-  container_memory_hard_limit = 256
+  container_memory_soft_limit = 256
+  container_memory_hard_limit = 512
 
   log_group_name                 = module.ecs_cluster.log_group_name
   service_discovery_namespace_id = module.ecs_cluster.service_discovery_namespace_id
@@ -74,10 +74,6 @@ module "ecs_ureport_celery_worker" {
       name  = "RUN_MIGRATION"
       value = var.run_migration ? "yes" : "no"
     },
-    {
-      name  = "RUN_CELERY_BEAT"
-      value = tostring(false)
-    }
   ]
 
   secrets = [
@@ -124,7 +120,7 @@ module "ecs_ureport_celery_worker" {
     {
       name      = "DEFAULT_FROM_EMAIL"
       valueFrom = "${aws_secretsmanager_secret.smtp.arn}:from::"
-    }
+    },
   ]
 
   allowed_secrets = [
