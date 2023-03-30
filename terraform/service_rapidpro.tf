@@ -148,15 +148,36 @@ module "ecs_rapidpro" {
       name      = "AWS_SECRET_ACCESS_KEY"
       valueFrom = "${module.iam_user_rapidpro.secret_arn}:secret_access_key::"
     },
+    {
+      name      = "FACEBOOK_APPLICATION_ID"
+      valueFrom = "${aws_secretsmanager_secret.facebook.arn}:application_id::"
+    },
+    {
+      name      = "FACEBOOK_APPLICATION_SECRET"
+      valueFrom = "${aws_secretsmanager_secret.facebook.arn}:application_secret::"
+    },
   ]
 
   allowed_secrets = [
     aws_secretsmanager_secret.rapidpro_secret_key.arn,
     aws_secretsmanager_secret.mailroom_auth_token.arn,
+    aws_secretsmanager_secret.facebook.arn,
     aws_secretsmanager_secret.smtp.arn,
     aws_secretsmanager_secret.rds.arn,
     module.iam_user_rapidpro.secret_arn,
   ]
+}
+
+resource "aws_secretsmanager_secret" "facebook" {
+  name = "${local.namespace}-facebook"
+}
+
+resource "aws_secretsmanager_secret_version" "facebook" {
+  secret_id = aws_secretsmanager_secret.facebook.id
+  secret_string = jsonencode({
+    application_id     = ""
+    application_secret = ""
+  })
 }
 
 resource "aws_secretsmanager_secret" "rapidpro_secret_key" {
