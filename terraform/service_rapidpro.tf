@@ -229,6 +229,12 @@ data "aws_iam_policy_document" "bucket_acccess" {
     resources = [
       module.s3_archiver.bucket_arn,
       "${module.s3_archiver.bucket_arn}/*",
+      module.s3_rapidpro_storage.bucket_arn,
+      "${module.s3_rapidpro_storage.bucket_arn}/*",
+      module.s3_mailroom.bucket_arn,
+      "${module.s3_mailroom.bucket_arn}/*",
+      module.s3_courier.bucket_arn,
+      "${module.s3_courier.bucket_arn}/*",
     ]
   }
 }
