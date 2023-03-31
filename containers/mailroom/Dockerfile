@@ -2,7 +2,7 @@ FROM golang:latest as build
 
 ARG ORG="nyaruka"
 ARG REPO="mailroom"
-ARG VERSION="7.4.0"
+ARG VERSION="7.4.1"
 ARG CGO_ENABLED=0
 
 ARG DEBIAN_FRONTEND=noninteractive
