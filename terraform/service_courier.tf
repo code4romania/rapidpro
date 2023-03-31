@@ -42,7 +42,7 @@ module "ecs_courier" {
     },
     {
       name  = "COURIER_LOG_LEVEL"
-      value = "debug"
+      value = "error"
     },
     {
       name  = "COURIER_SPOOL_DIR"
