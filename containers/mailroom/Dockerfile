@@ -1,31 +1,30 @@
-FROM ubuntu:22.10
+FROM golang:latest as build
 
-ARG MAILROOM_ORG="rapidpro"
-ARG MAILROOM_REPO="mailroom"
-ARG MAILROOM_VERSION="7.4.1"
+ARG ORG="nyaruka"
+ARG REPO="mailroom"
+ARG VERSION="7.4.0"
+ARG CGO_ENABLED=0
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
+ARG SRC_DIR="/go/src/github.com/${ORG}/${REPO}"
+
+WORKDIR $SRC_DIR
 
 RUN set -ex; \
-    addgroup --system mailroom; \
-    adduser --system --ingroup mailroom mailroom; \
-    #
-    apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates wget tzdata; \
-    update-ca-certificates; \
-    rm -rf /var/lib/apt/lists/*; \
-    #
-    wget -q -O mailroom.tar.gz "https://github.com/${MAILROOM_ORG}/${MAILROOM_REPO}/releases/download/v${MAILROOM_VERSION}/${MAILROOM_REPO}_${MAILROOM_VERSION}_linux_amd64.tar.gz"; \
-    mkdir /tmp/mailroom; \
-    tar -xzC /tmp/mailroom -f mailroom.tar.gz; \
-    #
-    mv /tmp/mailroom/mailroom /usr/local/bin/mailroom; \
-    rm -rf /tmp/mailroom mailroom.tar.gz; \
-    #
-    apt-get purge -y --auto-remove wget
+    curl -L https://github.com/${ORG}/${REPO}/archive/refs/tags/v${VERSION}.tar.gz | tar zxv --strip-components 1; \
+    GOFLOW_VERSION=$(grep goflow go.mod | cut -d" " -f2 | cut -c2-); \
+    curl -L https://github.com/nyaruka/goflow/releases/download/v${GOFLOW_VERSION}/docs.tar.gz | tar zxv;
+
+RUN set -ex; \
+    # Monkeypatch the docs path
+    sed -i 's/http.Dir("docs")/http.Dir("\/docs")/' "${SRC_DIR}/web/docs/docs.go"; \
+    go install -ldflags "-s -w -X 'main.version=v${VERSION}'" -trimpath github.com/${ORG}/${REPO}/cmd/${REPO}
+
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=build /go/bin/mailroom /mailroom
+COPY --from=build /go/src/github.com/nyaruka/mailroom/docs /docs
 
 EXPOSE 8090
 
-USER mailroom
-
-ENTRYPOINT [ "mailroom" ]
+ENTRYPOINT [ "/mailroom" ]
