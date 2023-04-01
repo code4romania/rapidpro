@@ -38,7 +38,7 @@ module "ecs_courier" {
     },
     {
       name  = "COURIER_REDIS"
-      value = local.elasticache_url
+      value = "${local.elasticache_url}/15"
     },
     {
       name  = "COURIER_LOG_LEVEL"

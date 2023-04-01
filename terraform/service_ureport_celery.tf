@@ -48,7 +48,7 @@ module "ecs_ureport_celery" {
     },
     {
       name  = "CELERY_BROKER_URL"
-      value = local.elasticache_url
+      value = "${local.elasticache_url}/1"
     },
     {
       name  = "RAPIDPRO_API_URL"

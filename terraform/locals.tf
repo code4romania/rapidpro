@@ -4,7 +4,7 @@ locals {
   # Target AZ
   availability_zone = data.aws_availability_zones.current.names[0]
 
-  elasticache_url   = "redis://${aws_elasticache_cluster.main.cache_nodes.0.address}:${aws_elasticache_cluster.main.port}/15"
+  elasticache_url   = "redis://${aws_elasticache_cluster.main.cache_nodes.0.address}:${aws_elasticache_cluster.main.port}"
   elasticsearch_url = "https://${aws_opensearch_domain.main.endpoint}"
 
   domains = {

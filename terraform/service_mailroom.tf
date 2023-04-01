@@ -42,7 +42,7 @@ module "ecs_mailroom" {
     },
     {
       name  = "MAILROOM_REDIS"
-      value = local.elasticache_url
+      value = "${local.elasticache_url}/15"
     },
     {
       name  = "MAILROOM_ELASTIC"
