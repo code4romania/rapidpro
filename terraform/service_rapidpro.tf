@@ -75,7 +75,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "DEBUG"
-      value = tostring(false)
+      value = tostring(true)
     },
     {
       name  = "RUN_MIGRATION"
