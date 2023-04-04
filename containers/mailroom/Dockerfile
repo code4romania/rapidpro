@@ -15,7 +15,7 @@ RUN set -ex; \
     GOFLOW_VERSION=$(grep goflow go.mod | cut -d" " -f2 | cut -c2-); \
     curl -L https://github.com/nyaruka/goflow/releases/download/v${GOFLOW_VERSION}/docs.tar.gz | tar zxv;
 
-COPY src/ .
+# COPY src/ .
 
 RUN set -ex; \
     # Monkeypatch the docs path
