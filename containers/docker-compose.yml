@@ -4,18 +4,23 @@ services:
     container_name: db
     image: postgis/postgis:13-3.3
     ports:
-      - "5432"
+      - 5432
     env_file:
       - .env
     volumes:
       - database-data:/var/lib/postgresql/data/
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     container_name: redis
     image: redis:6-bullseye
     ports:
-      - "6379"
+      - 6379
     env_file:
       - .env
     command: redis-server
@@ -34,6 +39,8 @@ services:
     depends_on:
       - db
       - redis
+      - mailroom
+      - courier
 
   elastic:
     container_name: elastic
@@ -103,6 +110,7 @@ services:
       - db
       - elastic
       - redis
+      - temba
 
   ureport:
     container_name: ureport
@@ -120,6 +128,7 @@ services:
     depends_on:
       - db
       - redis
+      - temba
 
   ureport-celery:
     container_name: ureport-celery
@@ -135,6 +144,7 @@ services:
     depends_on:
       - db
       - redis
+      - temba
 
 volumes:
   database-data:
