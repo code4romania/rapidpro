@@ -58,7 +58,7 @@ module "ecs_mailroom" {
     },
     {
       name  = "MAILROOM_SESSION_STORAGE"
-      value = "s3"
+      value = "db"
     },
     {
       name  = "MAILROOM_S3_SESSION_BUCKET"
