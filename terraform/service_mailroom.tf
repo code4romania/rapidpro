@@ -38,7 +38,7 @@ module "ecs_mailroom" {
     },
     {
       name  = "MAILROOM_LOG_LEVEL"
-      value = "error"
+      value = "debug"
     },
     {
       name  = "MAILROOM_REDIS"
