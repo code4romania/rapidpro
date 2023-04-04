@@ -17,8 +17,6 @@ RUN set -ex; \
 
 COPY src/ .
 
-RUN ls -lah core/hooks
-
 RUN set -ex; \
     # Monkeypatch the docs path
     sed -i 's/http.Dir("docs")/http.Dir("\/docs")/' "${SRC_DIR}/web/docs/docs.go"; \
