@@ -10,14 +10,31 @@ export WORKER_CONNECTIONS=$(expr $(ulimit -n) / $WORKER_PROCESSES)
 if [ -n "${AWS_EXECUTION_ENV}" ]; then
     export RESOLVER="resolver 169.254.169.253 valid=10s;"
     echo "Running in AWS ECS. Setting $RESOLVER"
+
+    export MAILROOM_PROXY_PASS="
+        $RESOLVER
+        set \$mailroom http://${MAILROOM_HOST}:${MAILROOM_PORT};
+        proxy_pass \$mailroom;
+    "
+
+    export COURIER_PROXY_PASS="
+        $RESOLVER
+        set \$courier http://${COURIER_HOST}:${COURIER_PORT};
+        proxy_pass \$courier;
+    "
+else
+    export MAILROOM_PROXY_PASS="
+        proxy_pass http://${MAILROOM_HOST}:${MAILROOM_PORT};
+    "
+
+    export COURIER_PROXY_PASS="
+        proxy_pass http://${COURIER_HOST}:${COURIER_PORT};
+    "
 fi
 
 envsubst '
-$MAILROOM_HOST
-$MAILROOM_PORT
-$COURIER_HOST
-$COURIER_PORT
-$WORKER_PROCESSES
+$COURIER_PROXY_PASS
+$MAILROOM_PROXY_PASS
 $WORKER_CONNECTIONS
-$RESOLVER
+$WORKER_PROCESSES
 ' </etc/nginx/templates/nginx.conf >/etc/nginx/nginx.conf
