@@ -4,12 +4,12 @@ resource "aws_iam_service_linked_role" "es" {
 }
 
 resource "aws_opensearch_domain" "main" {
-  domain_name    = "rapidpro"
+  domain_name    = local.namespace
   engine_version = "Elasticsearch_7.10"
 
   cluster_config {
     instance_type            = "t3.small.search"
-    instance_count           = 2
+    instance_count           = var.env == "production" ? 2 : 1
     dedicated_master_count   = 0
     dedicated_master_enabled = false
     zone_awareness_enabled   = false
