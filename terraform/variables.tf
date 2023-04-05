@@ -41,6 +41,12 @@ variable "run_migration" {
   default     = true
 }
 
+variable "allow_signups" {
+  description = "Whether to allow signups on rapidpro."
+  type        = bool
+  default     = false
+}
+
 variable "use_load_balancer" {
   type    = bool
   default = true

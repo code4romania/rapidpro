@@ -76,7 +76,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "ALLOW_SIGNUPS"
-      value = tostring(false)
+      value = tostring(var.allow_signups)
     },
     {
       name  = "DEBUG"
