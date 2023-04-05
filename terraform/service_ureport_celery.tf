@@ -1,6 +1,10 @@
 module "ecs_ureport_celery" {
   source = "./modules/ecs-service"
 
+  depends_on = [
+    module.ecs_cluster
+  ]
+
   name         = "ureport-celery"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1

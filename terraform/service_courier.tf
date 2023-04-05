@@ -1,6 +1,10 @@
 module "ecs_courier" {
   source = "./modules/ecs-service"
 
+  depends_on = [
+    module.ecs_cluster
+  ]
+
   name         = "courier"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1

@@ -1,6 +1,10 @@
 module "ecs_mailroom" {
   source = "./modules/ecs-service"
 
+  depends_on = [
+    module.ecs_cluster
+  ]
+
   name         = "mailroom"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
