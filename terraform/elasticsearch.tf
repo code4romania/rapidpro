@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "opensearch" {
     }
 
     actions   = ["es:*"]
-    resources = ["arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/rapidpro/*"]
+    resources = ["arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/${local.namespace}/*"]
   }
 }
 
