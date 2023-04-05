@@ -5,7 +5,7 @@ module "ecs_ureport_web" {
     module.ecs_cluster
   ]
 
-  name         = "ureport-web"
+  name         = "${var.env}-ureport-web"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 3
@@ -69,7 +69,7 @@ module "ecs_ureport_web" {
     },
     {
       name  = "RAPIDPRO_API_URL"
-      value = "http://rapidpro.ecs.svc"
+      value = "http://${var.env}-rapidpro.ecs.svc"
     },
     {
       name  = "DEBUG"

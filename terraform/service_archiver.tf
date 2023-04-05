@@ -5,7 +5,7 @@ module "ecs_archiver" {
     module.ecs_cluster
   ]
 
-  name         = "archiver"
+  name         = "${var.env}-archiver"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1

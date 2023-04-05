@@ -5,7 +5,7 @@ module "ecs_rapidpro" {
     module.ecs_cluster
   ]
 
-  name         = "rapidpro"
+  name         = "${var.env}-rapidpro"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 3
@@ -68,11 +68,11 @@ module "ecs_rapidpro" {
     },
     {
       name  = "MAILROOM_HOST"
-      value = "mailroom.ecs.svc"
+      value = "${var.env}-mailroom.ecs.svc"
     },
     {
       name  = "COURIER_HOST"
-      value = "courier.ecs.svc"
+      value = "${var.env}-courier.ecs.svc"
     },
     {
       name  = "ALLOW_SIGNUPS"

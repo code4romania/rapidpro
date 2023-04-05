@@ -5,7 +5,7 @@ module "ecs_ureport_celery" {
     module.ecs_cluster
   ]
 
-  name         = "ureport-celery"
+  name         = "${var.env}-ureport-celery"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1
@@ -56,7 +56,7 @@ module "ecs_ureport_celery" {
     },
     {
       name  = "RAPIDPRO_API_URL"
-      value = "http://rapidpro.ecs.svc"
+      value = "http://${var.env}-rapidpro.ecs.svc"
     },
     {
       name  = "DEBUG"

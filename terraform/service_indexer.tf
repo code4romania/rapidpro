@@ -5,7 +5,7 @@ module "ecs_indexer" {
     module.ecs_cluster
   ]
 
-  name         = "indexer"
+  name         = "${var.env}-indexer"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1

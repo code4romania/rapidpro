@@ -5,7 +5,7 @@ module "ecs_mailroom" {
     module.ecs_cluster
   ]
 
-  name         = "mailroom"
+  name         = "${var.env}-mailroom"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1

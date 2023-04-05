@@ -5,7 +5,7 @@ module "ecs_courier" {
     module.ecs_cluster
   ]
 
-  name         = "courier"
+  name         = "${var.env}-courier"
   cluster_name = module.ecs_cluster.cluster_name
   min_capacity = 1
   max_capacity = 1
