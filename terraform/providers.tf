@@ -10,7 +10,9 @@ terraform {
     organization = "code4romania"
 
     workspaces {
-      name = "rapidpro"
+      tags = [
+        "rapidpro"
+      ]
     }
   }
 }
