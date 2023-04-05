@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "this" {
-  count = local.use_load_balancer ? 1 : 0
+  count = var.use_load_balancer ? 1 : 0
 
   name        = var.name
   port        = var.container_port
@@ -20,7 +20,7 @@ resource "aws_lb_target_group" "this" {
 }
 
 resource "aws_lb_listener_rule" "routing" {
-  count = local.use_load_balancer ? 1 : 0
+  count = var.use_load_balancer ? 1 : 0
 
   listener_arn = var.lb_listener_arn
 

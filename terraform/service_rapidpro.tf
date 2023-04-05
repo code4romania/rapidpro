@@ -6,6 +6,7 @@ module "ecs_rapidpro" {
   min_capacity = 1
   max_capacity = 3
 
+  use_load_balancer       = var.use_load_balancer
   lb_dns_name             = aws_lb.main.dns_name
   lb_zone_id              = aws_lb.main.zone_id
   lb_vpc_id               = aws_vpc.main.id

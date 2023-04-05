@@ -447,3 +447,8 @@ variable "lb_unhealthy_threshold" {
   default     = 3
   description = "Number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. Defaults to 3."
 }
+
+variable "use_load_balancer" {
+  type    = bool
+  default = false
+}

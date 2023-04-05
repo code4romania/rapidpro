@@ -40,3 +40,8 @@ variable "run_migration" {
   type        = bool
   default     = true
 }
+
+variable "use_load_balancer" {
+  type    = bool
+  default = true
+}
