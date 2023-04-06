@@ -88,7 +88,7 @@ module "ecs_rapidpro" {
     },
     {
       name  = "RUN_IMPORT_GEOJSON"
-      value = tostring(true)
+      value = "yes"
     },
     {
       name  = "SEND_EMAILS"
