@@ -62,6 +62,7 @@ WORKDIR /var/www
 # Application files
 COPY --from=build /opt/venv /opt/venv
 COPY --from=build /build /var/www
+COPY conf/geojson /opt/geojson
 
 ENV PATH=/opt/venv/bin:$PATH
 ENV RUN_COLLECT_STATIC=yes

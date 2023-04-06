@@ -10,6 +10,11 @@ if [ "${RUN_MIGRATION}" = "yes" ]; then
     python3 manage.py migrate --run-syncdb
 fi
 
+if [ "${RUN_IMPORT_GEOJSON}" = "yes" ]; then
+    echo "Importing geojson"
+    python3 manage.py import_geojson $(ls /opt/geojson/**/*.json)
+fi
+
 # if [ "${RUN_COMPILE_MESSAGES}" = "yes" ]; then
 #     echo "Compiling translation messages"
 #     python3 manage.py compilemessages
