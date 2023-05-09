@@ -96,7 +96,7 @@ MAILROOM_PORT = os.environ.get("MAILROOM_PORT", 8090)
 MAILROOM_URL = "http://%s:%s" % (MAILROOM_HOST, MAILROOM_PORT)
 MAILROOM_AUTH_TOKEN = os.environ.get("MAILROOM_AUTH_TOKEN", "")
 
-INSTALLED_APPS = INSTALLED_APPS + ("storages", "tembaimporter", )
+INSTALLED_APPS = INSTALLED_APPS + ("storages", )
 
 MIDDLEWARE = ("temba.middleware.ExceptionMiddleware",) + MIDDLEWARE
 

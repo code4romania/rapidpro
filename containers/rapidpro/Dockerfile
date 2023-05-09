@@ -22,12 +22,13 @@ RUN set -ex; \
     apt-get purge -y --auto-remove wget
 
 # Python venv
+COPY conf/poetry/poetry.lock /build/poetry.lock
 RUN set -ex; \
     python3 -m venv $VIRTUAL_ENV; \
-    python3 -m pip install --upgrade pip --no-cache-dir setuptools==58.0; \
-    python3 -m pip install poetry==1.3 gunicorn[gevent] GDAL==$(gdal-config --version); \
-    poetry install; \
-    poetry add git+https://github.com/danniel/django-tembaimporter.git
+    # Older GDAL requires these package versions because newer ones use an incompatible install method.
+    python3 -m pip install --no-cache-dir pip==23.0.1 setuptools==58.0 gunicorn[gevent] poetry==1.3.2; \
+    python3 -m pip install --no-cache-dir GDAL==$(gdal-config --version); \
+    poetry install --without dev
 
 # The final image
 FROM python:3.9-slim

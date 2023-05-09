@@ -23,10 +23,9 @@ RUN set -ex; \
 
 # Python venv
 RUN set -ex; \
-    python -m venv $VIRTUAL_ENV; \
-    pip install psycopg2-binary; \
-    pip install poetry==1.3 gunicorn[gevent]; \
-    poetry install
+    python3 -m venv $VIRTUAL_ENV; \
+    python3 -m pip install --no-cache-dir gunicorn[gevent] poetry==1.4.2; \
+    poetry install --without dev
 
 # The final image
 FROM python:3.9-slim
