@@ -13,4 +13,9 @@ data "aws_ami" "this" {
     name   = "owner-alias"
     values = ["amazon"]
   }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
 }
