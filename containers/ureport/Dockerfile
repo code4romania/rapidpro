@@ -1,8 +1,8 @@
-FROM python:3.9-slim as build
+FROM python:3.11-slim-bullseye as build
 
 ARG UREPORT_ORG="code4romania"
 ARG UREPORT_REPO="ureport"
-ARG UREPORT_VERSION="1.2.51-10"
+ARG UREPORT_VERSION="1.2.70-1"
 
 ENV PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/opt/venv
@@ -13,7 +13,8 @@ WORKDIR /build
 RUN set -ex; \
     apt-get update; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends wget build-essential gettext libpq-dev git python3.9-dev; \
+    apt-get install -y --no-install-recommends wget build-essential gettext libpq-dev git; \
+    # ^^^ install the "python3.XX-dev" package only if we will be using the Debian's default Python package
     rm -rf /var/lib/apt/lists/*; \
     #
     wget -q -O /tmp/ureport.tar.gz "https://github.com/${UREPORT_ORG}/${UREPORT_REPO}/archive/refs/tags/v${UREPORT_VERSION}.tar.gz"; \
@@ -28,7 +29,7 @@ RUN set -ex; \
     poetry install --without dev
 
 # The final image
-FROM python:3.9-slim
+FROM python:3.11-slim-bullseye
 
 ENV PYTHONUNBUFFERED=1
 ENV IS_CONTAINERIZED=True
