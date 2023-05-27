@@ -17,7 +17,7 @@ module "ecs_cluster" {
 
   target_capacity                          = 100
   capacity_rebalance                       = true
-  on_demand_base_capacity                  = 0 # could be set to 1 for stability. consider savings plan
+  on_demand_base_capacity                  = 1 # could be set to 1 for stability. consider savings plan
   on_demand_percentage_above_base_capacity = 0
   ecs_cloudwatch_log_retention             = 3
   userdata_cloudwatch_log_retention        = 3
