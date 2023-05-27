@@ -1,7 +1,7 @@
 resource "aws_db_instance" "main" {
   identifier          = local.namespace
   db_name             = "rapidpro"
-  instance_class      = "db.t4g.micro"
+  instance_class      = "db.t4g.medium"
   publicly_accessible = false
   multi_az            = false
   deletion_protection = true
