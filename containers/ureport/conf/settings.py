@@ -98,3 +98,6 @@ COMPRESS_CACHEABLE_PRECOMPILERS = (
     'text/coffeescript',
     'text/less',
 )
+
+SESSION_COOKIE_AGE = 1800
+CSRF_COOKIE_AGE = 7200
