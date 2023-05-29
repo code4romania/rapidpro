@@ -2,7 +2,7 @@ FROM python:3.11-slim-bullseye as build
 
 ARG UREPORT_ORG="code4romania"
 ARG UREPORT_REPO="ureport"
-ARG UREPORT_VERSION="1.2.70-1"
+ARG UREPORT_VERSION="1.2.70-2"
 
 ENV PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/opt/venv

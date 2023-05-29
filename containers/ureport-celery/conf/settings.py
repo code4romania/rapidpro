@@ -11,6 +11,7 @@ ALLOWED_HOSTS = ['*']
 DEBUG = os.getenv("DEBUG", "False").lower() == 'true'
 THUMBNAIL_DEBUG = DEBUG
 
+SANITIZE_STORY_INPUT = os.getenv("SANITIZE_STORY", "False").lower() == 'true'
 
 ADMINS=()
 
